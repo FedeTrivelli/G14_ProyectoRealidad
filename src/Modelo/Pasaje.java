@@ -1,13 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Modelo;
+import java.time.LocalDate;
 
-/**
- *
- * @author FEDE-PC
- */
 public class Pasaje {
+    
+    private int idPasaje;
+    private String pasajero;
+    private String lugar;
+    private String rutaViaje;
+    private LocalDate pasajeHora;
+    private int precio;
+    private boolean estado;
     
 }
