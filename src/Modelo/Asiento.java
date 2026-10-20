@@ -13,6 +13,39 @@ public class Asiento {
         this.numeroAsiento = numeroAsiento;
         this.estado = estado;
     }
+
+    public int getIdLugar() {
+        return idLugar;
+    }
+
+    public void setIdLugar(int idLugar) {
+        this.idLugar = idLugar;
+    }
+
+    public int getColectivo() {
+        return colectivo;
+    }
+
+    public void setColectivo(int colectivo) {
+        this.colectivo = colectivo;
+    }
+
+    public int getNumeroAsiento() {
+        return numeroAsiento;
+    }
+
+    public void setNumeroAsiento(int numeroAsiento) {
+        this.numeroAsiento = numeroAsiento;
+    }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+    
     
     
 }
