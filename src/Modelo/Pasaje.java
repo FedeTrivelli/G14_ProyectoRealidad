@@ -4,14 +4,14 @@ import java.time.LocalDate;
 public class Pasaje {
     
     private int idPasaje;
-    private String pasajero;
+    private Pasajero pasajero;
     private String lugar;
     private String rutaViaje;
     private LocalDate pasajeHora;
     private int precio;
     private boolean estado;
 
-    public Pasaje(int idPasaje, String pasajero, String lugar, String rutaViaje, LocalDate pasajeHora, int precio, boolean estado) {
+    public Pasaje(int idPasaje, Pasajero pasajero, String lugar, String rutaViaje, LocalDate pasajeHora, int precio, boolean estado) {
         this.idPasaje = idPasaje;
         this.pasajero = pasajero;
         this.lugar = lugar;
@@ -29,11 +29,11 @@ public class Pasaje {
         this.idPasaje = idPasaje;
     }
 
-    public String getPasajero() {
+    public Pasajero getPasajero() {
         return pasajero;
     }
 
-    public void setPasajero(String pasajero) {
+    public void setPasajero(Pasajero pasajero) {
         this.pasajero = pasajero;
     }
 
