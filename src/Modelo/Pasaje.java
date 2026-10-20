@@ -5,13 +5,13 @@ public class Pasaje {
     
     private int idPasaje;
     private Pasajero pasajero;
-    private String lugar;
-    private String rutaViaje;
+    private Asiento lugar;
+    private RutaViaje rutaViaje;
     private LocalDate pasajeHora;
     private int precio;
     private boolean estado;
 
-    public Pasaje(int idPasaje, Pasajero pasajero, String lugar, String rutaViaje, LocalDate pasajeHora, int precio, boolean estado) {
+    public Pasaje(int idPasaje, Pasajero pasajero, Asiento lugar, RutaViaje rutaViaje, LocalDate pasajeHora, int precio, boolean estado) {
         this.idPasaje = idPasaje;
         this.pasajero = pasajero;
         this.lugar = lugar;
@@ -37,19 +37,19 @@ public class Pasaje {
         this.pasajero = pasajero;
     }
 
-    public String getLugar() {
+    public Asiento getLugar() {
         return lugar;
     }
 
-    public void setLugar(String lugar) {
+    public void setLugar(Asiento lugar) {
         this.lugar = lugar;
     }
 
-    public String getRutaViaje() {
+    public RutaViaje getRutaViaje() {
         return rutaViaje;
     }
 
-    public void setRutaViaje(String rutaViaje) {
+    public void setRutaViaje(RutaViaje rutaViaje) {
         this.rutaViaje = rutaViaje;
     }
 

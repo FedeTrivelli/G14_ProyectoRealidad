@@ -7,13 +7,21 @@ public class RutaViaje {
     private int idRuta;
     private String origen;
     private String destino;
-    private LocalDate viaje;
+    private LocalDate horaSalida;
+    private LocalDate horaLlegada;
+    private Colectivo colectivo;
+    int precio;
+    boolean estado;
 
-    public RutaViaje(int idRuta, String origen, String destino, LocalDate viaje) {
+    public RutaViaje(int idRuta, String origen, String destino, LocalDate horaSalida, LocalDate horaLlegada, Colectivo colectivo, int precio, boolean estado) {
         this.idRuta = idRuta;
         this.origen = origen;
         this.destino = destino;
-        this.viaje = viaje;
+        this.horaSalida = horaSalida;
+        this.horaLlegada = horaLlegada;
+        this.colectivo = colectivo;
+        this.precio = precio;
+        this.estado = estado;
     }
 
     public int getIdRuta() {
@@ -40,12 +48,46 @@ public class RutaViaje {
         this.destino = destino;
     }
 
-    public LocalDate getVieje() {
-        return viaje;
+    public LocalDate getHoraSalida() {
+        return horaSalida;
     }
 
-    public void setVieje(LocalDate vieje) {
-        this.viaje = vieje;
+    public void setHoraSalida(LocalDate horaSalida) {
+        this.horaSalida = horaSalida;
     }
+
+    public LocalDate getHoraLlegada() {
+        return horaLlegada;
+    }
+
+    public void setHoraLlegada(LocalDate horaLlegada) {
+        this.horaLlegada = horaLlegada;
+    }
+
+    public Colectivo getColectivo() {
+        return colectivo;
+    }
+
+    public void setColectivo(Colectivo colectivo) {
+        this.colectivo = colectivo;
+    }
+
+    public int getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(int precio) {
+        this.precio = precio;
+    }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+    
+
     
 }
