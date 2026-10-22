@@ -1,7 +1,7 @@
 package Modelo;
 
 public class Pasajero {
-    
+
     private int idPasajero;
     private int dni;
     private String nombre;
@@ -9,6 +9,9 @@ public class Pasajero {
     private String correo;
     private int telefono;
     private boolean estado;
+
+    public Pasajero() {
+    }
 
     public Pasajero(int idPasajero, int dni, String nombre, String apellido, String correo, int telefono, boolean estado) {
         this.idPasajero = idPasajero;
@@ -75,5 +78,5 @@ public class Pasajero {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
-   
+
 }

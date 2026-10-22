@@ -3,7 +3,7 @@ package Modelo;
 import java.time.LocalDate;
 
 public class RutaViaje {
-    
+
     private int idRuta;
     private String origen;
     private String destino;
@@ -12,6 +12,9 @@ public class RutaViaje {
     private Colectivo colectivo;
     int precio;
     boolean estado;
+
+    public RutaViaje() {
+    }
 
     public RutaViaje(int idRuta, String origen, String destino, LocalDate horaSalida, LocalDate horaLlegada, Colectivo colectivo, int precio, boolean estado) {
         this.idRuta = idRuta;
@@ -87,7 +90,5 @@ public class RutaViaje {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
-    
 
-    
 }

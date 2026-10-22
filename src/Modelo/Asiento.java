@@ -1,13 +1,16 @@
 package Modelo;
 
 public class Asiento {
-    
+
     private int idLugar;
-    private int colectivo;
+    private Colectivo colectivo;
     private int numeroAsiento;
     private boolean estado;
 
-    public Asiento(int idLugar, int colectivo, int numeroAsiento, boolean estado) {
+    public Asiento() {
+    }
+
+    public Asiento(int idLugar, Colectivo colectivo, int numeroAsiento, boolean estado) {
         this.idLugar = idLugar;
         this.colectivo = colectivo;
         this.numeroAsiento = numeroAsiento;
@@ -22,11 +25,11 @@ public class Asiento {
         this.idLugar = idLugar;
     }
 
-    public int getColectivo() {
+    public Colectivo getColectivo() {
         return colectivo;
     }
 
-    public void setColectivo(int colectivo) {
+    public void setColectivo(Colectivo colectivo) {
         this.colectivo = colectivo;
     }
 
@@ -45,7 +48,5 @@ public class Asiento {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
-    
-    
-    
+
 }

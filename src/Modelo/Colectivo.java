@@ -1,7 +1,7 @@
 package Modelo;
 
 public class Colectivo {
-    
+
     private int idColectivo;
     private String matricula;
     private String marca;
@@ -9,6 +9,9 @@ public class Colectivo {
     private int capacidad;
     private String chofer;
     private boolean estado;
+
+    public Colectivo() {
+    }
 
     public Colectivo(int idColectivo, String matricula, String marca, String modelo, int capacidad, String chofer, boolean estado) {
         this.idColectivo = idColectivo;
@@ -75,5 +78,5 @@ public class Colectivo {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
-    
+
 }
