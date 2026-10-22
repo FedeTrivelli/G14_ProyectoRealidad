@@ -7,13 +7,13 @@ public class Pasajero {
     private String nombre;
     private String apellido;
     private String correo;
-    private int telefono;
+    private String telefono;
     private boolean estado;
 
     public Pasajero() {
     }
-
-    public Pasajero(int idPasajero, int dni, String nombre, String apellido, String correo, int telefono, boolean estado) {
+    
+    public Pasajero(int idPasajero, int dni, String nombre, String apellido, String correo, String telefono, boolean estado) {
         this.idPasajero = idPasajero;
         this.dni = dni;
         this.nombre = nombre;
@@ -63,11 +63,11 @@ public class Pasajero {
         this.correo = correo;
     }
 
-    public int getTelefono() {
+    public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(int telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 

@@ -66,6 +66,7 @@ public class Escritorio extends javax.swing.JFrame {
         mnuAcreditacion.add(mitIngresarPasajeros);
 
         mitHabilitarColectivos.setText("Habilitar Colectivos");
+        mitHabilitarColectivos.addActionListener(this::mitHabilitarColectivosActionPerformed);
         mnuAcreditacion.add(mitHabilitarColectivos);
 
         mitAsientos.setText("Asientos");
@@ -111,6 +112,14 @@ public class Escritorio extends javax.swing.JFrame {
         dptEscritorio.add(ingresarpasajeros);
         dptEscritorio.moveToFront(ingresarpasajeros);
     }//GEN-LAST:event_mitIngresarPasajerosActionPerformed
+
+    private void mitHabilitarColectivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitHabilitarColectivosActionPerformed
+        // TODO add your handling code here:
+        VistaHabilitarColectivo habilitarcolectivo = new VistaHabilitarColectivo();
+        habilitarcolectivo.setVisible(true);
+        dptEscritorio.add(habilitarcolectivo);
+        dptEscritorio.moveToFront(habilitarcolectivo);
+    }//GEN-LAST:event_mitHabilitarColectivosActionPerformed
 
     /**
      * @param args the command line arguments

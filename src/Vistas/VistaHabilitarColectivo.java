@@ -4,17 +4,21 @@
  */
 package Vistas;
 
+import java.net.URL;
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author santi
  */
 public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
-
+    
     /**
      * Creates new form Colectivo
      */
     public VistaHabilitarColectivo() {
         initComponents();
+        colocarIcono();
     }
 
     /**
@@ -265,4 +269,10 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtMatricula;
     private javax.swing.JTextField txtModelo;
     // End of variables declaration//GEN-END:variables
+
+    public void colocarIcono(){
+        URL url = getClass().getResource("/images/logo_flechaflash.png");
+        ImageIcon imageicon = new ImageIcon(url);
+        setFrameIcon(imageicon);
+    }
 }
