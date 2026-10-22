@@ -13,6 +13,9 @@ public class RutaViaje {
     int precio;
     boolean estado;
 
+    public RutaViaje() {
+    }
+
     public RutaViaje(int idRuta, String origen, String destino, LocalDate horaSalida, LocalDate horaLlegada, Colectivo colectivo, int precio, boolean estado) {
         this.idRuta = idRuta;
         this.origen = origen;

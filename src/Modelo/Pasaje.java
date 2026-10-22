@@ -11,6 +11,9 @@ public class Pasaje {
     private int precio;
     private boolean estado;
 
+    public Pasaje() {
+    }
+    
     public Pasaje(int idPasaje, Pasajero pasajero, Asiento lugar, RutaViaje rutaViaje, LocalDate pasajeHora, int precio, boolean estado) {
         this.idPasaje = idPasaje;
         this.pasajero = pasajero;
