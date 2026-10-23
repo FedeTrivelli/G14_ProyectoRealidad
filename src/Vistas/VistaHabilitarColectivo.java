@@ -1,16 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
 package Vistas;
 
 import java.net.URL;
 import javax.swing.ImageIcon;
 
-/**
- *
- * @author santi
- */
 public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
     
     /**

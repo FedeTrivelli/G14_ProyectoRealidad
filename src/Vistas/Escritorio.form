@@ -25,20 +25,18 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mitHabilitarColectivosActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mitAsientos">
+            <MenuItem class="javax.swing.JMenuItem" name="mitDestino">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Asientos"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mitRutas">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Rutas"/>
+                <Property name="text" type="java.lang.String" value="Destiino"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mitPasajes">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Pasajes"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mitPasajesActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

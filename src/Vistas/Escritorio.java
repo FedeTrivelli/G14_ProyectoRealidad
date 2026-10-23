@@ -12,7 +12,7 @@ import javax.swing.ImageIcon;
  * @author santi
  */
 public class Escritorio extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Escritorio.class.getName());
 
     /**
@@ -38,8 +38,7 @@ public class Escritorio extends javax.swing.JFrame {
         mnuAcreditacion = new javax.swing.JMenu();
         mitIngresarPasajeros = new javax.swing.JMenuItem();
         mitHabilitarColectivos = new javax.swing.JMenuItem();
-        mitAsientos = new javax.swing.JMenuItem();
-        mitRutas = new javax.swing.JMenuItem();
+        mitDestino = new javax.swing.JMenuItem();
         mitPasajes = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
@@ -69,13 +68,11 @@ public class Escritorio extends javax.swing.JFrame {
         mitHabilitarColectivos.addActionListener(this::mitHabilitarColectivosActionPerformed);
         mnuAcreditacion.add(mitHabilitarColectivos);
 
-        mitAsientos.setText("Asientos");
-        mnuAcreditacion.add(mitAsientos);
-
-        mitRutas.setText("Rutas");
-        mnuAcreditacion.add(mitRutas);
+        mitDestino.setText("Destiino");
+        mnuAcreditacion.add(mitDestino);
 
         mitPasajes.setText("Pasajes");
+        mitPasajes.addActionListener(this::mitPasajesActionPerformed);
         mnuAcreditacion.add(mitPasajes);
 
         jMenuBar1.add(mnuAcreditacion);
@@ -121,6 +118,14 @@ public class Escritorio extends javax.swing.JFrame {
         dptEscritorio.moveToFront(habilitarcolectivo);
     }//GEN-LAST:event_mitHabilitarColectivosActionPerformed
 
+    private void mitPasajesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitPasajesActionPerformed
+        // TODO add your handling code here:
+        VistaDestino vd = new VistaDestino();
+        vd.setVisible(true);
+        dptEscritorio.add(vd);
+        dptEscritorio.moveToFront(vd);
+    }//GEN-LAST:event_mitPasajesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -152,18 +157,17 @@ public class Escritorio extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem mitAsientos;
+    private javax.swing.JMenuItem mitDestino;
     private javax.swing.JMenuItem mitHabilitarColectivos;
     private javax.swing.JMenuItem mitIngresarPasajeros;
     private javax.swing.JMenuItem mitPasajes;
-    private javax.swing.JMenuItem mitRutas;
     private javax.swing.JMenu mnuAcreditacion;
     // End of variables declaration//GEN-END:variables
 
-    public void colocarIcono(){
+    public void colocarIcono() {
         URL url = getClass().getResource("/images/logo_flechaflash.png");
         ImageIcon imageicon = new ImageIcon(url);
         setIconImage(imageicon.getImage());
-        
+
     }
 }
