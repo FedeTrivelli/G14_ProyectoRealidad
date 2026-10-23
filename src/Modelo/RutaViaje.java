@@ -1,14 +1,15 @@
 package Modelo;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 
 public class RutaViaje {
 
     private int idRuta;
     private String origen;
     private String destino;
-    private LocalDate horaSalida;
-    private LocalDate horaLlegada;
+    private LocalDateTime  horaSalida;
+    private LocalDateTime  horaLlegada;
     private Colectivo colectivo;
     int precio;
     boolean estado;
@@ -16,7 +17,7 @@ public class RutaViaje {
     public RutaViaje() {
     }
 
-    public RutaViaje(int idRuta, String origen, String destino, LocalDate horaSalida, LocalDate horaLlegada, Colectivo colectivo, int precio, boolean estado) {
+    public RutaViaje(int idRuta, String origen, String destino, LocalDateTime horaSalida, LocalDateTime horaLlegada, Colectivo colectivo, int precio, boolean estado) {
         this.idRuta = idRuta;
         this.origen = origen;
         this.destino = destino;
@@ -51,19 +52,19 @@ public class RutaViaje {
         this.destino = destino;
     }
 
-    public LocalDate getHoraSalida() {
+    public LocalDateTime getHoraSalida() {
         return horaSalida;
     }
 
-    public void setHoraSalida(LocalDate horaSalida) {
+    public void setHoraSalida(LocalDateTime horaSalida) {
         this.horaSalida = horaSalida;
     }
 
-    public LocalDate getHoraLlegada() {
+    public LocalDateTime getHoraLlegada() {
         return horaLlegada;
     }
 
-    public void setHoraLlegada(LocalDate horaLlegada) {
+    public void setHoraLlegada(LocalDateTime horaLlegada) {
         this.horaLlegada = horaLlegada;
     }
 
@@ -91,4 +92,6 @@ public class RutaViaje {
         this.estado = estado;
     }
 
+
+    
 }
