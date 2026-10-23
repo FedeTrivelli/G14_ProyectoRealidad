@@ -68,7 +68,7 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="txtChofer" min="-2" pref="250" max="-2" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                                          <Component id="btnMenos" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="txtCantidad" min="-2" pref="81" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
@@ -121,7 +121,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lblCapacidad" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnMenos" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnMas" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtCantidad" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -196,6 +196,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Buscar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBuscarActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -246,12 +249,12 @@
         </Component>
         <Component class="javax.swing.JCheckBox" name="chkEstado">
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="btnMenos">
           <Properties>
             <Property name="text" type="java.lang.String" value="-"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMenosActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnMas">
@@ -309,26 +312,41 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Nuevo"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNuevoActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnBorrar">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Borrar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBorrarActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnActualizar">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Actualizar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnActualizarActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnGuardar">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Guardar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnSalir">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Salir"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalirActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

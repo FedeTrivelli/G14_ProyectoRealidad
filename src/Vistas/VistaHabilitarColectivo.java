@@ -1,7 +1,7 @@
 package Vistas;
 
 import Modelo.Colectivo;
-import Persistencia.colectivoData;
+import Persistencia.ColectivoData;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -10,7 +10,8 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
 
     private int min = 0;
     private int max = 50;
-    colectivoData cd = new colectivoData();
+    private boolean modoEdicion = false;
+    ColectivoData cd = new ColectivoData();
     Colectivo colectivo = new Colectivo();
 
     /**
@@ -19,6 +20,8 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
     public VistaHabilitarColectivo() {
         initComponents();
         colocarIcono();
+        inicio();
+        btnGuardar.setVisible(false);
     }
 
     /**
@@ -44,7 +47,7 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
         txtModelo = new javax.swing.JTextField();
         txtChofer = new javax.swing.JTextField();
         chkEstado = new javax.swing.JCheckBox();
-        jButton1 = new javax.swing.JButton();
+        btnMenos = new javax.swing.JButton();
         btnMas = new javax.swing.JButton();
         txtCantidad = new javax.swing.JTextField();
         pnlBotones = new javax.swing.JPanel();
@@ -63,6 +66,7 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
         txtMatricula.setHorizontalAlignment(javax.swing.JTextField.LEFT);
 
         btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(this::btnBuscarActionPerformed);
 
         javax.swing.GroupLayout pnlBuscarLayout = new javax.swing.GroupLayout(pnlBuscar);
         pnlBuscar.setLayout(pnlBuscarLayout);
@@ -109,8 +113,8 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
 
         txtChofer.setHorizontalAlignment(javax.swing.JTextField.LEFT);
 
-        jButton1.setText("-");
-        jButton1.addActionListener(this::jButton1ActionPerformed);
+        btnMenos.setText("-");
+        btnMenos.addActionListener(this::btnMenosActionPerformed);
 
         btnMas.setText("+");
         btnMas.addActionListener(this::btnMasActionPerformed);
@@ -119,14 +123,19 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
         txtCantidad.setText("0");
 
         btnNuevo.setText("Nuevo");
+        btnNuevo.addActionListener(this::btnNuevoActionPerformed);
 
         btnBorrar.setText("Borrar");
+        btnBorrar.addActionListener(this::btnBorrarActionPerformed);
 
         btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(this::btnActualizarActionPerformed);
 
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(this::btnGuardarActionPerformed);
 
         btnSalir.setText("Salir");
+        btnSalir.addActionListener(this::btnSalirActionPerformed);
 
         javax.swing.GroupLayout pnlBotonesLayout = new javax.swing.GroupLayout(pnlBotones);
         pnlBotones.setLayout(pnlBotonesLayout);
@@ -177,7 +186,7 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtChofer, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jButton1)
+                                        .addComponent(btnMenos)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -216,7 +225,7 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCapacidad)
-                    .addComponent(jButton1)
+                    .addComponent(btnMenos)
                     .addComponent(btnMas)
                     .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -263,15 +272,73 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnMenosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenosActionPerformed
         // TODO add your handling code here:
         cambiarCantidad(-1);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnMenosActionPerformed
 
     private void btnMasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMasActionPerformed
         // TODO add your handling code here:
         cambiarCantidad(1);
     }//GEN-LAST:event_btnMasActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+        if(!validacionMatricula()){
+            limpiarCampos();
+            inicio();
+            return;
+        }
+        btnActualizar.setEnabled(true);
+        btnBorrar.setEnabled(true);
+        llenarCampos(txtMatricula.getText());
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        // TODO add your handling code here:
+        modoEdicion = false;
+        limpiarCampos();
+        activarCampos();
+        desactivarBotones();
+        btnMas.setEnabled(true);
+        btnMenos.setEnabled(true);
+        btnGuardar.setVisible(true);
+        btnGuardar.setEnabled(true);
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+        // TODO add your handling code here:
+        borrarColectivo(txtMatricula.getText());
+    }//GEN-LAST:event_btnBorrarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        // TODO add your handling code here:
+        modoEdicion = true;
+        btnGuardar.setVisible(true);
+        activarCampos();
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        if (txtMatricula.getText().isEmpty() || txtMarca.getText().isEmpty() || txtModelo.getText().isEmpty() || txtCantidad.getText().isEmpty() || txtChofer.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe llenar primero todos los campos", "Alerta", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (!validacionMatricula()|| !validacionNombre()) {
+            return;
+        }
+        if (modoEdicion && colectivo != null) {
+            actualizarColectivo();
+        } else {
+            guardarColectivo(); 
+        }
+        inicio();
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -280,10 +347,10 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnMas;
+    private javax.swing.JButton btnMenos;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnSalir;
     private javax.swing.JCheckBox chkEstado;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblCapacidad;
     private javax.swing.JLabel lblChofer;
@@ -306,12 +373,23 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
         ImageIcon imageicon = new ImageIcon(url);
         setFrameIcon(imageicon);
     }
+    
+    public void inicio() {
+        limpiarCampos();
+        btnBuscar.setEnabled(true);
+        desactivarCampos();
+        btnActualizar.setEnabled(false);
+        btnBorrar.setEnabled(false);
+        btnNuevo.setEnabled(true);
+        btnMas.setEnabled(false);
+        btnMenos.setEnabled(false);
+
+    }
 
     public void desactivarCampos() {
         txtCantidad.setEnabled(false);
         txtChofer.setEnabled(false);
         txtMarca.setEnabled(false);
-        txtMatricula.setEnabled(false);
         txtModelo.setEnabled(false);
         chkEstado.setEnabled(false);
     }
@@ -331,6 +409,8 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
         btnBuscar.setEnabled(true);
         btnGuardar.setEnabled(true);
         btnNuevo.setEnabled(true);
+        btnMas.setEnabled(true);
+        btnMenos.setEnabled(true);
     }
 
     public void desactivarBotones() {
@@ -350,7 +430,7 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
         chkEstado.setSelected(false);
     }
 
-    public void llenarCampos(int matricula) {
+    public void llenarCampos(String matricula) {
         colectivo = cd.buscarColectivo(matricula);
 
         if (colectivo != null) {
@@ -369,17 +449,17 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
     }
 
     public void guardarColectivo() {
-        txtMatricula.setText(colectivo.getMatricula());
-        txtMarca.setText(colectivo.getMarca());
-        txtModelo.setText(colectivo.getModelo());
-        txtCantidad.setText(String.valueOf(colectivo.getCapacidad()));
-        txtChofer.setText(colectivo.getChofer());
-        chkEstado.setSelected(colectivo.isEstado());
-
+        colectivo.setMatricula(txtMatricula.getText());
+        colectivo.setMarca(txtMarca.getText());
+        colectivo.setModelo(txtModelo.getText());
+        colectivo.setCapacidad(Integer.parseInt(txtCantidad.getText()));
+        colectivo.setChofer(txtChofer.getText().trim());
+        colectivo.setEstado(chkEstado.isSelected());
+        
         cd.guardarColectivo(colectivo);
     }
     
-    public void borrarColectivo(int matricula) {
+    public void borrarColectivo(String matricula) {
         int respuesta = JOptionPane.showConfirmDialog(null, "Realmente desea eliminar el colectivo?", "Borrado de Colectivo", JOptionPane.YES_NO_OPTION);
         if (respuesta == JOptionPane.YES_OPTION) {
             if (cd.buscarColectivo(matricula) != null) {
