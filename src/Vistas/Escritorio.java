@@ -69,6 +69,7 @@ public class Escritorio extends javax.swing.JFrame {
         mnuAcreditacion.add(mitHabilitarColectivos);
 
         mitDestino.setText("Destiino");
+        mitDestino.addActionListener(this::mitDestinoActionPerformed);
         mnuAcreditacion.add(mitDestino);
 
         mitPasajes.setText("Pasajes");
@@ -120,11 +121,19 @@ public class Escritorio extends javax.swing.JFrame {
 
     private void mitPasajesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitPasajesActionPerformed
         // TODO add your handling code here:
-        VistaDestino vd = new VistaDestino();
-        vd.setVisible(true);
-        dptEscritorio.add(vd);
-        dptEscritorio.moveToFront(vd);
+        VistaDestino vistaDestino = new VistaDestino();
+        vistaDestino.setVisible(true);
+        dptEscritorio.add(vistaDestino);
+        dptEscritorio.moveToFront(vistaDestino);
     }//GEN-LAST:event_mitPasajesActionPerformed
+
+    private void mitDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitDestinoActionPerformed
+        // TODO add your handling code here:
+        VistaCargarDestino cargarDestino = new VistaCargarDestino();
+        cargarDestino.setVisible(true);
+        dptEscritorio.add(cargarDestino);
+        dptEscritorio.moveToFront(cargarDestino);
+    }//GEN-LAST:event_mitDestinoActionPerformed
 
     /**
      * @param args the command line arguments
