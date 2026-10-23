@@ -41,7 +41,7 @@ public class colectivoData {
         }
     }
     
-    public void BorrarAlumno(String matricula) {
+    public void BorrarColectivo(String matricula) {
         String sql = "UPDATE colectivo SET estado = '0' WHERE colectivo.matricula = ? ";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, matricula);
@@ -58,7 +58,7 @@ public class colectivoData {
     }
     
     public void actualizarColectivo(Colectivo colectivo) {
-        String sql = "UPDATE colectivo SET matricula = ?, marca = ?, modelo = ?, capacidad = ?, chofer = ? , estado = ? WHERE idAlumno = ?";
+        String sql = "UPDATE colectivo SET matricula = ?, marca = ?, modelo = ?, capacidad = ?, chofer = ? , estado = ? WHERE matricula = ?";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, colectivo.getMatricula());
@@ -67,6 +67,7 @@ public class colectivoData {
             ps.setInt(4, colectivo.getCapacidad());
             ps.setString(5, colectivo.getChofer());
             ps.setBoolean(6, colectivo.isEstado());
+            ps.setString(7, colectivo.getMatricula());
 
             if (ps.executeUpdate() > 0) {
                 JOptionPane.showMessageDialog(null, "El colectivo fue actualizado con éxito.");
@@ -76,6 +77,30 @@ public class colectivoData {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Colectivo: " + e.getMessage());
         }
+    }
+    
+    public Colectivo buscarColectivo(int dni){
+        Colectivo colectivo = null;
+        
+        String sql= "SELECT * FROM colectivo WHERE colectivo.matricula = ?";
+        
+         try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, dni);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    colectivo = new Colectivo();
+                    colectivo.setMatricula(rs.getString("martricula"));
+                    colectivo.setMarca(rs.getString("marca"));
+                    colectivo.setModelo(rs.getString("modelo"));
+                    colectivo.setCapacidad(rs.getInt("capacidad"));
+                    colectivo.setChofer(rs.getString("chofer"));                  
+                    colectivo.setEstado(rs.getBoolean("estado"));
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error SQL: " + ex);
+        }
+        return colectivo;
     }
 
 }

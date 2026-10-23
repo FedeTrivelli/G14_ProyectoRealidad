@@ -54,7 +54,7 @@ public class pasajeroData {
     }
     
     public void actualizarPasajero(Pasajero pasajero) {
-        String sql = "UPDATE pasajero SET dni = ?, nombre = ?, apellido = ?, correo = ?, telefono = ? , estado = ? WHERE idAlumno = ?";
+        String sql = "UPDATE pasajero SET dni = ?, nombre = ?, apellido = ?, correo = ?, telefono = ? , estado = ? WHERE dni = ?";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, pasajero.getDni());
@@ -63,6 +63,8 @@ public class pasajeroData {
             ps.setString(4, pasajero.getCorreo());
             ps.setString(5, pasajero.getTelefono());
             ps.setBoolean(6, pasajero.isEstado());
+            ps.setInt(7, pasajero.getDni());
+            
 
             if (ps.executeUpdate() > 0) {
                 JOptionPane.showMessageDialog(null, "El pasajero fue actualizado con éxito.");

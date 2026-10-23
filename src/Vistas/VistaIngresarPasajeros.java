@@ -324,6 +324,7 @@ public class VistaIngresarPasajeros extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         modoEdicion = true;
         btnGuardar.setVisible(true);
+        activarCampos();
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed

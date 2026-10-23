@@ -1,10 +1,18 @@
 package Vistas;
 
+import Modelo.Colectivo;
+import Persistencia.colectivoData;
 import java.net.URL;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
-    
+
+    private int min = 0;
+    private int max = 50;
+    colectivoData cd = new colectivoData();
+    Colectivo colectivo = new Colectivo();
+
     /**
      * Creates new form Colectivo
      */
@@ -34,9 +42,11 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
         lblEstado = new javax.swing.JLabel();
         txtMarca = new javax.swing.JTextField();
         txtModelo = new javax.swing.JTextField();
-        txtCapacidad = new javax.swing.JTextField();
         txtChofer = new javax.swing.JTextField();
         chkEstado = new javax.swing.JCheckBox();
+        jButton1 = new javax.swing.JButton();
+        btnMas = new javax.swing.JButton();
+        txtCantidad = new javax.swing.JTextField();
         pnlBotones = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
         btnBorrar = new javax.swing.JButton();
@@ -97,9 +107,16 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
 
         txtModelo.setHorizontalAlignment(javax.swing.JTextField.LEFT);
 
-        txtCapacidad.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-
         txtChofer.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+
+        jButton1.setText("-");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
+
+        btnMas.setText("+");
+        btnMas.addActionListener(this::btnMasActionPerformed);
+
+        txtCantidad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtCantidad.setText("0");
 
         btnNuevo.setText("Nuevo");
 
@@ -148,27 +165,35 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(40, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblChofer, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblCapacidad, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(10, 10, 10)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtCapacidad, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                            .addComponent(txtChofer)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(chkEstado))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(pnlBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblChofer, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblCapacidad, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtChofer, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jButton1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnMas))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(chkEstado))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(24, 24, 24))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
@@ -191,7 +216,9 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCapacidad)
-                    .addComponent(txtCapacidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1)
+                    .addComponent(btnMas)
+                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblChofer)
@@ -236,15 +263,27 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        cambiarCantidad(-1);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnMasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMasActionPerformed
+        // TODO add your handling code here:
+        cambiarCantidad(1);
+    }//GEN-LAST:event_btnMasActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnMas;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnSalir;
     private javax.swing.JCheckBox chkEstado;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblCapacidad;
     private javax.swing.JLabel lblChofer;
@@ -255,16 +294,149 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JPanel pnlBotones;
     private javax.swing.JPanel pnlBuscar;
-    private javax.swing.JTextField txtCapacidad;
+    private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtChofer;
     private javax.swing.JTextField txtMarca;
     private javax.swing.JTextField txtMatricula;
     private javax.swing.JTextField txtModelo;
     // End of variables declaration//GEN-END:variables
 
-    public void colocarIcono(){
+    public void colocarIcono() {
         URL url = getClass().getResource("/images/logo_flechaflash.png");
         ImageIcon imageicon = new ImageIcon(url);
         setFrameIcon(imageicon);
+    }
+
+    public void desactivarCampos() {
+        txtCantidad.setEnabled(false);
+        txtChofer.setEnabled(false);
+        txtMarca.setEnabled(false);
+        txtMatricula.setEnabled(false);
+        txtModelo.setEnabled(false);
+        chkEstado.setEnabled(false);
+    }
+
+    public void activarCampos() {
+        txtCantidad.setEnabled(true);
+        txtChofer.setEnabled(true);
+        txtMarca.setEnabled(true);
+        txtMatricula.setEnabled(true);
+        txtModelo.setEnabled(true);
+        chkEstado.setEnabled(true);
+    }
+
+    public void activarBotones() {
+        btnActualizar.setEnabled(true);
+        btnBorrar.setEnabled(true);
+        btnBuscar.setEnabled(true);
+        btnGuardar.setEnabled(true);
+        btnNuevo.setEnabled(true);
+    }
+
+    public void desactivarBotones() {
+        btnActualizar.setEnabled(false);
+        btnBorrar.setEnabled(false);
+        btnBuscar.setEnabled(false);
+        btnGuardar.setEnabled(false);
+        btnNuevo.setEnabled(false);
+    }
+
+    public void limpiarCampos() {
+        txtCantidad.setText("");
+        txtChofer.setText("");
+        txtMarca.setText("");
+        txtMatricula.setText("");
+        txtModelo.setText("");
+        chkEstado.setSelected(false);
+    }
+
+    public void llenarCampos(int matricula) {
+        colectivo = cd.buscarColectivo(matricula);
+
+        if (colectivo != null) {
+            txtMatricula.setText(colectivo.getMatricula());
+            txtMarca.setText(colectivo.getMarca());
+            txtModelo.setText(colectivo.getModelo());
+            txtCantidad.setText(String.valueOf(colectivo.getCapacidad()));
+            txtChofer.setText(colectivo.getChofer());
+            chkEstado.setSelected(colectivo.isEstado());
+        } else {
+            limpiarCampos();
+            btnActualizar.setEnabled(false);
+            btnBorrar.setEnabled(false);
+            JOptionPane.showMessageDialog(null, "No se puede buscar el colectivo.\nRazon:\nLa matricula del colectivo ingresado no existe.", "Alerta!", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    public void guardarColectivo() {
+        txtMatricula.setText(colectivo.getMatricula());
+        txtMarca.setText(colectivo.getMarca());
+        txtModelo.setText(colectivo.getModelo());
+        txtCantidad.setText(String.valueOf(colectivo.getCapacidad()));
+        txtChofer.setText(colectivo.getChofer());
+        chkEstado.setSelected(colectivo.isEstado());
+
+        cd.guardarColectivo(colectivo);
+    }
+    
+    public void borrarColectivo(int matricula) {
+        int respuesta = JOptionPane.showConfirmDialog(null, "Realmente desea eliminar el colectivo?", "Borrado de Colectivo", JOptionPane.YES_NO_OPTION);
+        if (respuesta == JOptionPane.YES_OPTION) {
+            if (cd.buscarColectivo(matricula) != null) {
+                cd.BorrarColectivo(String.valueOf(matricula));
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No se pudo borrar el colectivo.\nRazon:\nLa matricula del colectivo ingresado no existe.");
+        }
+    }
+    
+    public void actualizarColectivo() {
+        txtMatricula.setText(colectivo.getMatricula());
+        txtMarca.setText(colectivo.getMarca());
+        txtModelo.setText(colectivo.getModelo());
+        txtCantidad.setText(String.valueOf(colectivo.getCapacidad()));
+        txtChofer.setText(colectivo.getChofer());
+        chkEstado.setSelected(colectivo.isEstado());
+
+        cd.actualizarColectivo(colectivo);
+    }
+
+    public void cambiarCantidad(int num) {
+        int cantidad;
+        try {
+            cantidad = Integer.parseInt(txtCantidad.getText().trim());
+        } catch (NumberFormatException e) {
+            cantidad = min;
+        }
+
+        cantidad += num;
+
+        if (cantidad > max) {
+            cantidad = max;
+            JOptionPane.showMessageDialog(null, "No se pueden colocar mas de 50 asientos");
+        } else if (cantidad < min) {
+            cantidad = min;
+            JOptionPane.showMessageDialog(null, "No se pueden colocar asientos negativos");
+        }
+        txtCantidad.setText(String.valueOf(cantidad));
+    }
+
+    public boolean validacionMatricula() {
+        String matricula = txtMatricula.getText().toUpperCase().trim();
+
+        if (!matricula.matches("[A-Z]{3}[0-9]{3}|[A-Z]{2}[0-9]{3}[A-Z]{2}")) {
+            JOptionPane.showMessageDialog(null, "Debe Ingresar una matricula valida\nFormato valido ABC123 o AB123CD");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validacionNombre() {
+        String nombre = txtChofer.getText().trim();
+        if (!nombre.matches("[\\p{L}]+([ '\\-][\\p{L}]+)*")) {
+            JOptionPane.showMessageDialog(this, "El nombre solo puede contener letras y espacios");
+            return false;
+        }
+        return true;
     }
 }

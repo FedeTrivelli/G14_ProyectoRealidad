@@ -55,32 +55,43 @@
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace pref="40" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="pnlBuscar" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lblChofer" min="-2" pref="57" max="-2" attributes="0"/>
-                              <Component id="lblCapacidad" min="-2" pref="65" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lblChofer" min="-2" pref="57" max="-2" attributes="0"/>
+                                      <Component id="lblCapacidad" min="-2" pref="65" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="txtChofer" min="-2" pref="250" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="txtCantidad" min="-2" pref="81" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="btnMas" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="lblEstado" min="-2" pref="57" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="chkEstado" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="lblModelo" min="-2" pref="57" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="txtModelo" min="-2" pref="250" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="lblMarca" min="-2" pref="57" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="txtMarca" min="-2" pref="250" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
-                          <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="txtCapacidad" pref="250" max="32767" attributes="0"/>
-                              <Component id="txtChofer" max="32767" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="lblEstado" min="-2" pref="57" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="chkEstado" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="lblModelo" min="-2" pref="57" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="txtModelo" min="-2" pref="250" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="pnlBuscar" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="lblMarca" min="-2" pref="57" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="txtMarca" min="-2" pref="250" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
@@ -110,7 +121,9 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lblCapacidad" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtCapacidad" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnMas" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtCantidad" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -226,17 +239,34 @@
             <Property name="horizontalAlignment" type="int" value="2"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtCapacidad">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="2"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JTextField" name="txtChofer">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="2"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JCheckBox" name="chkEstado">
+        </Component>
+        <Component class="javax.swing.JButton" name="jButton1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="-"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnMas">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="+"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMasActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtCantidad">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="0"/>
+            <Property name="text" type="java.lang.String" value="0"/>
+          </Properties>
         </Component>
         <Container class="javax.swing.JPanel" name="pnlBotones">
 
