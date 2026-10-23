@@ -79,17 +79,17 @@ public class colectivoData {
         }
     }
     
-    public Colectivo buscarColectivo(int dni){
+    public Colectivo buscarColectivo(String matricula){
         Colectivo colectivo = null;
         
         String sql= "SELECT * FROM colectivo WHERE colectivo.matricula = ?";
         
          try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, dni);
+            ps.setString(1, matricula);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     colectivo = new Colectivo();
-                    colectivo.setMatricula(rs.getString("martricula"));
+                    colectivo.setMatricula(rs.getString("matricula"));
                     colectivo.setMarca(rs.getString("marca"));
                     colectivo.setModelo(rs.getString("modelo"));
                     colectivo.setCapacidad(rs.getInt("capacidad"));

@@ -4,7 +4,7 @@
  */
 package Vistas;
 
-import Persistencia.PasajeroData;
+import Persistencia.pasajeroData;
 import Modelo.Pasajero;
 import java.net.URL;
 import java.util.regex.Pattern;
@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
  */
 public class VistaIngresarPasajeros extends javax.swing.JInternalFrame {
 
-    PasajeroData pd = new PasajeroData();
+    pasajeroData pd = new pasajeroData();
     Pasajero pasajero = new Pasajero();
     private boolean modoEdicion = false;
 

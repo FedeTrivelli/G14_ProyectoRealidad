@@ -1,7 +1,7 @@
 package Vistas;
 
 import Modelo.Colectivo;
-import Persistencia.ColectivoData;
+import Persistencia.colectivoData;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -11,7 +11,7 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
     private int min = 0;
     private int max = 50;
     private boolean modoEdicion = false;
-    ColectivoData cd = new ColectivoData();
+    colectivoData cd = new colectivoData();
     Colectivo colectivo = new Colectivo();
 
     /**
@@ -471,12 +471,12 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
     }
     
     public void actualizarColectivo() {
-        txtMatricula.setText(colectivo.getMatricula());
-        txtMarca.setText(colectivo.getMarca());
-        txtModelo.setText(colectivo.getModelo());
-        txtCantidad.setText(String.valueOf(colectivo.getCapacidad()));
-        txtChofer.setText(colectivo.getChofer());
-        chkEstado.setSelected(colectivo.isEstado());
+        colectivo.setMatricula(txtMatricula.getText());
+        colectivo.setMarca(txtMarca.getText());
+        colectivo.setModelo(txtModelo.getText());
+        colectivo.setCapacidad(Integer.parseInt(txtCantidad.getText()));
+        colectivo.setChofer(txtChofer.getText().trim());
+        colectivo.setEstado(chkEstado.isSelected());
 
         cd.actualizarColectivo(colectivo);
     }
