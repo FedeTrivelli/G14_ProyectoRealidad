@@ -17,10 +17,6 @@ public class Asiento {
         this.estado = estado;
     }
 
-    public Asiento(int i, int i0, boolean b) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
     public int getIdLugar() {
         return idLugar;
     }
