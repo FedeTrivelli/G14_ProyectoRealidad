@@ -14,8 +14,11 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import Persistencia.AsientoData;
 
 import Modelo.Asiento;
+import Modelo.Colectivo;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -25,6 +28,7 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
 
     private JButton asientoActual = null;
     Asiento asiento = new Asiento();
+    AsientoData ad = new AsientoData();
 
     /**
      * Creates new form VistaPasaje
@@ -33,6 +37,7 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
         initComponents();
         pnlAsientos.setLayout(new GridLayout(0, 5, 0, 0));
         matriz(24);
+        llenarCmb();
 
     }
 
@@ -48,12 +53,15 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cmbSeleccionMatricula = new javax.swing.JComboBox<>();
         pnlAsientos = new javax.swing.JPanel();
+        btnGuardar = new javax.swing.JButton();
 
         jLabel2.setText("Hora");
 
         jLabel3.setText("Precio");
+
+        cmbSeleccionMatricula.addActionListener(this::cmbSeleccionMatriculaActionPerformed);
 
         javax.swing.GroupLayout pnlAsientosLayout = new javax.swing.GroupLayout(pnlAsientos);
         pnlAsientos.setLayout(pnlAsientosLayout);
@@ -66,6 +74,9 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
             .addGap(0, 473, Short.MAX_VALUE)
         );
 
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(this::btnGuardarActionPerformed);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -74,12 +85,14 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
                 .addGap(48, 48, 48)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(72, 72, 72)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cmbSeleccionMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnGuardar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(pnlAsientos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(120, 120, 120))
         );
@@ -89,10 +102,12 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
                 .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbSeleccionMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(pnlAsientos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pnlAsientos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGuardar))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
@@ -116,14 +131,29 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        guardarAsiento();
+
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void cmbSeleccionMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSeleccionMatriculaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbSeleccionMatriculaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JComboBox<Colectivo> cmbSeleccionMatricula;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel pnlAsientos;
     // End of variables declaration//GEN-END:variables
+
+    public void guardarAsiento() {
+        ad.guardarAsiento(asiento);
+    }
 
     public void matriz(int asientos) {
         JButton conductor = new JButton();
@@ -165,8 +195,8 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
         btn.setMinimumSize(d);
         btn.setMaximumSize(d);
     }
-    
-    public void letrasBoton(JButton btn){
+
+    public void letrasBoton(JButton btn) {
         btn.setHorizontalTextPosition(SwingConstants.CENTER);
         btn.setVerticalTextPosition(SwingConstants.CENTER);
         btn.setIconTextGap(0);
@@ -189,5 +219,13 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
 
     private ImageIcon cargarIcono(String ruta) {
         return new ImageIcon(getClass().getResource(ruta));
+    }
+
+    private void llenarCmb() {
+        cmbSeleccionMatricula.removeAllItems();
+        for (Colectivo c : ad.listarColectivo()) {
+            cmbSeleccionMatricula.addItem(c);
+        }
+        cmbSeleccionMatricula.setSelectedIndex(-1);
     }
 }
