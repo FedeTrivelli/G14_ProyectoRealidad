@@ -4,17 +4,36 @@
  */
 package Vistas;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.URL;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.SwingConstants;
+
+import Modelo.Asiento;
+
 /**
  *
  * @author marti
  */
 public class VistaPasaje extends javax.swing.JInternalFrame {
 
+    private JButton asientoActual = null;
+    Asiento asiento = new Asiento();
+
     /**
      * Creates new form VistaPasaje
      */
     public VistaPasaje() {
         initComponents();
+        pnlAsientos.setLayout(new GridLayout(0, 5, 0, 0));
+        matriz(24);
+
     }
 
     /**
@@ -30,30 +49,21 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
-        jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        pnlAsientos = new javax.swing.JPanel();
 
         jLabel2.setText("Hora");
 
         jLabel3.setText("Precio");
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/asiento_asignado.png"))); // NOI18N
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1)
-                .addContainerGap(273, Short.MAX_VALUE))
+        javax.swing.GroupLayout pnlAsientosLayout = new javax.swing.GroupLayout(pnlAsientos);
+        pnlAsientos.setLayout(pnlAsientosLayout);
+        pnlAsientosLayout.setHorizontalGroup(
+            pnlAsientosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 339, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1)
-                .addContainerGap(428, Short.MAX_VALUE))
+        pnlAsientosLayout.setVerticalGroup(
+            pnlAsientosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 473, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -64,12 +74,14 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
                 .addGap(48, 48, 48)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(72, 72, 72)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlAsientos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(120, 120, 120))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -79,9 +91,9 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(pnlAsientos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -106,11 +118,76 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel pnlAsientos;
     // End of variables declaration//GEN-END:variables
+
+    public void matriz(int asientos) {
+        JButton conductor = new JButton();
+        colocarIcono(conductor);
+        tamanioBoton(conductor);
+        pnlAsientos.add(conductor);
+        for (int i = 0; i < 4; i++) {
+            pnlAsientos.add(new javax.swing.JLabel(""));
+        }
+
+        for (int i = 0; i < asientos; i++) {
+            if (i % 4 == 2) {
+                pnlAsientos.add(new javax.swing.JLabel(""));
+            }
+            JButton btn = new JButton();
+            colocarIcono(btn);
+            tamanioBoton(btn);
+            letrasBoton(btn);
+            btn.setText(String.valueOf(i + 1));
+            cambioAsiento(btn);
+            pnlAsientos.add(btn);
+        }
+    }
+
+    public void colocarIcono(JButton btn) {
+        URL url = getClass().getResource("/images/asiento_seleccionado.png");
+        ImageIcon imageicon = new ImageIcon(url);
+        btn.setIcon(imageicon);
+    }
+
+    public void tamanioBoton(JButton btn) {
+        btn.setText("");
+        btn.setBorderPainted(false);
+        btn.setContentAreaFilled(false);
+        btn.setFocusPainted(false);
+
+        Dimension d = new Dimension(51, 50);
+        btn.setPreferredSize(d);
+        btn.setMinimumSize(d);
+        btn.setMaximumSize(d);
+    }
+    
+    public void letrasBoton(JButton btn){
+        btn.setHorizontalTextPosition(SwingConstants.CENTER);
+        btn.setVerticalTextPosition(SwingConstants.CENTER);
+        btn.setIconTextGap(0);
+        btn.setFont(new Font("Arial", Font.BOLD, 14));
+        btn.setForeground(Color.BLACK);
+    }
+
+    public void cambioAsiento(JButton btn) {
+        btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (asientoActual != null && asientoActual != btn) {
+                    asientoActual.setIcon(cargarIcono("/images/asiento_seleccionado.png"));
+                }
+                btn.setIcon(cargarIcono("/images/asiento_asignado.png"));
+                asientoActual = btn;
+            }
+        });
+    }
+
+    private ImageIcon cargarIcono(String ruta) {
+        return new ImageIcon(getClass().getResource(ruta));
+    }
 }
