@@ -40,7 +40,8 @@ public class Escritorio extends javax.swing.JFrame {
         mitHabilitarColectivos = new javax.swing.JMenuItem();
         mitDestino = new javax.swing.JMenuItem();
         mitPasajes = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        mnuSacarAsiento = new javax.swing.JMenu();
+        mitSacarAsiento = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
 
@@ -78,8 +79,13 @@ public class Escritorio extends javax.swing.JFrame {
 
         jMenuBar1.add(mnuAcreditacion);
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        mnuSacarAsiento.setText("Sacar Asiento");
+
+        mitSacarAsiento.setText("Sacar Asiento");
+        mitSacarAsiento.addActionListener(this::mitSacarAsientoActionPerformed);
+        mnuSacarAsiento.add(mitSacarAsiento);
+
+        jMenuBar1.add(mnuSacarAsiento);
 
         jMenu3.setText("jMenu3");
         jMenuBar1.add(jMenu3);
@@ -135,6 +141,14 @@ public class Escritorio extends javax.swing.JFrame {
         dptEscritorio.moveToFront(cargarDestino);
     }//GEN-LAST:event_mitDestinoActionPerformed
 
+    private void mitSacarAsientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitSacarAsientoActionPerformed
+        // TODO add your handling code here:
+        VistaPasaje vistapasaje = new VistaPasaje();
+        vistapasaje.setVisible(true);
+        dptEscritorio.add(vistapasaje);
+        dptEscritorio.moveToFront(vistapasaje);
+    }//GEN-LAST:event_mitSacarAsientoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -162,7 +176,6 @@ public class Escritorio extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane dptEscritorio;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
@@ -170,7 +183,9 @@ public class Escritorio extends javax.swing.JFrame {
     private javax.swing.JMenuItem mitHabilitarColectivos;
     private javax.swing.JMenuItem mitIngresarPasajeros;
     private javax.swing.JMenuItem mitPasajes;
+    private javax.swing.JMenuItem mitSacarAsiento;
     private javax.swing.JMenu mnuAcreditacion;
+    private javax.swing.JMenu mnuSacarAsiento;
     // End of variables declaration//GEN-END:variables
 
     public void colocarIcono() {
