@@ -1,11 +1,14 @@
 package Persistencia;
 
 import Modelo.Asiento;
+import Modelo.Colectivo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class AsientoData {
@@ -32,7 +35,7 @@ public class AsientoData {
                 }
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla rutaviaje: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla assiento: " + e.getMessage());
         }
     }
 
@@ -54,19 +57,30 @@ public class AsientoData {
         }
     }
 
-//    public void verificarAsiento(Asiento asiento) {
-//        String sql = "SELECT estado, WHERE idAsiento = ?";
-//        try (PreparedStatement ps = con.prepareStatement(sql)) {
-//            ps.setInt(1, asiento.getIdLugar());
-//
-//            if (ps.executeUpdate() > 0) {
-//                JOptionPane.showMessageDialog(null, "El asiento esta libre.");
-//            } else {
-//                JOptionPane.showMessageDialog(null, "No se encontró el asiento.");
-//            }
-//        } catch (SQLException e) {
-//            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla asiento: " + e.getMessage());
-//        }
-//
-//    }
+    public List<Colectivo> listarColectivo() {
+        Colectivo colectivo = null;
+        String sql = "SELECT * FROM colectivo";
+        ArrayList<Colectivo> colectivos = new ArrayList<>();
+        PreparedStatement ps;
+        try {
+            ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                colectivo = new Colectivo();
+                colectivo.setIdColectivo(rs.getInt("idColectivo"));
+                colectivo.setMatricula(rs.getString("matricula"));
+                colectivo.setMarca(rs.getString("marca"));
+                colectivo.setModelo(rs.getString("modelo"));
+                colectivo.setCapacidad(rs.getInt("capacidad"));
+                colectivo.setChofer(rs.getString("chofer"));
+                colectivo.setEstado(rs.getBoolean("Estado"));
+                colectivos.add(colectivo);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error SQL" + ex);
+        }
+        return colectivos;
+
+    }
 }
