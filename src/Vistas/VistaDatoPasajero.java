@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
  *
  * @author santi
  */
-public class VistaIngresarPasajeros extends javax.swing.JInternalFrame {
+public class VistaDatoPasajero extends javax.swing.JInternalFrame {
 
     pasajeroData pd = new pasajeroData();
     Pasajero pasajero = new Pasajero();
@@ -24,7 +24,7 @@ public class VistaIngresarPasajeros extends javax.swing.JInternalFrame {
     /**
      * Creates new form IngresarPasajeros
      */
-    public VistaIngresarPasajeros() {
+    public VistaDatoPasajero() {
         initComponents();
         colocarIcono();
         inicio();

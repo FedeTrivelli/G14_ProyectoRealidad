@@ -111,7 +111,7 @@ public class Escritorio extends javax.swing.JFrame {
 
     private void mitIngresarPasajerosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitIngresarPasajerosActionPerformed
         // TODO add your handling code here:
-        VistaIngresarPasajeros ingresarpasajeros = new VistaIngresarPasajeros();
+        VistaDatoPasajero ingresarpasajeros = new VistaDatoPasajero();
         ingresarpasajeros.setVisible(true);
         dptEscritorio.add(ingresarpasajeros);
         dptEscritorio.moveToFront(ingresarpasajeros);
@@ -127,7 +127,7 @@ public class Escritorio extends javax.swing.JFrame {
 
     private void mitPasajesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitPasajesActionPerformed
         // TODO add your handling code here:
-        VistaDestino vistaDestino = new VistaDestino();
+        VistaBoleto vistaDestino = new VistaBoleto();
         vistaDestino.setVisible(true);
         dptEscritorio.add(vistaDestino);
         dptEscritorio.moveToFront(vistaDestino);

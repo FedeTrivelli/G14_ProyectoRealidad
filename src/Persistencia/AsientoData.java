@@ -12,6 +12,8 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 public class AsientoData {
+    
+    Colectivo colectivo = new Colectivo();
 
     private Connection con = null;
 
@@ -20,12 +22,13 @@ public class AsientoData {
     }
 
     public void guardarAsiento(Asiento asiento) {
-        String sql = "INSERT INTO asiento (idColectivo, numeroAsiento, estado) "
-                + "VALUES (?, ?, ?)";
+        String sql = "INSERT INTO asiento (idLugar, idColectivo, numeroAsiento, estado) "
+                + "VALUES (?, ?, ?, ?)";
         try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setInt(1, asiento.getIdColectivo().getIdColectivo());
-            ps.setInt(2, asiento.getNumeroAsiento());
-            ps.setBoolean(3, asiento.isEstado());
+            ps.setInt(1, asiento.getIdLugar());
+            ps.setInt(2, colectivo.getIdColectivo());
+            ps.setInt(3, asiento.getNumeroAsiento());
+            ps.setBoolean(4, asiento.isEstado());
             ps.executeUpdate();
 
             try (ResultSet rs = ps.getGeneratedKeys()) {

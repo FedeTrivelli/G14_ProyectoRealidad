@@ -1,11 +1,11 @@
 package Vistas;
 
-public class VistaDestino extends javax.swing.JInternalFrame {
+public class VistaBoleto extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form VistaPasaje
      */
-    public VistaDestino() {
+    public VistaBoleto() {
         initComponents();
     }
 
@@ -218,7 +218,7 @@ public class VistaDestino extends javax.swing.JInternalFrame {
 
         lblTitulo.setFont(new java.awt.Font("Artifakt Element Medium", 0, 24)); // NOI18N
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTitulo.setText("Datos Pasajeros");
+        lblTitulo.setText("Boleto");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -266,21 +266,14 @@ public class VistaDestino extends javax.swing.JInternalFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cmbDestinos;
     private javax.swing.JComboBox<String> cmbOrigen;
-    private com.toedter.calendar.JDateChooser dtcCargarPartida;
     private com.toedter.calendar.JDateChooser dtcCargarPartida1;
-    private com.toedter.calendar.JDateChooser dtcCargarRegreso;
     private com.toedter.calendar.JDateChooser dtcCargarRegreso1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JLabel lblDni;
@@ -288,12 +281,8 @@ public class VistaDestino extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlBotones;
     private javax.swing.JPanel pnlBuscar;
     private javax.swing.JRadioButton rbIda;
-    private javax.swing.JRadioButton rbIdaVuelta;
     private javax.swing.JRadioButton rbIdaVuelta1;
-    private javax.swing.JRadioButton rbSoloIda;
     private javax.swing.JSpinner spnPasajero;
-    private javax.swing.JTextField txtCargarDestino;
-    private javax.swing.JTextField txtCargarOrigen;
     private javax.swing.JTextField txtDni;
     private javax.swing.JTextField txtNombreApellido;
     // End of variables declaration//GEN-END:variables

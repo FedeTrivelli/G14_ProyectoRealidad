@@ -18,7 +18,6 @@ import Persistencia.AsientoData;
 
 import Modelo.Asiento;
 import Modelo.Colectivo;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -29,7 +28,7 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
     private JButton asientoActual = null;
     Asiento asiento = new Asiento();
     AsientoData ad = new AsientoData();
-
+    boolean lugar = true;
     /**
      * Creates new form VistaPasaje
      */
@@ -152,7 +151,9 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     public void guardarAsiento() {
-        ad.guardarAsiento(asiento);
+        if(lugar == false){
+//            ad.guardarAsiento();
+        }
     }
 
     public void matriz(int asientos) {
@@ -210,7 +211,9 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
             public void actionPerformed(ActionEvent e) {
                 if (asientoActual != null && asientoActual != btn) {
                     asientoActual.setIcon(cargarIcono("/images/asiento_seleccionado.png"));
+                    lugar = false;
                 }
+               
                 btn.setIcon(cargarIcono("/images/asiento_asignado.png"));
                 asientoActual = btn;
             }
