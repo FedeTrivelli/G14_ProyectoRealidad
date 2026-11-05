@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
 package Vistas;
 
 import java.awt.Color;
@@ -20,28 +16,22 @@ import Persistencia.AsientoData;
 import Modelo.Asiento;
 import Modelo.Colectivo;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-/**
- *
- * @author marti
- */
 public class VistaPasaje extends javax.swing.JInternalFrame {
 
     private JButton asientoActual = null;
     private int numeroActual = -1;
+    private boolean cargando = false;
+    private Colectivo colectivoActual = null;
     private Map<Integer, Boolean> estado = new HashMap<>();
     private Map<Integer, JButton> botones = new HashMap<>();
-    Asiento asiento = new Asiento();
     AsientoData ad = new AsientoData();
 
-    /**
-     * Creates new form VistaPasaje
-     */
     public VistaPasaje() {
         initComponents();
         pnlAsientos.setLayout(new GridLayout(0, 5, 0, 0));
-        matriz(50);
         llenarCmb();
 
     }
@@ -155,22 +145,10 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
 
     private void cmbSeleccionMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSeleccionMatriculaActionPerformed
         // TODO add your handling code here:
-        Colectivo c = (Colectivo) cmbSeleccionMatricula.getSelectedItem();
-        if (c == null) {
-            return;   // pasa cuando llenarCmb deja el índice en -1
+        if (cargando) {
+            return;
         }
-        // limpiar la matriz anterior
-        pnlAsientos.removeAll();
-        estado.clear();
-        botones.clear();
-        asientoActual = null;
-        numeroActual = -1;
-
-        matriz(c.getCapacidad());
-
-        // redibujar el panel
-        pnlAsientos.revalidate();
-        pnlAsientos.repaint();
+        cargarAsientos((Colectivo) cmbSeleccionMatricula.getSelectedItem());
     }//GEN-LAST:event_cmbSeleccionMatriculaActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -189,35 +167,83 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlAsientos;
     // End of variables declaration//GEN-END:variables
 
-    public void matriz(int asientos) {
-        JButton conductor = new JButton();
-        colocarIcono(conductor);
-        tamanioBoton(conductor);
-        pnlAsientos.add(conductor);
-        for (int i = 0; i < 4; i++) {
-            pnlAsientos.add(new javax.swing.JLabel(""));
+        private void limpiarPanel() {
+        pnlAsientos.removeAll();
+        estado.clear();
+        botones.clear();
+        asientoActual = null;
+        numeroActual = -1;
+    }
+
+    private void cargarAsientos(Colectivo c) {
+        limpiarPanel();
+        colectivoActual = c;
+
+        if (c != null) {
+            List<Asiento> asientos = ad.listarAsientosPorColectivo(c.getIdColectivo());
+
+            if (asientos.isEmpty()) {
+                int r = JOptionPane.showConfirmDialog(this,
+                        "El colectivo " + c.getMatricula() + " todavía no tiene asientos generados.\n"
+                        + "¿Generar " + c.getCapacidad() + " asientos ahora?",
+                        "Asientos", JOptionPane.YES_NO_OPTION);
+                if (r == JOptionPane.YES_OPTION && ad.generarAsientos(c.getIdColectivo(), c.getCapacidad())) {
+                    asientos = ad.listarAsientosPorColectivo(c.getIdColectivo());
+                }
+            }
+            matriz(asientos);
         }
 
-        for (int i = 0; i < asientos; i++) {
-            if (i % 4 == 2) {
-                pnlAsientos.add(new javax.swing.JLabel(""));
+        pnlAsientos.revalidate();
+        pnlAsientos.repaint();
+    }
+
+    public void matriz(List<Asiento> asientos) {
+        agregarConductor();
+
+        int posicion = 0;
+        for (Asiento a : asientos) {
+            if (posicion % 4 == 2) {
+                agregarPasillo();
             }
-            JButton btn = new JButton();
-            colocarIcono(btn);
-            tamanioBoton(btn);
-            letrasBoton(btn);
-            btn.setText(String.valueOf(i + 1));
-            estado.put(i + 1, true);
-            botones.put(i + 1, btn);
-            cambioAsiento(btn, i + 1);
-            pnlAsientos.add(btn);
+            pnlAsientos.add(crearBotonAsiento(a));
+            posicion++;
         }
     }
 
-    public void colocarIcono(JButton btn) {
-        URL url = getClass().getResource("/images/asiento_vacio.png");
-        ImageIcon imageicon = new ImageIcon(url);
-        btn.setIcon(imageicon);
+    private void agregarConductor() {
+        JButton conductor = new JButton();
+        colocarIcono(conductor, "/images/asiento_vacio.png");
+        tamanioBoton(conductor);
+        pnlAsientos.add(conductor);
+
+        for (int i = 0; i < 4; i++) {
+            agregarPasillo();
+        }
+    }
+
+    private void agregarPasillo() {
+        pnlAsientos.add(new javax.swing.JLabel(""));
+    }
+
+    private JButton crearBotonAsiento(Asiento a) {
+        int numero = a.getNumeroAsiento();
+        JButton btn = new JButton();
+
+        tamanioBoton(btn);
+        letrasBoton(btn);
+        btn.setText(String.valueOf(numero));
+
+        estado.put(numero, a.isEstado());
+        botones.put(numero, btn);
+        colocarIcono(btn, iconoSegunEstado(numero));
+        cambioAsiento(btn, numero);
+
+        return btn;
+    }
+
+    public void colocarIcono(JButton btn, String ubiImagen) {
+        btn.setIcon(cargarIcono(ubiImagen));
     }
 
     public void tamanioBoton(JButton btn) {
@@ -256,9 +282,11 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
     }
 
     private ImageIcon cargarIcono(String ubiImagen) {
-        return new ImageIcon(getClass().getResource(ubiImagen));
+        URL url = getClass().getResource(ubiImagen);
+        return new ImageIcon(url);
     }
 
+    // estado == true -> libre, estado == false -> ocupado
     private String iconoSegunEstado(int numero) {
         if (estado.get(numero)) {
             return "/images/asiento_vacio.png";
@@ -267,6 +295,10 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
     }
 
     public void guardarAsiento() {
+        if (colectivoActual == null) {
+            JOptionPane.showMessageDialog(this, "Seleccioná un colectivo.");
+            return;
+        }
         if (asientoActual == null) {
             JOptionPane.showMessageDialog(this, "Seleccioná un asiento.");
             return;
@@ -275,7 +307,9 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Ese asiento ya está ocupado.");
             return;
         }
-        //ad.guardarAsiento(numeroActual);
+        if (!ad.cambiarEstado(colectivoActual.getIdColectivo(), numeroActual, false)) {
+            return;
+        }
         estado.put(numeroActual, false);
         asientoActual.setIcon(cargarIcono("/images/asiento_ocupado.png"));
         asientoActual = null;
@@ -283,22 +317,31 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
     }
 
     public void darDeBajaAsiento() {
-        if (asientoActual == null || estado.get(numeroActual)) {
+        if (colectivoActual == null || asientoActual == null || estado.get(numeroActual)) {
             JOptionPane.showMessageDialog(this, "Seleccioná un asiento ocupado.");
             return;
         }
-        //ad.darDeBaja(numeroActual);
+        if (!ad.cambiarEstado(colectivoActual.getIdColectivo(), numeroActual, true)) {
+            return;
+        }
         estado.put(numeroActual, true);
-        asientoActual.setIcon(cargarIcono("/images/asiento_seleccionado.png"));
+        asientoActual.setIcon(cargarIcono("/images/asiento_vacio.png"));
         asientoActual = null;
         numeroActual = -1;
     }
 
     private void llenarCmb() {
-        cmbSeleccionMatricula.removeAllItems();
-        for (Colectivo c : ad.listarColectivo()) {
-            cmbSeleccionMatricula.addItem(c);
+        cargando = true;
+        try {
+            cmbSeleccionMatricula.removeAllItems();
+            for (Colectivo c : ad.listarColectivo()) {
+                if (c.isEstado()) {
+                    cmbSeleccionMatricula.addItem(c);
+                }
+            }
+            cmbSeleccionMatricula.setSelectedIndex(-1);
+        } finally {
+            cargando = false;
         }
-        cmbSeleccionMatricula.setSelectedIndex(-1);
     }
 }
