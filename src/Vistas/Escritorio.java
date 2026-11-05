@@ -69,7 +69,7 @@ public class Escritorio extends javax.swing.JFrame {
         mitHabilitarColectivos.addActionListener(this::mitHabilitarColectivosActionPerformed);
         mnuAcreditacion.add(mitHabilitarColectivos);
 
-        mitDestino.setText("Destiino");
+        mitDestino.setText("Destino");
         mitDestino.addActionListener(this::mitDestinoActionPerformed);
         mnuAcreditacion.add(mitDestino);
 
