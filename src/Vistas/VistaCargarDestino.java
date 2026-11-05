@@ -345,7 +345,6 @@ public class VistaCargarDestino extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
     public void colocarIcono() {
         URL url = getClass().getResource("/images/logo_flechaflash.png");
-        // CORREGIDO: si la imagen no existe, new ImageIcon(null) lanzaba NullPointerException
         if (url != null) {
             setFrameIcon(new ImageIcon(url));
         }
@@ -360,7 +359,6 @@ public class VistaCargarDestino extends javax.swing.JInternalFrame {
     }
 
     public void limpiarCampos() {
-        // CORREGIDO: antes solo limpiaba origen y destino
         txtCargarDestino.setText("");
         txtCargarOrigen.setText("");
         txtPrecio.setText("");
@@ -433,7 +431,6 @@ public class VistaCargarDestino extends javax.swing.JInternalFrame {
     }
 
     public void cargarRuta(RutaViaje ruta) {
-        // CORREGIDO: antes rv quedaba vacío y actualizarRuta() no sabía qué ruta modificar
         rv = ruta;
         txtCargarOrigen.setText(ruta.getOrigen());
         txtCargarDestino.setText(ruta.getDestino());
@@ -499,7 +496,7 @@ public class VistaCargarDestino extends javax.swing.JInternalFrame {
             return;
         }
         rd.guardarRuta(nueva);
-        inicio(); // deja el formulario listo para cargar otra ruta
+        inicio();
     }
 
     public void borrarRuta(int idRuta) {
