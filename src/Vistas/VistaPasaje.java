@@ -14,10 +14,13 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import javax.swing.JOptionPane;
 import Persistencia.AsientoData;
 
 import Modelo.Asiento;
 import Modelo.Colectivo;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -26,16 +29,19 @@ import Modelo.Colectivo;
 public class VistaPasaje extends javax.swing.JInternalFrame {
 
     private JButton asientoActual = null;
+    private int numeroActual = -1;
+    private Map<Integer, Boolean> estado = new HashMap<>();
+    private Map<Integer, JButton> botones = new HashMap<>();
     Asiento asiento = new Asiento();
     AsientoData ad = new AsientoData();
-    boolean lugar = true;
+
     /**
      * Creates new form VistaPasaje
      */
     public VistaPasaje() {
         initComponents();
         pnlAsientos.setLayout(new GridLayout(0, 5, 0, 0));
-        matriz(24);
+        matriz(50);
         llenarCmb();
 
     }
@@ -50,15 +56,16 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lblHora = new javax.swing.JLabel();
+        lblPrecio = new javax.swing.JLabel();
         cmbSeleccionMatricula = new javax.swing.JComboBox<>();
         pnlAsientos = new javax.swing.JPanel();
+        btnDarDeBaja = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
 
-        jLabel2.setText("Hora");
+        lblHora.setText("Hora");
 
-        jLabel3.setText("Precio");
+        lblPrecio.setText("Precio");
 
         cmbSeleccionMatricula.addActionListener(this::cmbSeleccionMatriculaActionPerformed);
 
@@ -73,6 +80,9 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
             .addGap(0, 473, Short.MAX_VALUE)
         );
 
+        btnDarDeBaja.setText("Dar de baja");
+        btnDarDeBaja.addActionListener(this::btnDarDeBajaActionPerformed);
+
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(this::btnGuardarActionPerformed);
 
@@ -82,32 +92,39 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(48, 48, 48)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(72, 72, 72)
-                .addComponent(cmbSeleccionMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnGuardar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(pnlAsientos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(120, 120, 120))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnDarDeBaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pnlAsientos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(120, 120, 120))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblHora, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(72, 72, 72)
+                        .addComponent(cmbSeleccionMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(lblPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblHora, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbSeleccionMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlAsientos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnGuardar))
-                .addContainerGap(17, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(btnGuardar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnDarDeBaja)))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -130,31 +147,47 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+    private void btnDarDeBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarDeBajaActionPerformed
         // TODO add your handling code here:
-        guardarAsiento();
+        darDeBajaAsiento();
 
-    }//GEN-LAST:event_btnGuardarActionPerformed
+    }//GEN-LAST:event_btnDarDeBajaActionPerformed
 
     private void cmbSeleccionMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSeleccionMatriculaActionPerformed
         // TODO add your handling code here:
+        Colectivo c = (Colectivo) cmbSeleccionMatricula.getSelectedItem();
+        if (c == null) {
+            return;   // pasa cuando llenarCmb deja el índice en -1
+        }
+        // limpiar la matriz anterior
+        pnlAsientos.removeAll();
+        estado.clear();
+        botones.clear();
+        asientoActual = null;
+        numeroActual = -1;
+
+        matriz(c.getCapacidad());
+
+        // redibujar el panel
+        pnlAsientos.revalidate();
+        pnlAsientos.repaint();
     }//GEN-LAST:event_cmbSeleccionMatriculaActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        guardarAsiento();
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDarDeBaja;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JComboBox<Colectivo> cmbSeleccionMatricula;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblHora;
+    private javax.swing.JLabel lblPrecio;
     private javax.swing.JPanel pnlAsientos;
     // End of variables declaration//GEN-END:variables
-
-    public void guardarAsiento() {
-        if(lugar == false){
-//            ad.guardarAsiento();
-        }
-    }
 
     public void matriz(int asientos) {
         JButton conductor = new JButton();
@@ -174,13 +207,15 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
             tamanioBoton(btn);
             letrasBoton(btn);
             btn.setText(String.valueOf(i + 1));
-            cambioAsiento(btn);
+            estado.put(i + 1, true);
+            botones.put(i + 1, btn);
+            cambioAsiento(btn, i + 1);
             pnlAsientos.add(btn);
         }
     }
 
     public void colocarIcono(JButton btn) {
-        URL url = getClass().getResource("/images/asiento_seleccionado.png");
+        URL url = getClass().getResource("/images/asiento_vacio.png");
         ImageIcon imageicon = new ImageIcon(url);
         btn.setIcon(imageicon);
     }
@@ -205,23 +240,58 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
         btn.setForeground(Color.BLACK);
     }
 
-    public void cambioAsiento(JButton btn) {
+    public void cambioAsiento(JButton btn, int numero) {
         btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (asientoActual != null && asientoActual != btn) {
-                    asientoActual.setIcon(cargarIcono("/images/asiento_seleccionado.png"));
-                    lugar = false;
+                    asientoActual.setIcon(cargarIcono(iconoSegunEstado(numeroActual)));
                 }
-               
-                btn.setIcon(cargarIcono("/images/asiento_asignado.png"));
+
+                btn.setIcon(cargarIcono("/images/asiento_seleccionado.png"));
                 asientoActual = btn;
+                numeroActual = numero;
             }
         });
     }
 
-    private ImageIcon cargarIcono(String ruta) {
-        return new ImageIcon(getClass().getResource(ruta));
+    private ImageIcon cargarIcono(String ubiImagen) {
+        return new ImageIcon(getClass().getResource(ubiImagen));
+    }
+
+    private String iconoSegunEstado(int numero) {
+        if (estado.get(numero)) {
+            return "/images/asiento_vacio.png";
+        }
+        return "/images/asiento_ocupado.png";
+    }
+
+    public void guardarAsiento() {
+        if (asientoActual == null) {
+            JOptionPane.showMessageDialog(this, "Seleccioná un asiento.");
+            return;
+        }
+        if (!estado.get(numeroActual)) {
+            JOptionPane.showMessageDialog(this, "Ese asiento ya está ocupado.");
+            return;
+        }
+        //ad.guardarAsiento(numeroActual);
+        estado.put(numeroActual, false);
+        asientoActual.setIcon(cargarIcono("/images/asiento_ocupado.png"));
+        asientoActual = null;
+        numeroActual = -1;
+    }
+
+    public void darDeBajaAsiento() {
+        if (asientoActual == null || estado.get(numeroActual)) {
+            JOptionPane.showMessageDialog(this, "Seleccioná un asiento ocupado.");
+            return;
+        }
+        //ad.darDeBaja(numeroActual);
+        estado.put(numeroActual, true);
+        asientoActual.setIcon(cargarIcono("/images/asiento_seleccionado.png"));
+        asientoActual = null;
+        numeroActual = -1;
     }
 
     private void llenarCmb() {
