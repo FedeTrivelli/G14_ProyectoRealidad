@@ -170,11 +170,11 @@ public class VistaCargarDestino extends javax.swing.JInternalFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(txtCargarDestino, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtCargarOrigen))
+                                    .addComponent(txtCargarOrigen)
                                     .addGap(42, 42, 42))
-                                .addComponent(cmbColectivo, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(txtCargarDestino)
+                                    .addComponent(cmbColectivo, 0, 360, Short.MAX_VALUE))))
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
@@ -465,7 +465,6 @@ public class VistaCargarDestino extends javax.swing.JInternalFrame {
         }
 
         try {
-            // rv debe tener cargado el idRuta (por ejemplo, al buscar la ruta antes de editarla)
             rv.setOrigen(txtCargarOrigen.getText());
             rv.setDestino(txtCargarDestino.getText());
             rv.setHoraSalida(combinar(dtcCargarPartida, spnHoraSalida));
