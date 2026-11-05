@@ -395,14 +395,12 @@ public class VistaCargarDestino extends javax.swing.JInternalFrame {
         rbIdaVuelta.setEnabled(enabled);
     }
 
-    // Modo "nuevo": se puede guardar, no se puede actualizar ni borrar
     public void desactivarBotones() {
         btnGuardar.setVisible(true);
         btnActualizar.setEnabled(false);
         btnBorrar.setEnabled(false);
     }
 
-    // Modo "ruta cargada": se puede actualizar y borrar, no guardar como nueva
     public void activarBotones() {
         btnGuardar.setVisible(false);
         btnActualizar.setEnabled(true);
