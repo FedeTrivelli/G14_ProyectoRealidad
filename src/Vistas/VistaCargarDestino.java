@@ -89,7 +89,7 @@ public class VistaCargarDestino extends javax.swing.JInternalFrame {
 
         buttonGroup1.add(rbSoloIda);
         rbSoloIda.setText("Solo de ida");
-        rbSoloIda.addPropertyChangeListener(this::rbSoloIdaPropertyChange);
+        rbSoloIda.addActionListener(this::rbSoloIdaActionPerformed);
 
         buttonGroup1.add(rbIdaVuelta);
         rbIdaVuelta.setText("Ida y vuelta");
@@ -308,9 +308,11 @@ public class VistaCargarDestino extends javax.swing.JInternalFrame {
         jLabel4.setVisible(true);
     }//GEN-LAST:event_rbIdaVueltaActionPerformed
 
-    private void rbSoloIdaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_rbSoloIdaPropertyChange
+    private void rbSoloIdaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbSoloIdaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rbSoloIdaPropertyChange
+        dtcCargarRegreso.setVisible(false);
+        jLabel4.setVisible(false);
+    }//GEN-LAST:event_rbSoloIdaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -456,8 +458,12 @@ public class VistaCargarDestino extends javax.swing.JInternalFrame {
             return false;
         }
 
-        if (dtcCargarPartida.getDate() == null || dtcCargarRegreso.getDate() == null) {
+        if (rbIdaVuelta.isSelected() && dtcCargarPartida.getDate() == null || dtcCargarRegreso.getDate() == null) {
             JOptionPane.showMessageDialog(this, "Seleccioná las fechas de salida y llegada.");
+            return false;
+        }
+        if (rbIdaVuelta.isSelected() && dtcCargarPartida.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Selecciona la fecha de salida");
             return false;
         }
 
@@ -532,4 +538,5 @@ public class VistaCargarDestino extends javax.swing.JInternalFrame {
         }
         cmbColectivo.setSelectedIndex(-1);
     }
+
 }
