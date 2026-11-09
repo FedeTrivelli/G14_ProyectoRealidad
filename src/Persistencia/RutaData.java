@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class RutaData {
@@ -43,7 +45,7 @@ public class RutaData {
     }
 
     public void borrarRuta(int idRuta) {
-        String sql = "UPDATE rutaviaje SET estado = 0 WHERE idRuta = ?";
+        String sql = "DELETE FROM rutaviaje WHERE idRuta = ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idRuta);
             int filasAfectadas = ps.executeUpdate();
@@ -93,8 +95,8 @@ public class RutaData {
                     ruta.setIdRuta(rs.getInt("idRuta"));
                     ruta.setOrigen(rs.getString("origen"));
                     ruta.setDestino(rs.getString("destino"));
-                    ruta.setHoraSalida(rs.getTimestamp("horaSalida").toLocalDateTime());     
-                    ruta.setHoraLlegada(rs.getTimestamp("horaLlegada").toLocalDateTime());   
+                    ruta.setHoraSalida(rs.getTimestamp("horaSalida").toLocalDateTime());
+                    ruta.setHoraLlegada(rs.getTimestamp("horaLlegada").toLocalDateTime());
 
                     Colectivo colectivo = new Colectivo();
                     colectivo.setIdColectivo(rs.getInt("idColectivo"));
@@ -108,5 +110,34 @@ public class RutaData {
             JOptionPane.showMessageDialog(null, "Error SQL: " + ex.getMessage());
         }
         return ruta;
+    }
+
+    public List<RutaViaje> listarRutas() {
+        List<RutaViaje> rutas = new ArrayList<>();
+        String sql = "SELECT r.idRuta, r.origen, r.destino, r.horaSalida, r.horaLlegada, "
+                + "r.idColectivo, r.precio, r.estado, c.matricula "
+                + "FROM rutaviaje r JOIN colectivo c ON r.idColectivo = c.idColectivo";
+        try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                RutaViaje r = new RutaViaje();
+                r.setIdRuta(rs.getInt("idRuta"));
+                r.setOrigen(rs.getString("origen"));
+                r.setDestino(rs.getString("destino"));
+                r.setHoraSalida(rs.getTimestamp("horaSalida").toLocalDateTime());
+                r.setHoraLlegada(rs.getTimestamp("horaLlegada").toLocalDateTime());
+
+                Colectivo colectivo = new Colectivo();
+                colectivo.setMatricula(rs.getString("matricula"));
+                r.setColectivo(colectivo);
+
+                r.setPrecio(rs.getInt("precio"));
+                r.setEstado(rs.getBoolean("estado"));
+                rutas.add(r);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al listar las rutas: " + ex.getMessage());
+        }
+        return rutas;
     }
 }

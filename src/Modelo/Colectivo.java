@@ -81,7 +81,7 @@ public class Colectivo {
 
     @Override
     public String toString() {
-        return matricula;
+        return idColectivo +  matricula;
     }
 
 }
