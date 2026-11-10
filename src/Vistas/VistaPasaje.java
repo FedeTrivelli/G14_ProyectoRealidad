@@ -18,6 +18,8 @@ import Modelo.Colectivo;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.JDesktopPane;
+import javax.swing.JInternalFrame;
 
 public class VistaPasaje extends javax.swing.JInternalFrame {
 
@@ -33,7 +35,6 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
         initComponents();
         pnlAsientos.setLayout(new GridLayout(0, 5, 0, 0));
         llenarCmb();
-
     }
 
     /**
