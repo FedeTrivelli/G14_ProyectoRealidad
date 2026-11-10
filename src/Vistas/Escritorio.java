@@ -42,8 +42,12 @@ public class Escritorio extends javax.swing.JFrame {
         mitPasajes = new javax.swing.JMenuItem();
         mnuSacarAsiento = new javax.swing.JMenu();
         mitSacarAsiento = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
+        mnuAdministracion = new javax.swing.JMenu();
+        mitPasajero = new javax.swing.JMenuItem();
+        mitColectivo = new javax.swing.JMenuItem();
+        mitRuta = new javax.swing.JMenuItem();
+        mitPasaje = new javax.swing.JMenuItem();
+        mitBoleto = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Flecha Flash S.R.L.");
@@ -52,11 +56,11 @@ public class Escritorio extends javax.swing.JFrame {
         dptEscritorio.setLayout(dptEscritorioLayout);
         dptEscritorioLayout.setHorizontalGroup(
             dptEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 676, Short.MAX_VALUE)
+            .addGap(0, 1002, Short.MAX_VALUE)
         );
         dptEscritorioLayout.setVerticalGroup(
             dptEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 539, Short.MAX_VALUE)
+            .addGap(0, 793, Short.MAX_VALUE)
         );
 
         mnuAcreditacion.setText("Acreditacion");
@@ -87,11 +91,24 @@ public class Escritorio extends javax.swing.JFrame {
 
         jMenuBar1.add(mnuSacarAsiento);
 
-        jMenu3.setText("jMenu3");
-        jMenuBar1.add(jMenu3);
+        mnuAdministracion.setText("Administracion");
 
-        jMenu4.setText("jMenu4");
-        jMenuBar1.add(jMenu4);
+        mitPasajero.setText("Pasajeros");
+        mnuAdministracion.add(mitPasajero);
+
+        mitColectivo.setText("Colectivo");
+        mnuAdministracion.add(mitColectivo);
+
+        mitRuta.setText("Ruta");
+        mnuAdministracion.add(mitRuta);
+
+        mitPasaje.setText("Pasaje");
+        mnuAdministracion.add(mitPasaje);
+
+        mitBoleto.setText("Boleto");
+        mnuAdministracion.add(mitBoleto);
+
+        jMenuBar1.add(mnuAdministracion);
 
         setJMenuBar(jMenuBar1);
 
@@ -176,15 +193,19 @@ public class Escritorio extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane dptEscritorio;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem mitBoleto;
+    private javax.swing.JMenuItem mitColectivo;
     private javax.swing.JMenuItem mitDestino;
     private javax.swing.JMenuItem mitHabilitarColectivos;
     private javax.swing.JMenuItem mitIngresarPasajeros;
+    private javax.swing.JMenuItem mitPasaje;
+    private javax.swing.JMenuItem mitPasajero;
     private javax.swing.JMenuItem mitPasajes;
+    private javax.swing.JMenuItem mitRuta;
     private javax.swing.JMenuItem mitSacarAsiento;
     private javax.swing.JMenu mnuAcreditacion;
+    private javax.swing.JMenu mnuAdministracion;
     private javax.swing.JMenu mnuSacarAsiento;
     // End of variables declaration//GEN-END:variables
 
