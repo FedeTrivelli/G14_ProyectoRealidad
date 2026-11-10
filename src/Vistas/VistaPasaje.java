@@ -53,6 +53,8 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
         btnDarDeBaja = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
 
+        setClosable(true);
+
         lblHora.setText("Hora");
 
         lblPrecio.setText("Precio");

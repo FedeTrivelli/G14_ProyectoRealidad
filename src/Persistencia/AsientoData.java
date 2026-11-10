@@ -2,6 +2,7 @@ package Persistencia;
 
 import Modelo.Asiento;
 import Modelo.Colectivo;
+import Modelo.RutaViaje;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -104,5 +105,31 @@ public class AsientoData {
             JOptionPane.showMessageDialog(null, "Error SQL: " + ex.getMessage());
         }
         return colectivos;
+    }
+
+    public List<RutaViaje> listarOrigenDestino() {
+        List<RutaViaje> rutas = new ArrayList<>();
+        String sql = "SELECT * FROM rutaviaje";
+
+        try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            colectivoData colectivo = new colectivoData();
+
+            while (rs.next()) {
+                RutaViaje ruta = new RutaViaje();
+                ruta.setIdRuta(rs.getInt("idRuta"));
+                ruta.setOrigen(rs.getString("origen"));
+                ruta.setDestino(rs.getString("destino"));
+                ruta.setHoraSalida(rs.getTimestamp("horaSalida").toLocalDateTime());
+                ruta.setHoraLlegada(rs.getTimestamp("horaLlegada").toLocalDateTime());
+                ruta.setColectivo(colectivo.buscarColectivo(rs.getString("idColectivo")));
+                ruta.setPrecio(rs.getInt("precio"));
+                ruta.setEstado(rs.getBoolean("estado"));
+                rutas.add(ruta);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error SQL: " + ex.getMessage());
+        }
+        return rutas;
     }
 }
