@@ -52,8 +52,7 @@ public class AsientoData {
 
     public List<Asiento> listarAsientosPorColectivo(int idColectivo) {
         List<Asiento> asientos = new ArrayList<>();
-        String sql = "SELECT idLugar, numeroAsiento, estado FROM asiento "
-                + "WHERE idColectivo = ? ORDER BY numeroAsiento";
+        String sql = "SELECT idLugar, numeroAsiento, estado FROM asiento WHERE idColectivo = ? ORDER BY numeroAsiento";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idColectivo);
             try (ResultSet rs = ps.executeQuery()) {

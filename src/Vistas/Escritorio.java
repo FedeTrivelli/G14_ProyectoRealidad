@@ -21,6 +21,7 @@ public class Escritorio extends javax.swing.JFrame {
     public Escritorio() {
         initComponents();
         colocarIcono();
+        this.setExtendedState(this.MAXIMIZED_BOTH);
 
     }
 
@@ -131,42 +132,27 @@ public class Escritorio extends javax.swing.JFrame {
 
     private void mitIngresarPasajerosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitIngresarPasajerosActionPerformed
         // TODO add your handling code here:
-        VistaDatoPasajero ingresarpasajeros = new VistaDatoPasajero();
-        ingresarpasajeros.setVisible(true);
-        dptEscritorio.add(ingresarpasajeros);
-        dptEscritorio.moveToFront(ingresarpasajeros);
+        abrirCentrado(new VistaDatoPasajero());
     }//GEN-LAST:event_mitIngresarPasajerosActionPerformed
 
     private void mitHabilitarColectivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitHabilitarColectivosActionPerformed
         // TODO add your handling code here:
-        VistaHabilitarColectivo habilitarcolectivo = new VistaHabilitarColectivo();
-        habilitarcolectivo.setVisible(true);
-        dptEscritorio.add(habilitarcolectivo);
-        dptEscritorio.moveToFront(habilitarcolectivo);
+        abrirCentrado(new VistaHabilitarColectivo());
     }//GEN-LAST:event_mitHabilitarColectivosActionPerformed
 
     private void mitPasajesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitPasajesActionPerformed
         // TODO add your handling code here:
-        VistaBoleto vistaDestino = new VistaBoleto();
-        vistaDestino.setVisible(true);
-        dptEscritorio.add(vistaDestino);
-        dptEscritorio.moveToFront(vistaDestino);
+        abrirCentrado(new VistaBoleto());
     }//GEN-LAST:event_mitPasajesActionPerformed
 
     private void mitDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitDestinoActionPerformed
         // TODO add your handling code here:
-        VistaCargarDestino cargarDestino = new VistaCargarDestino();
-        cargarDestino.setVisible(true);
-        dptEscritorio.add(cargarDestino);
-        dptEscritorio.moveToFront(cargarDestino);
+        abrirCentrado(new VistaCargarDestino());
     }//GEN-LAST:event_mitDestinoActionPerformed
 
     private void mitSacarAsientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitSacarAsientoActionPerformed
         // TODO add your handling code here:
-        VistaPasaje vistapasaje = new VistaPasaje();
-        vistapasaje.setVisible(true);
-        dptEscritorio.add(vistapasaje);
-        dptEscritorio.moveToFront(vistapasaje);
+        abrirCentrado(new VistaPasaje());
     }//GEN-LAST:event_mitSacarAsientoActionPerformed
 
     private void mnuAdministracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAdministracionActionPerformed
@@ -237,5 +223,12 @@ public class Escritorio extends javax.swing.JFrame {
         ImageIcon imageicon = new ImageIcon(url);
         setIconImage(imageicon.getImage());
 
+    }
+
+    private void abrirCentrado(javax.swing.JInternalFrame frame) {
+        dptEscritorio.add(frame);
+        frame.setLocation((dptEscritorio.getWidth() - frame.getWidth()) / 2, (dptEscritorio.getHeight() - frame.getHeight()) / 2);
+        frame.setVisible(true);
+        dptEscritorio.moveToFront(frame);
     }
 }

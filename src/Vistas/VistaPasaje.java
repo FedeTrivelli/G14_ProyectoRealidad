@@ -18,6 +18,8 @@ import Modelo.Colectivo;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.JDesktopPane;
+import javax.swing.JInternalFrame;
 
 public class VistaPasaje extends javax.swing.JInternalFrame {
 
@@ -33,7 +35,6 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
         initComponents();
         pnlAsientos.setLayout(new GridLayout(0, 5, 0, 0));
         llenarCmb();
-
     }
 
     /**
@@ -169,7 +170,7 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlAsientos;
     // End of variables declaration//GEN-END:variables
 
-        private void limpiarPanel() {
+    private void limpiarPanel() {
         pnlAsientos.removeAll();
         estado.clear();
         botones.clear();
@@ -186,9 +187,7 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
 
             if (asientos.isEmpty()) {
                 int r = JOptionPane.showConfirmDialog(this,
-                        "El colectivo " + c.getMatricula() + " todavía no tiene asientos generados.\n"
-                        + "¿Generar " + c.getCapacidad() + " asientos ahora?",
-                        "Asientos", JOptionPane.YES_NO_OPTION);
+                        "El colectivo " + c.getMatricula() + " todavía no tiene asientos generados.\n"+ "¿Generar " + c.getCapacidad() + " asientos ahora?","Asientos", JOptionPane.YES_NO_OPTION);
                 if (r == JOptionPane.YES_OPTION && ad.generarAsientos(c.getIdColectivo(), c.getCapacidad())) {
                     asientos = ad.listarAsientosPorColectivo(c.getIdColectivo());
                 }
