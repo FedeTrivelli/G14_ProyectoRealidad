@@ -1,6 +1,7 @@
 package Modelo;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Pasaje {
 
@@ -8,18 +9,20 @@ public class Pasaje {
     private Pasajero pasajero;
     private Asiento lugar;
     private RutaViaje rutaViaje;
-    private LocalDate pasajeHora;
+    private LocalDate PasajeFecha;
+    private LocalTime pasajeHora;
     private int precio;
     private boolean estado;
 
     public Pasaje() {
     }
     
-    public Pasaje(int idPasaje, Pasajero pasajero, Asiento lugar, RutaViaje rutaViaje, LocalDate pasajeHora, int precio, boolean estado) {
+    public Pasaje(int idPasaje, Pasajero pasajero, Asiento lugar, RutaViaje rutaViaje, LocalDate pasajeFecha, LocalTime pasajeHora, int precio, boolean estado) {
         this.idPasaje = idPasaje;
         this.pasajero = pasajero;
         this.lugar = lugar;
         this.rutaViaje = rutaViaje;
+        this.PasajeFecha = pasajeFecha;
         this.pasajeHora = pasajeHora;
         this.precio = precio;
         this.estado = estado;
@@ -57,11 +60,19 @@ public class Pasaje {
         this.rutaViaje = rutaViaje;
     }
 
-    public LocalDate getPasajeHora() {
+    public LocalDate getPasajeFecha() {
+        return PasajeFecha;
+    }
+
+    public void setPasajeFecha(LocalDate PasajeFecha) {
+        this.PasajeFecha = PasajeFecha;
+    }
+
+    public LocalTime getPasajeHora() {
         return pasajeHora;
     }
 
-    public void setPasajeHora(LocalDate pasajeHora) {
+    public void setPasajeHora(LocalTime pasajeHora) {
         this.pasajeHora = pasajeHora;
     }
 
@@ -79,6 +90,6 @@ public class Pasaje {
 
     public void setEstado(boolean estado) {
         this.estado = estado;
-    }
-
+    }   
+    
 }

@@ -90,7 +90,6 @@ public class AsientoData {
         String sql = "SELECT idLugar, idColectivo, numeroAsiento, estado FROM asiento";
 
         try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-
             while (rs.next()) {
                 Asiento r = new Asiento();
                 r.setIdLugar(rs.getInt("idLugar"));
