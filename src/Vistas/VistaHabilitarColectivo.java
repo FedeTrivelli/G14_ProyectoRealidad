@@ -1,7 +1,7 @@
 package Vistas;
 
 import Modelo.Colectivo;
-import Persistencia.colectivoData;
+import Persistencia.ColectivoData;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -11,7 +11,7 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
     private int min = 0;
     private int max = 50;
     private boolean modoEdicion = false;
-    colectivoData cd = new colectivoData();
+    ColectivoData cd = new ColectivoData();
     Colectivo colectivo = new Colectivo();
 
     /**

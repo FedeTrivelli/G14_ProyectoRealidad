@@ -92,8 +92,10 @@ public class Escritorio extends javax.swing.JFrame {
         jMenuBar1.add(mnuSacarAsiento);
 
         mnuAdministracion.setText("Administracion");
+        mnuAdministracion.addActionListener(this::mnuAdministracionActionPerformed);
 
         mitPasajero.setText("Pasajeros");
+        mitPasajero.addActionListener(this::mitPasajeroActionPerformed);
         mnuAdministracion.add(mitPasajero);
 
         mitColectivo.setText("Colectivo");
@@ -106,6 +108,7 @@ public class Escritorio extends javax.swing.JFrame {
         mnuAdministracion.add(mitPasaje);
 
         mitBoleto.setText("Boleto");
+        mitBoleto.addActionListener(this::mitBoletoActionPerformed);
         mnuAdministracion.add(mitBoleto);
 
         jMenuBar1.add(mnuAdministracion);
@@ -165,6 +168,26 @@ public class Escritorio extends javax.swing.JFrame {
         dptEscritorio.add(vistapasaje);
         dptEscritorio.moveToFront(vistapasaje);
     }//GEN-LAST:event_mitSacarAsientoActionPerformed
+
+    private void mnuAdministracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAdministracionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mnuAdministracionActionPerformed
+
+    private void mitPasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitPasajeroActionPerformed
+        // TODO add your handling code here:
+        AdministracionPasajero administracionPasajero = new AdministracionPasajero();
+        administracionPasajero.setVisible(true);
+        dptEscritorio.add(administracionPasajero);
+        dptEscritorio.moveToFront(administracionPasajero);
+    }//GEN-LAST:event_mitPasajeroActionPerformed
+
+    private void mitBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitBoletoActionPerformed
+        // TODO add your handling code here:
+        AdministracionBoleto administracionBoleto = new AdministracionBoleto();
+        administracionBoleto.setVisible(true);
+        dptEscritorio.add(administracionBoleto);
+        dptEscritorio.moveToFront(administracionBoleto);
+    }//GEN-LAST:event_mitBoletoActionPerformed
 
     /**
      * @param args the command line arguments

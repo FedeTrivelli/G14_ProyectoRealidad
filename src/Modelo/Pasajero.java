@@ -77,6 +77,5 @@ public class Pasajero {
 
     public void setEstado(boolean estado) {
         this.estado = estado;
-    }
-
+    }     
 }
