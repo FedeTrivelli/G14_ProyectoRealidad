@@ -107,50 +107,30 @@ public class AsientoData {
         }
         return colectivos;
     }
-        
-//        public List<Asiento> listarBoleto() {
-//        List<Asiento> asiento = new ArrayList<>();
-//        String sql = "SELECT * FROM pasajes";
-//        try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-//            while (rs.next()) {
-//                Asiento asiento = new Asiento();
-//                asiento.setIdLugar(rs.getInt("idLugar"));
-//                asiento.setMatricula(rs.getString("matricula"));
-//                asiento.setMarca(rs.getString("marca"));
-//                asiento.setModelo(rs.getString("modelo"));
-//                asiento.setCapacidad(rs.getInt("capacidad"));
-//                asiento.setChofer(rs.getString("chofer"));
-//                asiento.setEstado(rs.getBoolean("estado"));
-//                asientos.add(asiento);
-//            }
-//        } catch (SQLException ex) {
-//            JOptionPane.showMessageDialog(null, "Error SQL: " + ex.getMessage());
-//        }
-//        return asientos;
-//    }
-//    public List<RutaViaje> listarOrigenDestino() {
-//        List<RutaViaje> rutas = new ArrayList<>();
-//        String sql = "SELECT * FROM rutaviaje";
-//
-//        try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-//
-//            colectivoData colectivo = new colectivoData();
-//
-//            while (rs.next()) {
-//                RutaViaje ruta = new RutaViaje();
-//                ruta.setIdRuta(rs.getInt("idRuta"));
-//                ruta.setOrigen(rs.getString("origen"));
-//                ruta.setDestino(rs.getString("destino"));
-//                ruta.setHoraSalida(rs.getTimestamp("horaSalida").toLocalDateTime());
-//                ruta.setHoraLlegada(rs.getTimestamp("horaLlegada").toLocalDateTime());
-//                ruta.setColectivo(colectivo.buscarColectivo(rs.getString("idColectivo")));
-//                ruta.setPrecio(rs.getInt("precio"));
-//                ruta.setEstado(rs.getBoolean("estado"));
-//                rutas.add(ruta);
-//            }
-//        } catch (SQLException ex) {
-//            JOptionPane.showMessageDialog(null, "Error SQL: " + ex.getMessage());
-//        }
-//        return rutas;
-//    }
+
+    public List<RutaViaje> listarOrigenDestino() {
+        List<RutaViaje> rutas = new ArrayList<>();
+        String sql = "SELECT * FROM rutaviaje";
+
+        try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            colectivoData colectivo = new colectivoData();
+
+            while (rs.next()) {
+                RutaViaje ruta = new RutaViaje();
+                ruta.setIdRuta(rs.getInt("idRuta"));
+                ruta.setOrigen(rs.getString("origen"));
+                ruta.setDestino(rs.getString("destino"));
+                ruta.setHoraSalida(rs.getTimestamp("horaSalida").toLocalDateTime());
+                ruta.setHoraLlegada(rs.getTimestamp("horaLlegada").toLocalDateTime());
+                ruta.setColectivo(colectivo.buscarColectivo(rs.getString("idColectivo")));
+                ruta.setPrecio(rs.getInt("precio"));
+                ruta.setEstado(rs.getBoolean("estado"));
+                rutas.add(ruta);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error SQL: " + ex.getMessage());
+        }
+        return rutas;
+    }
 }

@@ -1,26 +1,23 @@
 package Vistas;
 
 import Modelo.Pasajero;
-import Persistencia.PasajeroData;
+import Persistencia.pasajeroData;
 import Modelo.RutaViaje;
 import Persistencia.RutaData;
 import com.toedter.calendar.JDateChooser;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
 
 public class VistaBoleto extends javax.swing.JInternalFrame {
 
     Pasajero p = new Pasajero();
     RutaViaje rv = new RutaViaje();
-    PasajeroData pd = new PasajeroData();
+    pasajeroData pd = new pasajeroData();
     RutaData rd = new RutaData();
 
     /**
@@ -30,6 +27,7 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         initComponents();
         colocarIcono();
         inicio();
+//        obtenerFecha();
         llenarCmb();
     }
 
@@ -136,8 +134,6 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
 
         jLabel8.setText("Destino:");
 
-        cmbDestinos.addActionListener(this::cmbDestinosActionPerformed);
-
         jLabel9.setText("Partida:");
 
         jLabel6.setText("Orgen:");
@@ -156,20 +152,21 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(pnlBotones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(dtcCargarPartida1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cmbOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel8)
-                        .addGap(18, 18, 18)
-                        .addComponent(cmbDestinos, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(58, 58, 58))))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(jLabel9)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(dtcCargarPartida1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(jLabel6)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(cmbOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel8)
+                            .addGap(18, 18, 18)
+                            .addComponent(cmbDestinos, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(58, 58, 58)))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -246,10 +243,6 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void cmbDestinosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbDestinosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbDestinosActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
@@ -321,17 +314,6 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         return fecha.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
-    private void mostrarFechaHora(LocalDateTime fechaHora, JDateChooser fecha, JSpinner hora) {
-        if (fechaHora == null) {
-            fecha.setDate(null);
-            hora.setValue(new Date());
-            return;
-        }
-        Date d = Date.from(fechaHora.atZone(ZoneId.systemDefault()).toInstant());
-        fecha.setDate(d);
-        hora.setValue(d);
-    }
-
     private void buscarPasajero(int dni) {
         p = pd.buscarPasajero(dni);
 
@@ -347,7 +329,7 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         cmbOrigen.removeAllItems();
         cmbDestinos.removeAllItems();
 
-        Set<String> origenes = new TreeSet<>();
+        Set<String> origenes = new TreeSet<>(); 
         Set<String> destinos = new TreeSet<>();
 
         for (RutaViaje r : rd.listarRutas()) {
@@ -358,7 +340,7 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         origenes.forEach(cmbOrigen::addItem);
         destinos.forEach(cmbDestinos::addItem);
 
-        cmbOrigen.setSelectedIndex(-1);
+        cmbOrigen.setSelectedIndex(-1); 
         cmbDestinos.setSelectedIndex(-1);
     }
 }
