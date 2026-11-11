@@ -122,20 +122,4 @@ public class PasajeroData {
         }
         return pasajeros;
     }
-    
-//        public List<Pasajero> listarPasajeros(int idPasajero) {
-//        List<Pasajero> lista = new ArrayList<>();
-//        String sql = "SELECT idPasajero, dni, nombre, apellido, correo, telefono FROM pasajero";
-//        try (PreparedStatement ps = con.prepareStatement(sql)) {
-//            ps.setInt(1, idPasajero);
-//            try (ResultSet rs = ps.executeQuery()) {
-//                while (rs.next()) {
-//                    lista.add(new Pasajero(rs.getInt("idPasajero"),rs.getInt("dni"), rs.getString("nombre"),rs.getString("apellido"), rs.getString("correo"), rs.getString("telefono"), rs.getBoolean("estado")));
-//                }
-//            }
-//        } catch (SQLException e) {
-//            JOptionPane.showMessageDialog(null, "Error al listar alumnos: " + e.getMessage());
-//        }
-//        return lista;
-//    }
 }

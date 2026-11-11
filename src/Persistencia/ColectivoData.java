@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class ColectivoData {
@@ -102,5 +104,26 @@ public class ColectivoData {
         }
         return colectivo;
     }
-//    hola
+    
+        public List<Colectivo> listarColectivo() {
+        List<Colectivo> colectivos = new ArrayList<>();
+        String sql = "SELECT idColectivo, matricula, marca, modelo, capacidad, chofer, estado FROM colectivo";
+        try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Colectivo r = new Colectivo();
+                r.setIdColectivo(rs.getInt("idColectivo"));
+                r.setMatricula(rs.getString("matricula"));
+                r.setMarca(rs.getString("marca"));
+                r.setModelo(rs.getString("modelo"));
+                r.setCapacidad(rs.getInt("capacidad"));
+                r.setChofer(rs.getString("chofer"));
+                r.setEstado(rs.getBoolean("estado"));
+                colectivos.add(r);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al listar pasajeros: " + ex.getMessage());
+        }
+        return colectivos;
+    }
 }
