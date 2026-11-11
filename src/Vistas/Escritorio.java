@@ -153,7 +153,7 @@ public class Escritorio extends javax.swing.JFrame {
 
     private void mitBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitBoletoActionPerformed
         // TODO add your handling code here:
-//        abrirCentrado(new AdministracionBoleto());
+        abrirCentrado(new AdministracionPasajes());
     }//GEN-LAST:event_mitBoletoActionPerformed
 
     private void mitRutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitRutaActionPerformed
