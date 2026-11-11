@@ -122,4 +122,42 @@ public class PasajeroData {
         }
         return pasajeros;
     }
+
+    public boolean correoExiste(String correo) {
+        String sql = "SELECT COUNT(*) FROM pasajero WHERE LOWER(correo) = ?";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, correo.toLowerCase());
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al validar correo: " + ex.getMessage());
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean dniExiste(String dni) {
+        String sql = "SELECT COUNT(*) FROM pasajero WHERE dni = ?";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, Integer.parseInt(dni));
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al validar dni: " + ex.getMessage());
+            return true;
+        }
+        return false;
+    }
+    
+    
 }

@@ -283,9 +283,8 @@ public class VistaDatoPasajero extends javax.swing.JInternalFrame {
             actualizarPasajero();
         } else {
             guardarPasajero();
+            inicio();
         }
-        inicio();
-
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
@@ -469,6 +468,10 @@ public class VistaDatoPasajero extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Debe ingresar un correo valido");
             return false;
         }
+        if (pd.correoExiste(correo)) {
+            JOptionPane.showMessageDialog(this, "Ese correo ya está registrado");
+            return false;
+        }
         return true;
 
     }
@@ -484,6 +487,10 @@ public class VistaDatoPasajero extends javax.swing.JInternalFrame {
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "El DNI ingresado es demasiado largo");
             return false;
+        }
+        if (pd.dniExiste(dni)) {
+        JOptionPane.showMessageDialog(this, "Ese DNI ya está registrado");
+        return false;
         }
         return true;
     }
