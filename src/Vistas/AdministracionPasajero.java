@@ -88,7 +88,7 @@ public class AdministracionPasajero extends javax.swing.JInternalFrame {
         );
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 48)); // NOI18N
-        jLabel1.setText("Pasajero");
+        jLabel1.setText("Pasajeros");
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jLabel2.setText("Buscar:");
@@ -102,7 +102,7 @@ public class AdministracionPasajero extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 72, Short.MAX_VALUE)
+                        .addGap(0, 48, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)

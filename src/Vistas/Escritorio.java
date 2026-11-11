@@ -1,23 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package Vistas;
 
 import java.net.URL;
 import javax.swing.ImageIcon;
 
-/**
- *
- * @author santi
- */
 public class Escritorio extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Escritorio.class.getName());
 
-    /**
-     * Creates new form Escritorio
-     */
     public Escritorio() {
         initComponents();
         colocarIcono();
@@ -93,16 +82,17 @@ public class Escritorio extends javax.swing.JFrame {
         jMenuBar1.add(mnuSacarAsiento);
 
         mnuAdministracion.setText("Administracion");
-        mnuAdministracion.addActionListener(this::mnuAdministracionActionPerformed);
 
         mitPasajero.setText("Pasajeros");
         mitPasajero.addActionListener(this::mitPasajeroActionPerformed);
         mnuAdministracion.add(mitPasajero);
 
         mitColectivo.setText("Colectivo");
+        mitColectivo.addActionListener(this::mitColectivoActionPerformed);
         mnuAdministracion.add(mitColectivo);
 
         mitRuta.setText("Ruta");
+        mitRuta.addActionListener(this::mitRutaActionPerformed);
         mnuAdministracion.add(mitRuta);
 
         mitPasaje.setText("Pasaje");
@@ -155,25 +145,25 @@ public class Escritorio extends javax.swing.JFrame {
         abrirCentrado(new VistaPasaje());
     }//GEN-LAST:event_mitSacarAsientoActionPerformed
 
-    private void mnuAdministracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAdministracionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_mnuAdministracionActionPerformed
-
     private void mitPasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitPasajeroActionPerformed
         // TODO add your handling code here:
-        AdministracionPasajero administracionPasajero = new AdministracionPasajero();
-        administracionPasajero.setVisible(true);
-        dptEscritorio.add(administracionPasajero);
-        dptEscritorio.moveToFront(administracionPasajero);
+        abrirCentrado(new AdministracionPasajero());
     }//GEN-LAST:event_mitPasajeroActionPerformed
 
     private void mitBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitBoletoActionPerformed
         // TODO add your handling code here:
-        AdministracionBoleto administracionBoleto = new AdministracionBoleto();
-        administracionBoleto.setVisible(true);
-        dptEscritorio.add(administracionBoleto);
-        dptEscritorio.moveToFront(administracionBoleto);
+        abrirCentrado(new AdministracionBoleto());
     }//GEN-LAST:event_mitBoletoActionPerformed
+
+    private void mitRutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitRutaActionPerformed
+        // TODO add your handling code here:
+        abrirCentrado(new AdministracionRutas());
+    }//GEN-LAST:event_mitRutaActionPerformed
+
+    private void mitColectivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitColectivoActionPerformed
+        // TODO add your handling code here:
+        abrirCentrado(new AdministracionColectivo());
+    }//GEN-LAST:event_mitColectivoActionPerformed
 
     /**
      * @param args the command line arguments
