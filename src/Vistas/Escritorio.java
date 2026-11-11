@@ -95,7 +95,8 @@ public class Escritorio extends javax.swing.JFrame {
         mitRuta.addActionListener(this::mitRutaActionPerformed);
         mnuAdministracion.add(mitRuta);
 
-        mitPasaje.setText("Pasaje");
+        mitPasaje.setText("Asiento");
+        mitPasaje.addActionListener(this::mitPasajeActionPerformed);
         mnuAdministracion.add(mitPasaje);
 
         mitBoleto.setText("Boleto");
@@ -152,7 +153,7 @@ public class Escritorio extends javax.swing.JFrame {
 
     private void mitBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitBoletoActionPerformed
         // TODO add your handling code here:
-        abrirCentrado(new AdministracionBoleto());
+//        abrirCentrado(new AdministracionBoleto());
     }//GEN-LAST:event_mitBoletoActionPerformed
 
     private void mitRutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitRutaActionPerformed
@@ -164,6 +165,11 @@ public class Escritorio extends javax.swing.JFrame {
         // TODO add your handling code here:
         abrirCentrado(new AdministracionColectivo());
     }//GEN-LAST:event_mitColectivoActionPerformed
+
+    private void mitPasajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitPasajeActionPerformed
+        // TODO add your handling code here:
+        abrirCentrado(new AdministracionAsiento());
+    }//GEN-LAST:event_mitPasajeActionPerformed
 
     /**
      * @param args the command line arguments

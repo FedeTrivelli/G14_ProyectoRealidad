@@ -2,7 +2,6 @@ package Persistencia;
 
 import Modelo.Asiento;
 import Modelo.Colectivo;
-import Modelo.RutaViaje;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -86,70 +85,27 @@ public class AsientoData {
         }
     }
 
-    public List<Colectivo> listarColectivo() {
-        List<Colectivo> colectivos = new ArrayList<>();
-        String sql = "SELECT * FROM colectivo";
+    public List<Asiento> listarAsiento() {
+        List<Asiento> asientos = new ArrayList<>();
+        String sql = "SELECT idLugar, idColectivo, numeroAsiento, estado FROM asiento";
+
         try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
-                Colectivo colectivo = new Colectivo();
-                colectivo.setIdColectivo(rs.getInt("idColectivo"));
-                colectivo.setMatricula(rs.getString("matricula"));
-                colectivo.setMarca(rs.getString("marca"));
-                colectivo.setModelo(rs.getString("modelo"));
-                colectivo.setCapacidad(rs.getInt("capacidad"));
-                colectivo.setChofer(rs.getString("chofer"));
-                colectivo.setEstado(rs.getBoolean("estado"));
-                colectivos.add(colectivo);
+                Asiento r = new Asiento();
+                r.setIdLugar(rs.getInt("idLugar"));
+
+                Colectivo c = new Colectivo();
+                c.setIdColectivo(rs.getInt("idColectivo"));
+                r.setIdColectivo(c);
+
+                r.setNumeroAsiento(rs.getInt("numeroAsiento"));
+                r.setEstado(rs.getBoolean("estado"));
+                asientos.add(r);
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error SQL: " + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al listar asientos: " + ex.getMessage());
         }
-        return colectivos;
+        return asientos;
     }
-        
-//        public List<Asiento> listarBoleto() {
-//        List<Asiento> asiento = new ArrayList<>();
-//        String sql = "SELECT * FROM pasajes";
-//        try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-//            while (rs.next()) {
-//                Asiento asiento = new Asiento();
-//                asiento.setIdLugar(rs.getInt("idLugar"));
-//                asiento.setMatricula(rs.getString("matricula"));
-//                asiento.setMarca(rs.getString("marca"));
-//                asiento.setModelo(rs.getString("modelo"));
-//                asiento.setCapacidad(rs.getInt("capacidad"));
-//                asiento.setChofer(rs.getString("chofer"));
-//                asiento.setEstado(rs.getBoolean("estado"));
-//                asientos.add(asiento);
-//            }
-//        } catch (SQLException ex) {
-//            JOptionPane.showMessageDialog(null, "Error SQL: " + ex.getMessage());
-//        }
-//        return asientos;
-//    }
-//    public List<RutaViaje> listarOrigenDestino() {
-//        List<RutaViaje> rutas = new ArrayList<>();
-//        String sql = "SELECT * FROM rutaviaje";
-//
-//        try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-//
-//            colectivoData colectivo = new colectivoData();
-//
-//            while (rs.next()) {
-//                RutaViaje ruta = new RutaViaje();
-//                ruta.setIdRuta(rs.getInt("idRuta"));
-//                ruta.setOrigen(rs.getString("origen"));
-//                ruta.setDestino(rs.getString("destino"));
-//                ruta.setHoraSalida(rs.getTimestamp("horaSalida").toLocalDateTime());
-//                ruta.setHoraLlegada(rs.getTimestamp("horaLlegada").toLocalDateTime());
-//                ruta.setColectivo(colectivo.buscarColectivo(rs.getString("idColectivo")));
-//                ruta.setPrecio(rs.getInt("precio"));
-//                ruta.setEstado(rs.getBoolean("estado"));
-//                rutas.add(ruta);
-//            }
-//        } catch (SQLException ex) {
-//            JOptionPane.showMessageDialog(null, "Error SQL: " + ex.getMessage());
-//        }
-//        return rutas;
-//    }
 }

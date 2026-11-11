@@ -8,6 +8,7 @@ import Modelo.Colectivo;
 import Modelo.RutaViaje;
 import Persistencia.RutaData;
 import Persistencia.AsientoData;
+import Persistencia.ColectivoData;
 import com.toedter.calendar.JDateChooser;
 import java.net.URL;
 import java.time.LocalDate;
@@ -32,7 +33,7 @@ public class VistaCargarDestino extends javax.swing.JInternalFrame {
 
     RutaData rd = new RutaData();
     RutaViaje rv = new RutaViaje();
-    AsientoData ad = new AsientoData();
+    ColectivoData cd = new ColectivoData();
     private List<RutaViaje> listaRutas = new ArrayList<>();
     private DefaultTableModel modelo = new DefaultTableModel();
 
@@ -536,7 +537,7 @@ public class VistaCargarDestino extends javax.swing.JInternalFrame {
 
     private void llenarCmb() {
         cmbColectivo.removeAllItems();
-        for (Colectivo c : ad.listarColectivo()) {
+        for (Colectivo c : cd.listarColectivo()) {
             cmbColectivo.addItem(c);
         }
         cmbColectivo.setSelectedIndex(-1);

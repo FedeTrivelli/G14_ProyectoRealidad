@@ -12,7 +12,7 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.JOptionPane;
 import Persistencia.AsientoData;
-
+import Persistencia.ColectivoData;
 import Modelo.Asiento;
 import Modelo.Colectivo;
 import java.util.HashMap;
@@ -22,15 +22,17 @@ import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 
 public class VistaPasaje extends javax.swing.JInternalFrame {
-
+    
+    AsientoData ad = new AsientoData();
+    ColectivoData cd = new ColectivoData();
     private JButton asientoActual = null;
     private int numeroActual = -1;
     private boolean cargando = false;
     private Colectivo colectivoActual = null;
     private Map<Integer, Boolean> estado = new HashMap<>();
     private Map<Integer, JButton> botones = new HashMap<>();
-    AsientoData ad = new AsientoData();
 
+    
     public VistaPasaje() {
         initComponents();
         pnlAsientos.setLayout(new GridLayout(0, 5, 0, 0));
@@ -335,7 +337,7 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
         cargando = true;
         try {
             cmbSeleccionMatricula.removeAllItems();
-            for (Colectivo c : ad.listarColectivo()) {
+            for (Colectivo c : cd.listarColectivo()) {
                 if (c.isEstado()) {
                     cmbSeleccionMatricula.addItem(c);
                 }

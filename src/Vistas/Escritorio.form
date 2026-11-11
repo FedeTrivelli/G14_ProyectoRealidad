@@ -89,8 +89,11 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mitPasaje">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Pasaje"/>
+                <Property name="text" type="java.lang.String" value="Asiento"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mitPasajeActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mitBoleto">
               <Properties>
