@@ -354,7 +354,7 @@ public class VistaCargarDestino extends javax.swing.JInternalFrame {
         txtPrecio.setText("");
         dtcCargarPartida.setDate(null);
         spnHoraSalida.setValue(new Date());
-        spnHoraRegreso.setValue(new Date());
+        spnHoraRegreso.setValue(new Date()); 
         cmbColectivo.setSelectedIndex(-1);
         ckbEstado.setSelected(true);
     }
