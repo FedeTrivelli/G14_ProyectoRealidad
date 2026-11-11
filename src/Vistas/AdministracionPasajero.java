@@ -165,7 +165,7 @@ public class AdministracionPasajero extends javax.swing.JInternalFrame {
 
     private void configurarBusqueda() {
         sorter = new TableRowSorter<>(modelo);
-//        tblPasajeros.setRowSorter(sorter);
+        tblPasajeros.setRowSorter(sorter);
 
         txtBuscar.getDocument().addDocumentListener(new DocumentListener() {
             @Override
