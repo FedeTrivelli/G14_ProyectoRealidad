@@ -157,7 +157,5 @@ public class PasajeroData {
             return true;
         }
         return false;
-    }
-    
-    
+    }    
 }

@@ -14,12 +14,11 @@ public class ColectivoData {
 
     private Connection con = null;
 
-
     public ColectivoData() {
         con = Conexion.getConexion();
 
     }
-    
+
     public void guardarColectivo(Colectivo colectivo) {
         String sql = "INSERT INTO `colectivo` (`matricula`, `marca`, `modelo`, `capacidad`, `chofer`, `estado`) VALUES (?, ?, ?, ?, ?, ?)";
         try {
@@ -42,7 +41,7 @@ public class ColectivoData {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Colectivo" + e.getMessage());
         }
     }
-    
+
     public void BorrarColectivo(String matricula) {
         String sql = "UPDATE colectivo SET estado = '0' WHERE colectivo.matricula = ? ";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -58,7 +57,7 @@ public class ColectivoData {
             JOptionPane.showMessageDialog(null, "Error SQL: " + ex);
         }
     }
-    
+
     public void actualizarColectivo(Colectivo colectivo) {
         String sql = "UPDATE colectivo SET matricula = ?, marca = ?, modelo = ?, capacidad = ?, chofer = ? , estado = ? WHERE matricula = ?";
 
@@ -80,13 +79,13 @@ public class ColectivoData {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Colectivo: " + e.getMessage());
         }
     }
-    
-    public Colectivo buscarColectivo(String matricula){
+
+    public Colectivo buscarColectivo(String matricula) {
         Colectivo colectivo = null;
-        
-        String sql= "SELECT * FROM colectivo WHERE colectivo.matricula = ?";
-        
-         try (PreparedStatement ps = con.prepareStatement(sql)) {
+
+        String sql = "SELECT * FROM colectivo WHERE colectivo.matricula = ?";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, matricula);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -95,7 +94,7 @@ public class ColectivoData {
                     colectivo.setMarca(rs.getString("marca"));
                     colectivo.setModelo(rs.getString("modelo"));
                     colectivo.setCapacidad(rs.getInt("capacidad"));
-                    colectivo.setChofer(rs.getString("chofer"));                  
+                    colectivo.setChofer(rs.getString("chofer"));
                     colectivo.setEstado(rs.getBoolean("estado"));
                 }
             }
@@ -104,8 +103,8 @@ public class ColectivoData {
         }
         return colectivo;
     }
-    
-        public List<Colectivo> listarColectivo() {
+
+    public List<Colectivo> listarColectivo() {
         List<Colectivo> colectivos = new ArrayList<>();
         String sql = "SELECT idColectivo, matricula, marca, modelo, capacidad, chofer, estado FROM colectivo";
         try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
@@ -125,5 +124,23 @@ public class ColectivoData {
             JOptionPane.showMessageDialog(null, "Error al listar pasajeros: " + ex.getMessage());
         }
         return colectivos;
+    }
+
+    public boolean matriculaExiste(String matricula) {
+        String sql = "SELECT COUNT(*) FROM colectivo WHERE matricula = ?";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, matricula);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al validar matricula: " + ex.getMessage());
+            return true;
+        }
+        return false;
     }
 }

@@ -8,8 +8,8 @@ import javax.swing.JOptionPane;
 
 public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
 
-    private int min = 0;
-    private int max = 50;
+    private int min = 12;
+    private int max = 48;
     private boolean modoEdicion = false;
     ColectivoData cd = new ColectivoData();
     Colectivo colectivo = new Colectivo();
@@ -284,7 +284,7 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        if(!validacionMatricula()){
+        if (!matriculaValida()) {
             limpiarCampos();
             inicio();
             return;
@@ -324,15 +324,15 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Debe llenar primero todos los campos", "Alerta", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        if (!validacionMatricula()|| !validacionNombre()) {
+        if (!validacionMatricula() || !validacionNombre()) {
             return;
         }
         if (modoEdicion && colectivo != null) {
             actualizarColectivo();
         } else {
-            guardarColectivo(); 
+            guardarColectivo();
+            inicio();
         }
-        inicio();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -373,7 +373,7 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
         ImageIcon imageicon = new ImageIcon(url);
         setFrameIcon(imageicon);
     }
-    
+
     public void inicio() {
         limpiarCampos();
         btnBuscar.setEnabled(true);
@@ -455,10 +455,10 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
         colectivo.setCapacidad(Integer.parseInt(txtCantidad.getText()));
         colectivo.setChofer(txtChofer.getText().trim());
         colectivo.setEstado(chkEstado.isSelected());
-        
+
         cd.guardarColectivo(colectivo);
     }
-    
+
     public void borrarColectivo(String matricula) {
         int respuesta = JOptionPane.showConfirmDialog(null, "Realmente desea eliminar el colectivo?", "Borrado de Colectivo", JOptionPane.YES_NO_OPTION);
         if (respuesta == JOptionPane.YES_OPTION) {
@@ -469,7 +469,7 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "No se pudo borrar el colectivo.\nRazon:\nLa matricula del colectivo ingresado no existe.");
         }
     }
-    
+
     public void actualizarColectivo() {
         colectivo.setMatricula(txtMatricula.getText());
         colectivo.setMarca(txtMarca.getText());
@@ -502,6 +502,21 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
     }
 
     public boolean validacionMatricula() {
+        String matricula = txtMatricula.getText().toUpperCase().trim();
+
+        if (!matricula.matches("[A-Z]{3}[0-9]{3}|[A-Z]{2}[0-9]{3}[A-Z]{2}")) {
+            JOptionPane.showMessageDialog(null, "Debe Ingresar una matricula valida\nFormato valido ABC123 o AB123CD");
+            return false;
+        }
+
+        if (cd.matriculaExiste(matricula)) {
+            JOptionPane.showMessageDialog(this, "Esa matricula ya está registrado");
+            return false;
+        }
+        return true;
+    }
+    
+    private boolean matriculaValida(){
         String matricula = txtMatricula.getText().toUpperCase().trim();
 
         if (!matricula.matches("[A-Z]{3}[0-9]{3}|[A-Z]{2}[0-9]{3}[A-Z]{2}")) {
