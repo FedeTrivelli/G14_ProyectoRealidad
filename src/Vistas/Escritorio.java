@@ -143,7 +143,7 @@ public class Escritorio extends javax.swing.JFrame {
 
     private void mitSacarAsientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitSacarAsientoActionPerformed
         // TODO add your handling code here:
-        abrirCentrado(new VistaPasaje());
+//        abrirCentrado(new VistaPasaje());
     }//GEN-LAST:event_mitSacarAsientoActionPerformed
 
     private void mitPasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitPasajeroActionPerformed

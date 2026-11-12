@@ -15,26 +15,32 @@ import Persistencia.AsientoData;
 import Persistencia.ColectivoData;
 import Modelo.Asiento;
 import Modelo.Colectivo;
+import Modelo.RutaViaje;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class VistaPasaje extends javax.swing.JInternalFrame {
     
-    AsientoData ad = new AsientoData();
-    ColectivoData cd = new ColectivoData();
-    private JButton asientoActual = null;
-    private int numeroActual = -1;
-    private boolean cargando = false;
-    private Colectivo colectivoActual = null;
-    private Map<Integer, Boolean> estado = new HashMap<>();
-    private Map<Integer, JButton> botones = new HashMap<>();
+    private final AsientoData ad = new AsientoData();
+    private final VistaBoleto padre;
+    private final RutaViaje ruta;
+    private final Colectivo colectivoActual;
+    private final Set<Integer> seleccionados = new TreeSet<Integer>();   // asientos marcados
+    private final Map<Integer, Boolean> estado = new HashMap<Integer, Boolean>();
+    private final Map<Integer, JButton> botones = new HashMap<Integer, JButton>();
 
-    
-    public VistaPasaje() {
+    public VistaPasaje(VistaBoleto padre, RutaViaje ruta) {
         initComponents();
+        this.padre = padre;
+        this.ruta = ruta;
+        this.colectivoActual = ruta.getColectivo();
         pnlAsientos.setLayout(new GridLayout(0, 5, 0, 0));
-        llenarCmb();
+        cargarAsientos();
     }
 
     /**
@@ -47,20 +53,11 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        lblHora = new javax.swing.JLabel();
-        lblPrecio = new javax.swing.JLabel();
-        cmbSeleccionMatricula = new javax.swing.JComboBox<>();
         pnlAsientos = new javax.swing.JPanel();
         btnDarDeBaja = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
 
         setClosable(true);
-
-        lblHora.setText("Hora");
-
-        lblPrecio.setText("Precio");
-
-        cmbSeleccionMatricula.addActionListener(this::cmbSeleccionMatriculaActionPerformed);
 
         javax.swing.GroupLayout pnlAsientosLayout = new javax.swing.GroupLayout(pnlAsientos);
         pnlAsientos.setLayout(pnlAsientosLayout);
@@ -85,31 +82,17 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(48, 48, 48)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnDarDeBaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(pnlAsientos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(120, 120, 120))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblHora, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(72, 72, 72)
-                        .addComponent(cmbSeleccionMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
-                        .addComponent(lblPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnDarDeBaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addComponent(pnlAsientos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(120, 120, 120))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblHora, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmbSeleccionMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(61, 61, 61)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlAsientos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -142,58 +125,44 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
 
     private void btnDarDeBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarDeBajaActionPerformed
         // TODO add your handling code here:
-        darDeBajaAsiento();
 
     }//GEN-LAST:event_btnDarDeBajaActionPerformed
 
-    private void cmbSeleccionMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSeleccionMatriculaActionPerformed
-        // TODO add your handling code here:
-        if (cargando) {
-            return;
-        }
-        cargarAsientos((Colectivo) cmbSeleccionMatricula.getSelectedItem());
-    }//GEN-LAST:event_cmbSeleccionMatriculaActionPerformed
-
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        guardarAsiento();
+        confirmarAsientos();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDarDeBaja;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JComboBox<Colectivo> cmbSeleccionMatricula;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lblHora;
-    private javax.swing.JLabel lblPrecio;
     private javax.swing.JPanel pnlAsientos;
     // End of variables declaration//GEN-END:variables
 
-    private void limpiarPanel() {
+
+
+    private void cargarAsientos() {
         pnlAsientos.removeAll();
         estado.clear();
         botones.clear();
-        asientoActual = null;
-        numeroActual = -1;
-    }
+        seleccionados.clear();
 
-    private void cargarAsientos(Colectivo c) {
-        limpiarPanel();
-        colectivoActual = c;
+        Colectivo c = colectivoActual;
+        List<Asiento> asientos = ad.listarAsientosPorColectivo(c.getIdColectivo());
 
-        if (c != null) {
-            List<Asiento> asientos = ad.listarAsientosPorColectivo(c.getIdColectivo());
-
-            if (asientos.isEmpty()) {
-                int r = JOptionPane.showConfirmDialog(this,
-                        "El colectivo " + c.getMatricula() + " todavía no tiene asientos generados.\n"+ "¿Generar " + c.getCapacidad() + " asientos ahora?","Asientos", JOptionPane.YES_NO_OPTION);
-                if (r == JOptionPane.YES_OPTION && ad.generarAsientos(c.getIdColectivo(), c.getCapacidad())) {
-                    asientos = ad.listarAsientosPorColectivo(c.getIdColectivo());
-                }
+        if (asientos.isEmpty()) {
+            int r = JOptionPane.showConfirmDialog(this,
+                    "El colectivo " + c.getMatricula() + " todavia no tiene asientos generados.\n"
+                    + "Generar " + c.getCapacidad() + " asientos ahora?",
+                    "Asientos", JOptionPane.YES_NO_OPTION);
+            if (r == JOptionPane.YES_OPTION
+                    && ad.generarAsientos(c.getIdColectivo(), c.getCapacidad())) {
+                asientos = ad.listarAsientosPorColectivo(c.getIdColectivo());
             }
-            matriz(asientos);
         }
+        matriz(asientos);
 
         pnlAsientos.revalidate();
         pnlAsientos.repaint();
@@ -267,23 +236,32 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
         btn.setForeground(Color.BLACK);
     }
 
-    public void cambioAsiento(JButton btn, int numero) {
+    // clic en un asiento: lo marca o lo desmarca (se pueden elegir varios)
+    public void cambioAsiento(final JButton btn, final int numero) {
         btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (asientoActual != null && asientoActual != btn) {
-                    asientoActual.setIcon(cargarIcono(iconoSegunEstado(numeroActual)));
+                if (!estado.get(numero)) {
+                    JOptionPane.showMessageDialog(VistaPasaje.this,
+                            "El asiento " + numero + " esta ocupado.");
+                    return;
                 }
-
-                btn.setIcon(cargarIcono("/images/asiento_seleccionado.png"));
-                asientoActual = btn;
-                numeroActual = numero;
+                if (seleccionados.contains(numero)) {
+                    seleccionados.remove(numero);
+                    btn.setIcon(cargarIcono("/images/asiento_vacio.png"));
+                } else {
+                    seleccionados.add(numero);
+                    btn.setIcon(cargarIcono("/images/asiento_seleccionado.png"));
+                }
             }
         });
     }
 
     private ImageIcon cargarIcono(String ubiImagen) {
         URL url = getClass().getResource(ubiImagen);
+        if (url == null) {
+            return new ImageIcon();   // evita NullPointerException si falta la imagen
+        }
         return new ImageIcon(url);
     }
 
@@ -295,54 +273,13 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
         return "/images/asiento_ocupado.png";
     }
 
-    public void guardarAsiento() {
-        if (colectivoActual == null) {
-            JOptionPane.showMessageDialog(this, "Seleccioná un colectivo.");
+    private void confirmarAsientos() {
+        if (seleccionados.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Selecciona al menos un asiento.");
             return;
         }
-        if (asientoActual == null) {
-            JOptionPane.showMessageDialog(this, "Seleccioná un asiento.");
-            return;
-        }
-        if (!estado.get(numeroActual)) {
-            JOptionPane.showMessageDialog(this, "Ese asiento ya está ocupado.");
-            return;
-        }
-        if (!ad.cambiarEstado(colectivoActual.getIdColectivo(), numeroActual, false)) {
-            return;
-        }
-        estado.put(numeroActual, false);
-        asientoActual.setIcon(cargarIcono("/images/asiento_ocupado.png"));
-        asientoActual = null;
-        numeroActual = -1;
-    }
-
-    public void darDeBajaAsiento() {
-        if (colectivoActual == null || asientoActual == null || estado.get(numeroActual)) {
-            JOptionPane.showMessageDialog(this, "Seleccioná un asiento ocupado.");
-            return;
-        }
-        if (!ad.cambiarEstado(colectivoActual.getIdColectivo(), numeroActual, true)) {
-            return;
-        }
-        estado.put(numeroActual, true);
-        asientoActual.setIcon(cargarIcono("/images/asiento_vacio.png"));
-        asientoActual = null;
-        numeroActual = -1;
-    }
-
-    private void llenarCmb() {
-        cargando = true;
-        try {
-            cmbSeleccionMatricula.removeAllItems();
-            for (Colectivo c : cd.listarColectivo()) {
-                if (c.isEstado()) {
-                    cmbSeleccionMatricula.addItem(c);
-                }
-            }
-            cmbSeleccionMatricula.setSelectedIndex(-1);
-        } finally {
-            cargando = false;
-        }
+        padre.recibirAsientos(new ArrayList<Integer>(seleccionados));
+        dispose();
     }
 }
+
