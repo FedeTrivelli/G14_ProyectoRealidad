@@ -165,11 +165,11 @@ public class AdministracionPasajes extends javax.swing.JInternalFrame {
     public void llenarCabecera() {
         ArrayList<Object> c = new ArrayList<>();
         c.add("id");
-        c.add("Origen");
-        c.add("Destino");
-        c.add("Hora Salida");
-        c.add("Hora Llegada");
-        c.add("Colectivo");
+        c.add("idPasajeros");
+        c.add("idLugar");
+        c.add("idRuta");
+        c.add("Fecha Venta");
+        c.add("Hora Venta");
         c.add("Precio");
         c.add("Estado");
 

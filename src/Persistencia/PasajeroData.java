@@ -87,6 +87,7 @@ public class PasajeroData {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     pasajero = new Pasajero();
+                    pasajero.setIdPasajero(rs.getInt("idPasajero"));
                     pasajero.setDni(rs.getInt("dni"));
                     pasajero.setNombre(rs.getString("nombre"));
                     pasajero.setApellido(rs.getString("apellido"));

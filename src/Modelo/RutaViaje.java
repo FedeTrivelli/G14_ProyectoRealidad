@@ -92,6 +92,11 @@ public class RutaViaje {
         this.estado = estado;
     }
 
+    @Override
+    public String toString() {
+        return "RutaViaje{" + "idRuta=" + idRuta + '}';
+    }
+
 
     
 }

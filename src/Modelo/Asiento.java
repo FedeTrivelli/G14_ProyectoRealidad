@@ -49,6 +49,11 @@ public class Asiento {
         this.estado = estado;
     }
 
+    @Override
+    public String toString() {
+        return "Asiento{" + "idLugar=" + idLugar + '}';
+    }
+
 
 
 }

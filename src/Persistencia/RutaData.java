@@ -2,6 +2,7 @@ package Persistencia;
 
 import Modelo.Colectivo;
 import Modelo.RutaViaje;
+import static Persistencia.ColectivoData.paraColocarMayusculas;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -140,15 +141,35 @@ public class RutaData {
         }
         return rutas;
     }
-    
-    public static String paraColocarMayusculas(String texto) {
-        String[] palabras = texto.toLowerCase().trim().split("\\s+");
-        StringBuffer resultado = new StringBuffer();
-        for (int i = 0; i < palabras.length; i++) {
-            if (!palabras[i].isEmpty()) {
-                resultado.append(Character.toUpperCase(palabras[i].charAt(0))).append(palabras[i].substring(1)).append(" ");
-            }
+    public List<RutaViaje> listarRutasActivas() {
+    List<RutaViaje> rutas = new ArrayList<>();
+    String sql = "SELECT r.idRuta, r.origen, r.destino, r.horaSalida, r.horaLlegada, "
+            + "r.idColectivo, r.precio, r.estado, c.matricula, c.capacidad "
+            + "FROM rutaviaje r JOIN colectivo c ON r.idColectivo = c.idColectivo "
+            + "WHERE r.estado = 1";
+    try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            RutaViaje r = new RutaViaje();
+            r.setIdRuta(rs.getInt("idRuta"));
+            r.setOrigen(rs.getString("origen"));
+            r.setDestino(rs.getString("destino"));
+            r.setHoraSalida(rs.getTimestamp("horaSalida").toLocalDateTime());
+            r.setHoraLlegada(rs.getTimestamp("horaLlegada").toLocalDateTime());
+
+            Colectivo colectivo = new Colectivo();
+            colectivo.setIdColectivo(rs.getInt("idColectivo"));
+            colectivo.setMatricula(rs.getString("matricula"));
+            colectivo.setCapacidad(rs.getInt("capacidad"));
+            r.setColectivo(colectivo);
+
+            r.setPrecio(rs.getInt("precio"));
+            r.setEstado(rs.getBoolean("estado"));
+            rutas.add(r);
         }
-        return resultado.toString().trim();
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "Error al listar las rutas activas: " + ex.getMessage());
     }
+    return rutas;
+}
 }

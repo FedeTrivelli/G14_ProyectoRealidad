@@ -108,4 +108,27 @@ public class AsientoData {
         }
         return asientos;
     }
+
+    public Asiento buscarAsiento(int idColectivo, int numeroAsiento) {
+        Asiento asiento = null;
+        String sql = "SELECT idLugar, estado FROM asiento WHERE idColectivo = ? AND numeroAsiento = ?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idColectivo);
+            ps.setInt(2, numeroAsiento);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    asiento = new Asiento();
+                    asiento.setIdLugar(rs.getInt("idLugar"));
+                    asiento.setNumeroAsiento(numeroAsiento);
+                    asiento.setEstado(rs.getBoolean("estado"));
+                    Colectivo c = new Colectivo();
+                    c.setIdColectivo(idColectivo);
+                    asiento.setIdColectivo(c);
+                }
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al buscar el asiento: " + e.getMessage());
+        }
+        return asiento;
+    }
 }

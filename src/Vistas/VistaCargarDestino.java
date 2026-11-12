@@ -563,7 +563,6 @@ public class VistaCargarDestino extends javax.swing.JInternalFrame {
 
     private void cargarTabla() {
         modelo.setRowCount(0);
-        borrarFila();
         listaRutas = rd.listarRutas();
         for (RutaViaje r : listaRutas) {
             modelo.addRow(new Object[]{
@@ -589,11 +588,4 @@ public class VistaCargarDestino extends javax.swing.JInternalFrame {
         });
     }
     
-        private void borrarFila() {
-        int a = modelo.getRowCount() - 1;
-
-        for (int i = a; i >= 0; i--) {
-            modelo.removeRow(i);
-        }
-    }
 }

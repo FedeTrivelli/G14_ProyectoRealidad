@@ -27,11 +27,9 @@ public class Escritorio extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuAcreditacion = new javax.swing.JMenu();
         mitIngresarPasajeros = new javax.swing.JMenuItem();
+        mitPasajes = new javax.swing.JMenuItem();
         mitHabilitarColectivos = new javax.swing.JMenuItem();
         mitDestino = new javax.swing.JMenuItem();
-        mitPasajes = new javax.swing.JMenuItem();
-        mnuSacarAsiento = new javax.swing.JMenu();
-        mitSacarAsiento = new javax.swing.JMenuItem();
         mnuAdministracion = new javax.swing.JMenu();
         mitPasajero = new javax.swing.JMenuItem();
         mitColectivo = new javax.swing.JMenuItem();
@@ -59,27 +57,19 @@ public class Escritorio extends javax.swing.JFrame {
         mitIngresarPasajeros.addActionListener(this::mitIngresarPasajerosActionPerformed);
         mnuAcreditacion.add(mitIngresarPasajeros);
 
-        mitHabilitarColectivos.setText("Habilitar Colectivos");
-        mitHabilitarColectivos.addActionListener(this::mitHabilitarColectivosActionPerformed);
-        mnuAcreditacion.add(mitHabilitarColectivos);
-
-        mitDestino.setText("Destino");
-        mitDestino.addActionListener(this::mitDestinoActionPerformed);
-        mnuAcreditacion.add(mitDestino);
-
         mitPasajes.setText("Pasajes");
         mitPasajes.addActionListener(this::mitPasajesActionPerformed);
         mnuAcreditacion.add(mitPasajes);
 
+        mitHabilitarColectivos.setText("Habilitar Colectivos");
+        mitHabilitarColectivos.addActionListener(this::mitHabilitarColectivosActionPerformed);
+        mnuAcreditacion.add(mitHabilitarColectivos);
+
+        mitDestino.setText("Crear Ruta");
+        mitDestino.addActionListener(this::mitDestinoActionPerformed);
+        mnuAcreditacion.add(mitDestino);
+
         jMenuBar1.add(mnuAcreditacion);
-
-        mnuSacarAsiento.setText("Sacar Asiento");
-
-        mitSacarAsiento.setText("Sacar Asiento");
-        mitSacarAsiento.addActionListener(this::mitSacarAsientoActionPerformed);
-        mnuSacarAsiento.add(mitSacarAsiento);
-
-        jMenuBar1.add(mnuSacarAsiento);
 
         mnuAdministracion.setText("Administracion");
 
@@ -140,11 +130,6 @@ public class Escritorio extends javax.swing.JFrame {
         // TODO add your handling code here:
         abrirCentrado(new VistaCargarDestino());
     }//GEN-LAST:event_mitDestinoActionPerformed
-
-    private void mitSacarAsientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitSacarAsientoActionPerformed
-        // TODO add your handling code here:
-        abrirCentrado(new VistaPasaje());
-    }//GEN-LAST:event_mitSacarAsientoActionPerformed
 
     private void mitPasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitPasajeroActionPerformed
         // TODO add your handling code here:
@@ -208,10 +193,8 @@ public class Escritorio extends javax.swing.JFrame {
     private javax.swing.JMenuItem mitPasajero;
     private javax.swing.JMenuItem mitPasajes;
     private javax.swing.JMenuItem mitRuta;
-    private javax.swing.JMenuItem mitSacarAsiento;
     private javax.swing.JMenu mnuAcreditacion;
     private javax.swing.JMenu mnuAdministracion;
-    private javax.swing.JMenu mnuSacarAsiento;
     // End of variables declaration//GEN-END:variables
 
     public void colocarIcono() {
