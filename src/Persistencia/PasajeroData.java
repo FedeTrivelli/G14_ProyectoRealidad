@@ -21,9 +21,9 @@ public class PasajeroData {
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, pasajero.getDni());
-            ps.setString(2, pasajero.getNombre());
-            ps.setString(3, pasajero.getApellido());
-            ps.setString(4, pasajero.getCorreo());
+            ps.setString(2, paraColocarMayusculas(pasajero.getNombre()));
+            ps.setString(3, paraColocarMayusculas(pasajero.getApellido()));
+            ps.setString(4, pasajero.getCorreo().toLowerCase());
             ps.setString(5, pasajero.getTelefono());
             ps.setBoolean(6, pasajero.isEstado());
             ps.executeUpdate();
@@ -60,8 +60,8 @@ public class PasajeroData {
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, pasajero.getDni());
-            ps.setString(2, pasajero.getNombre());
-            ps.setString(3, pasajero.getApellido());
+            ps.setString(2, paraColocarMayusculas(pasajero.getNombre()));
+            ps.setString(3, paraColocarMayusculas(pasajero.getApellido()));
             ps.setString(4, pasajero.getCorreo());
             ps.setString(5, pasajero.getTelefono());
             ps.setBoolean(6, pasajero.isEstado());
@@ -140,7 +140,7 @@ public class PasajeroData {
         }
         return false;
     }
-    
+
     public boolean dniExiste(String dni) {
         String sql = "SELECT COUNT(*) FROM pasajero WHERE dni = ?";
 
@@ -157,5 +157,16 @@ public class PasajeroData {
             return true;
         }
         return false;
-    }    
+    }
+
+    public static String paraColocarMayusculas(String texto) {
+        String[] palabras = texto.toLowerCase().trim().split("\\s+");
+        StringBuffer resultado = new StringBuffer();
+        for (int i = 0; i < palabras.length; i++) {
+            if (!palabras[i].isEmpty()) {
+                resultado.append(Character.toUpperCase(palabras[i].charAt(0))).append(palabras[i].substring(1)).append(" ");
+            }
+        }
+        return resultado.toString().trim();
+    }
 }

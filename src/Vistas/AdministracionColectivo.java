@@ -6,10 +6,12 @@ package Vistas;
 
 import Modelo.Colectivo;
 import Persistencia.ColectivoData;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import java.util.regex.Pattern;
+import javax.swing.ImageIcon;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -36,6 +38,7 @@ public class AdministracionColectivo extends javax.swing.JInternalFrame {
      */
     public AdministracionColectivo() {
         initComponents();
+        colocarIcono();
         llenarCabecera();
         configurarBusqueda();
         cargarTabla();
@@ -152,6 +155,13 @@ public class AdministracionColectivo extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 
+    public void colocarIcono() {
+        URL url = getClass().getResource("/images/logo_flechaflash.png");
+        if (url != null) {
+            setFrameIcon(new ImageIcon(url));
+        }
+    }
+    
     public void llenarCabecera() {
         ArrayList<Object> c = new ArrayList<>();
         c.add("id");

@@ -24,8 +24,8 @@ public class RutaData {
         String sql = "INSERT INTO rutaviaje (origen, destino, horaSalida, horaLlegada, idColectivo, precio, estado) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, ruta.getOrigen());
-            ps.setString(2, ruta.getDestino());
+            ps.setString(1, paraColocarMayusculas(ruta.getOrigen()));
+            ps.setString(2, paraColocarMayusculas(ruta.getDestino()));
             ps.setTimestamp(3, Timestamp.valueOf(ruta.getHoraSalida()));
             ps.setTimestamp(4, Timestamp.valueOf(ruta.getHoraLlegada()));
             ps.setInt(5, ruta.getColectivo().getIdColectivo());
@@ -64,8 +64,8 @@ public class RutaData {
         String sql = "UPDATE rutaviaje SET origen = ?, destino = ?, horaSalida = ?, horaLlegada = ?, "
                 + "idColectivo = ?, precio = ?, estado = ? WHERE idRuta = ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, ruta.getOrigen());
-            ps.setString(2, ruta.getDestino());
+            ps.setString(1, paraColocarMayusculas(ruta.getOrigen()));
+            ps.setString(2, paraColocarMayusculas(ruta.getDestino()));
             ps.setTimestamp(3, Timestamp.valueOf(ruta.getHoraSalida()));
             ps.setTimestamp(4, Timestamp.valueOf(ruta.getHoraLlegada()));
             ps.setInt(5, ruta.getColectivo().getIdColectivo());
@@ -139,5 +139,16 @@ public class RutaData {
             JOptionPane.showMessageDialog(null, "Error al listar las rutas: " + ex.getMessage());
         }
         return rutas;
+    }
+    
+    public static String paraColocarMayusculas(String texto) {
+        String[] palabras = texto.toLowerCase().trim().split("\\s+");
+        StringBuffer resultado = new StringBuffer();
+        for (int i = 0; i < palabras.length; i++) {
+            if (!palabras[i].isEmpty()) {
+                resultado.append(Character.toUpperCase(palabras[i].charAt(0))).append(palabras[i].substring(1)).append(" ");
+            }
+        }
+        return resultado.toString().trim();
     }
 }

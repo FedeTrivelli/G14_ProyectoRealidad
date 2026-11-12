@@ -23,11 +23,11 @@ public class ColectivoData {
         String sql = "INSERT INTO `colectivo` (`matricula`, `marca`, `modelo`, `capacidad`, `chofer`, `estado`) VALUES (?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, colectivo.getMatricula());
-            ps.setString(2, colectivo.getMarca());
-            ps.setString(3, colectivo.getModelo());
+            ps.setString(1, colectivo.getMatricula().toUpperCase());
+            ps.setString(2, paraColocarMayusculas(colectivo.getMarca()));
+            ps.setString(3, paraColocarMayusculas(colectivo.getModelo()));
             ps.setInt(4, colectivo.getCapacidad());
-            ps.setString(5, colectivo.getChofer());
+            ps.setString(5, paraColocarMayusculas(colectivo.getChofer()));
             ps.setBoolean(6, colectivo.isEstado());
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
@@ -62,11 +62,11 @@ public class ColectivoData {
         String sql = "UPDATE colectivo SET matricula = ?, marca = ?, modelo = ?, capacidad = ?, chofer = ? , estado = ? WHERE matricula = ?";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, colectivo.getMatricula());
-            ps.setString(2, colectivo.getMarca());
+            ps.setString(1, paraColocarMayusculas(colectivo.getMatricula()));
+            ps.setString(2, paraColocarMayusculas(colectivo.getMarca()));
             ps.setString(3, colectivo.getModelo());
             ps.setInt(4, colectivo.getCapacidad());
-            ps.setString(5, colectivo.getChofer());
+            ps.setString(5, paraColocarMayusculas(colectivo.getChofer()));
             ps.setBoolean(6, colectivo.isEstado());
             ps.setString(7, colectivo.getMatricula());
 
@@ -142,5 +142,16 @@ public class ColectivoData {
             return true;
         }
         return false;
+    }
+    
+    public static String paraColocarMayusculas(String texto) {
+        String[] palabras = texto.toLowerCase().trim().split("\\s+");
+        StringBuffer resultado = new StringBuffer();
+        for (int i = 0; i < palabras.length; i++) {
+            if (!palabras[i].isEmpty()) {
+                resultado.append(Character.toUpperCase(palabras[i].charAt(0))).append(palabras[i].substring(1)).append(" ");
+            }
+        }
+        return resultado.toString().trim();
     }
 }
