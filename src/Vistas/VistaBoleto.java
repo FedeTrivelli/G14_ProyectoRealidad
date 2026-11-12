@@ -436,6 +436,7 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "La ruta no tiene colectivo asignado.");
             return;
         }
+        
 
         int idColectivo = ruta.getColectivo().getIdColectivo();
         int vendidos = 0;
@@ -443,7 +444,6 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
 
         for (int numero : asientosElegidos) {
             Asiento asiento = ad.buscarAsiento(idColectivo, numero);
-            // estado true = libre, false = ocupado
             if (asiento == null || !asiento.isEstado()) {
                 noDisponibles.add(numero);
                 continue;

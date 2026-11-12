@@ -167,7 +167,7 @@ public class AdministracionRutas extends javax.swing.JInternalFrame {
         c.add("id");
         c.add("Origen");
         c.add("Destino");
-        c.add("Fecha Llegada");
+        c.add("Fecha Salida");
         c.add("Hora Salida");
         c.add("Hora Llegada");
         c.add("Colectivo");

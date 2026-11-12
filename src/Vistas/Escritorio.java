@@ -128,7 +128,7 @@ public class Escritorio extends javax.swing.JFrame {
 
     private void mitDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitDestinoActionPerformed
         // TODO add your handling code here:
-        abrirCentrado(new VistaCargarDestino());
+        abrirCentrado(new VistaCargarDestinos());
     }//GEN-LAST:event_mitDestinoActionPerformed
 
     private void mitPasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitPasajeroActionPerformed
