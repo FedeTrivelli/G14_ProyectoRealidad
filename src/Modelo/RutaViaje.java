@@ -1,6 +1,7 @@
 package Modelo;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 
 public class RutaViaje {
@@ -8,9 +9,9 @@ public class RutaViaje {
     private int idRuta;
     private String origen;
     private String destino;
-    private LocalDateTime fechaSalida;
-    private LocalDateTime  horaSalida;
-    private LocalDateTime  horaLlegada;
+    private LocalDate fechaSalida;
+    private LocalTime  horaSalida;
+    private LocalTime  horaLlegada;
     private Colectivo colectivo;
     int precio;
     boolean estado;
@@ -18,7 +19,7 @@ public class RutaViaje {
     public RutaViaje() {
     }
 
-    public RutaViaje(int idRuta, String origen, String destino, LocalDateTime fechaSalida, LocalDateTime horaSalida, LocalDateTime horaLlegada, Colectivo colectivo, int precio, boolean estado) {
+    public RutaViaje(int idRuta, String origen, String destino, LocalDate fechaSalida, LocalTime horaSalida, LocalTime horaLlegada, Colectivo colectivo, int precio, boolean estado) {
         this.idRuta = idRuta;
         this.origen = origen;
         this.destino = destino;
@@ -54,27 +55,27 @@ public class RutaViaje {
         this.destino = destino;
     }
 
-    public LocalDateTime getFechaSalida() {
+    public LocalDate getFechaSalida() {
         return fechaSalida;
     }
 
-    public void setFechaSalida(LocalDateTime fechaSalida) {
+    public void setFechaSalida(LocalDate fechaSalida) {
         this.fechaSalida = fechaSalida;
     }
 
-    public LocalDateTime getHoraSalida() {
+    public LocalTime getHoraSalida() {
         return horaSalida;
     }
 
-    public void setHoraSalida(LocalDateTime horaSalida) {
+    public void setHoraSalida(LocalTime horaSalida) {
         this.horaSalida = horaSalida;
     }
 
-    public LocalDateTime getHoraLlegada() {
+    public LocalTime getHoraLlegada() {
         return horaLlegada;
     }
 
-    public void setHoraLlegada(LocalDateTime horaLlegada) {
+    public void setHoraLlegada(LocalTime horaLlegada) {
         this.horaLlegada = horaLlegada;
     }
 

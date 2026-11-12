@@ -8,7 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -27,9 +28,9 @@ public class RutaData {
         try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, paraColocarMayusculas(ruta.getOrigen()));
             ps.setString(2, paraColocarMayusculas(ruta.getDestino()));
-            ps.setTimestamp(3, Timestamp.valueOf(ruta.getFechaSalida()));
-            ps.setTimestamp(4, Timestamp.valueOf(ruta.getHoraSalida()));
-            ps.setTimestamp(5, Timestamp.valueOf(ruta.getHoraLlegada()));
+            ps.setDate(3, java.sql.Date.valueOf(ruta.getFechaSalida()));
+            ps.setTime(4, java.sql.Time.valueOf(ruta.getHoraSalida()));
+            ps.setTime(5, java.sql.Time.valueOf(ruta.getHoraLlegada()));
             ps.setInt(6, ruta.getColectivo().getIdColectivo());
             ps.setInt(7, ruta.getPrecio());
             ps.setBoolean(8, ruta.isEstado());
@@ -63,14 +64,14 @@ public class RutaData {
     }
 
     public void actualizarRuta(RutaViaje ruta) {
-        String sql = "UPDATE rutaviaje SET origen = ?, destino = ?, horaSalida = ?, horaLlegada = ?, "
+        String sql = "UPDATE rutaviaje SET origen = ?, destino = ?, fechaSalida = ?, horaSalida = ?, horaLlegada = ?, "
                 + "idColectivo = ?, precio = ?, estado = ? WHERE idRuta = ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, paraColocarMayusculas(ruta.getOrigen()));
             ps.setString(2, paraColocarMayusculas(ruta.getDestino()));
-            ps.setTimestamp(3, Timestamp.valueOf(ruta.getFechaSalida()));
-            ps.setTimestamp(4, Timestamp.valueOf(ruta.getHoraSalida()));
-            ps.setTimestamp(5, Timestamp.valueOf(ruta.getHoraLlegada()));
+            ps.setDate(3, java.sql.Date.valueOf(ruta.getFechaSalida()));
+            ps.setTime(4, java.sql.Time.valueOf(ruta.getHoraSalida()));
+            ps.setTime(5, java.sql.Time.valueOf(ruta.getHoraLlegada()));
             ps.setInt(6, ruta.getColectivo().getIdColectivo());
             ps.setInt(7, ruta.getPrecio());
             ps.setBoolean(8, ruta.isEstado());
@@ -88,7 +89,9 @@ public class RutaData {
 
     public RutaViaje buscarRuta(int idRuta) {
         RutaViaje ruta = null;
-        String sql = "SELECT * FROM rutaviaje WHERE idRuta = ?";
+        String sql = "SELECT r.idRuta, r.origen, r.destino, r.fechaSalida, r.horaSalida, r.horaLlegada, "
+                + "r.idColectivo, r.precio, r.estado, c.matricula "
+                + "FROM rutaviaje r JOIN colectivo c ON r.idColectivo = c.idColectivo WHERE r.idRuta = ?";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idRuta);
@@ -98,12 +101,13 @@ public class RutaData {
                     ruta.setIdRuta(rs.getInt("idRuta"));
                     ruta.setOrigen(rs.getString("origen"));
                     ruta.setDestino(rs.getString("destino"));
-                    ruta.setFechaSalida(rs.getTimestamp("fechaSalida").toLocalDateTime());
-                    ruta.setHoraSalida(rs.getTimestamp("horaSalida").toLocalDateTime());
-                    ruta.setHoraLlegada(rs.getTimestamp("horaLlegada").toLocalDateTime());
+                    ruta.setFechaSalida(rs.getObject("fechaSalida", LocalDate.class));
+                    ruta.setHoraSalida(rs.getObject("horaSalida", LocalTime.class));
+                    ruta.setHoraLlegada(rs.getObject("horaLlegada", LocalTime.class));
 
                     Colectivo colectivo = new Colectivo();
                     colectivo.setIdColectivo(rs.getInt("idColectivo"));
+                    colectivo.setMatricula(rs.getString("matricula"));
                     ruta.setColectivo(colectivo);
 
                     ruta.setPrecio(rs.getInt("precio"));
@@ -128,11 +132,12 @@ public class RutaData {
                 r.setIdRuta(rs.getInt("idRuta"));
                 r.setOrigen(rs.getString("origen"));
                 r.setDestino(rs.getString("destino"));
-                r.setFechaSalida(rs.getTimestamp("fechaSalida").toLocalDateTime());
-                r.setHoraSalida(rs.getTimestamp("horaSalida").toLocalDateTime());
-                r.setHoraLlegada(rs.getTimestamp("horaLlegada").toLocalDateTime());
+                r.setFechaSalida(rs.getObject("fechaSalida", LocalDate.class));
+                r.setHoraSalida(rs.getObject("horaSalida", LocalTime.class));
+                r.setHoraLlegada(rs.getObject("horaLlegada", LocalTime.class));
 
                 Colectivo colectivo = new Colectivo();
+                colectivo.setIdColectivo(rs.getInt("idColectivo"));
                 colectivo.setMatricula(rs.getString("matricula"));
                 r.setColectivo(colectivo);
 
@@ -159,9 +164,9 @@ public class RutaData {
                 r.setIdRuta(rs.getInt("idRuta"));
                 r.setOrigen(rs.getString("origen"));
                 r.setDestino(rs.getString("destino"));
-                r.setFechaSalida(rs.getTimestamp("fechaSalida").toLocalDateTime());
-                r.setHoraSalida(rs.getTimestamp("horaSalida").toLocalDateTime());
-                r.setHoraLlegada(rs.getTimestamp("horaLlegada").toLocalDateTime());
+                r.setFechaSalida(rs.getObject("fechaSalida", LocalDate.class));
+                r.setHoraSalida(rs.getObject("horaSalida", LocalTime.class));
+                r.setHoraLlegada(rs.getObject("horaLlegada", LocalTime.class));
 
                 Colectivo colectivo = new Colectivo();
                 colectivo.setIdColectivo(rs.getInt("idColectivo"));

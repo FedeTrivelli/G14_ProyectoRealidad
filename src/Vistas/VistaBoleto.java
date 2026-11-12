@@ -1,5 +1,5 @@
 package Vistas;
- 
+
 import Modelo.Asiento;
 import Modelo.Pasaje;
 import Modelo.Pasajero;
@@ -24,9 +24,9 @@ import java.util.TreeSet;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
- 
+
 public class VistaBoleto extends javax.swing.JInternalFrame {
- 
+
     Pasajero p = new Pasajero();
     PasajeroData pd = new PasajeroData();
     RutaData rd = new RutaData();
@@ -36,7 +36,7 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
     private List<RutaViaje> rutasMostradas = new ArrayList<>();
     private boolean cargando = false;
     private List<Integer> asientosElegidos = new ArrayList<Integer>();
- 
+
     /**
      * Creates new form VistaBoleto
      */
@@ -46,7 +46,7 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         txtNombreApellido.setEnabled(false);
         txtAsiento.setEditable(false);
         llenarCabecera();
- 
+
         // Si cambia el viaje elegido en la tabla, los asientos elegidos ya no corresponden
         tblDestino.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
@@ -54,11 +54,11 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
                 limpiarAsientos();
             }
         });
- 
+
         llenarCmb();
         filtrar();
         inicio();
- 
+
         dtcCargarPartida.addPropertyChangeListener("date", new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
@@ -66,7 +66,6 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
             }
         });
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -379,11 +378,11 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
             setFrameIcon(new ImageIcon(url));
         }
     }
- 
+
     public void inicio() {
         limpiarCampo();
     }
- 
+
     public void limpiarCampo() {
         txtDni.setText("");
         txtNombreApellido.setText("");
@@ -393,11 +392,11 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         limpiarAsientos();
         cargando = false;
     }
- 
+
     public void limpiarAsientos() {
         txtAsiento.setText("");
     }
- 
+
     private void buscarPasajero(int dni) {
         p = pd.buscarPasajero(dni);
         if (p != null) {
@@ -409,7 +408,7 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
                     "Alerta!", JOptionPane.WARNING_MESSAGE);
         }
     }
- 
+
     private RutaViaje rutaSeleccionada() {
         int fila = tblDestino.getSelectedRow();
         if (fila == -1) {
@@ -417,9 +416,9 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
             return null;
         }
         return rutasMostradas.get(fila);
- 
+
     }
- 
+
     private void guardarBoleto() {
         RutaViaje ruta = rutaSeleccionada();
         if (ruta == null) {
@@ -437,11 +436,11 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "La ruta no tiene colectivo asignado.");
             return;
         }
- 
+
         int idColectivo = ruta.getColectivo().getIdColectivo();
         int vendidos = 0;
         List<Integer> noDisponibles = new ArrayList<>();
- 
+
         for (int numero : asientosElegidos) {
             Asiento asiento = ad.buscarAsiento(idColectivo, numero);
             // estado true = libre, false = ocupado
@@ -454,33 +453,33 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
             pasaje.setPasajeHora(LocalTime.now());
             pasaje.setPrecio(ruta.getPrecio());
             pasaje.setEstado(true);
- 
+
             if (ps.generarPasaje(pasaje, p, asiento, ruta)) {
                 ad.cambiarEstado(idColectivo, numero, false);
                 vendidos++;
             }
         }
- 
+
         String msg = "Pasajes vendidos: " + vendidos + ".";
         if (!noDisponibles.isEmpty()) {
             msg += "\nAsientos no disponibles: " + noDisponibles;
         }
         JOptionPane.showMessageDialog(this, msg);
- 
+
         asientosElegidos.clear();
         p = new Pasajero();
         inicio();
     }
- 
+
     private LocalDate obtenerFecha(JDateChooser fecha) {
         return fecha.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
- 
+
     private void llenarCmb() {
         cargando = true;
         cmbOrigen.removeAllItems();
         cmbDestinos.removeAllItems();
- 
+
         Set<String> origenes = new TreeSet<String>();
         Set<String> destinos = new TreeSet<String>();
         for (RutaViaje r : rd.listarRutasActivas()) {
@@ -493,7 +492,7 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         for (String d : destinos) {
             cmbDestinos.addItem(d);
         }
- 
+
         if (cmbOrigen.getItemCount() > 0) {
             cmbOrigen.setSelectedIndex(0);
         }
@@ -502,14 +501,14 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         }
         cargando = false;
     }
- 
+
     public void llenarCabecera() {
         modelo.setColumnIdentifiers(new Object[]{
             "id", "Origen", "Destino", "Colectivo", "Fecha",
             "Hora salida", "Hora llegada", "Precio", "Estado"});
         tblDestino.setModel(modelo);
     }
- 
+
     private void cargarTabla(List<RutaViaje> lista) {
         modelo.setRowCount(0);
         for (RutaViaje r : lista) {
@@ -526,15 +525,16 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
             });
         }
     }
- 
+
     private void filtrar() {
         if (cargando) {
             return;
         }
- 
+
         String origen = (String) cmbOrigen.getSelectedItem();
         String destino = (String) cmbDestinos.getSelectedItem();
         LocalDate fecha = dtcCargarPartida.getDate() == null ? null : obtenerFecha(dtcCargarPartida);
+
         rutasMostradas = new ArrayList<RutaViaje>();
         for (RutaViaje r : rd.listarRutasActivas()) {
             boolean coincideOrigen = origen == null || origen.isEmpty()
@@ -542,18 +542,19 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
             boolean coincideDestino = destino == null || destino.isEmpty()
                     || r.getDestino().equalsIgnoreCase(destino);
             boolean coincideFecha = fecha == null
-                    || r.getHoraSalida().toLocalDate().equals(fecha);
+                    || (r.getFechaSalida() != null && r.getFechaSalida().equals(fecha));
+
             if (coincideOrigen && coincideDestino && coincideFecha) {
                 rutasMostradas.add(r);
             }
         }
         cargarTabla(rutasMostradas);
     }
- 
+
     public void recibirAsientos(List<Integer> asientos) {
         asientosElegidos = new ArrayList<Integer>(asientos);
         Collections.sort(asientosElegidos);
- 
+
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < asientosElegidos.size(); i++) {
             if (i > 0) {
@@ -563,5 +564,5 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         }
         txtAsiento.setText(sb.toString());
     }
- 
+
 }
