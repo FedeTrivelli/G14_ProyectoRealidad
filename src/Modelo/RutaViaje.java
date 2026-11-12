@@ -8,6 +8,7 @@ public class RutaViaje {
     private int idRuta;
     private String origen;
     private String destino;
+    private LocalDateTime fechaSalida;
     private LocalDateTime  horaSalida;
     private LocalDateTime  horaLlegada;
     private Colectivo colectivo;
@@ -17,10 +18,11 @@ public class RutaViaje {
     public RutaViaje() {
     }
 
-    public RutaViaje(int idRuta, String origen, String destino, LocalDateTime horaSalida, LocalDateTime horaLlegada, Colectivo colectivo, int precio, boolean estado) {
+    public RutaViaje(int idRuta, String origen, String destino, LocalDateTime fechaSalida, LocalDateTime horaSalida, LocalDateTime horaLlegada, Colectivo colectivo, int precio, boolean estado) {
         this.idRuta = idRuta;
         this.origen = origen;
         this.destino = destino;
+        this.fechaSalida = fechaSalida;
         this.horaSalida = horaSalida;
         this.horaLlegada = horaLlegada;
         this.colectivo = colectivo;
@@ -50,6 +52,14 @@ public class RutaViaje {
 
     public void setDestino(String destino) {
         this.destino = destino;
+    }
+
+    public LocalDateTime getFechaSalida() {
+        return fechaSalida;
+    }
+
+    public void setFechaSalida(LocalDateTime fechaSalida) {
+        this.fechaSalida = fechaSalida;
     }
 
     public LocalDateTime getHoraSalida() {
@@ -95,8 +105,5 @@ public class RutaViaje {
     @Override
     public String toString() {
         return "RutaViaje{" + "idRuta=" + idRuta + '}';
-    }
-
-
-    
+    }    
 }

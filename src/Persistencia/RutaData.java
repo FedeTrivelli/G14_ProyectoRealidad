@@ -22,16 +22,17 @@ public class RutaData {
     }
 
     public void guardarRuta(RutaViaje ruta) {
-        String sql = "INSERT INTO rutaviaje (origen, destino, horaSalida, horaLlegada, idColectivo, precio, estado) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO rutaviaje (origen, destino, fechaSalida, horaSalida, horaLlegada,  idColectivo, precio, estado) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, paraColocarMayusculas(ruta.getOrigen()));
             ps.setString(2, paraColocarMayusculas(ruta.getDestino()));
-            ps.setTimestamp(3, Timestamp.valueOf(ruta.getHoraSalida()));
-            ps.setTimestamp(4, Timestamp.valueOf(ruta.getHoraLlegada()));
-            ps.setInt(5, ruta.getColectivo().getIdColectivo());
-            ps.setInt(6, ruta.getPrecio());
-            ps.setBoolean(7, ruta.isEstado());
+            ps.setTimestamp(3, Timestamp.valueOf(ruta.getFechaSalida()));
+            ps.setTimestamp(4, Timestamp.valueOf(ruta.getHoraSalida()));
+            ps.setTimestamp(5, Timestamp.valueOf(ruta.getHoraLlegada()));
+            ps.setInt(6, ruta.getColectivo().getIdColectivo());
+            ps.setInt(7, ruta.getPrecio());
+            ps.setBoolean(8, ruta.isEstado());
             ps.executeUpdate();
 
             try (ResultSet rs = ps.getGeneratedKeys()) {
@@ -67,12 +68,13 @@ public class RutaData {
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, paraColocarMayusculas(ruta.getOrigen()));
             ps.setString(2, paraColocarMayusculas(ruta.getDestino()));
-            ps.setTimestamp(3, Timestamp.valueOf(ruta.getHoraSalida()));
-            ps.setTimestamp(4, Timestamp.valueOf(ruta.getHoraLlegada()));
-            ps.setInt(5, ruta.getColectivo().getIdColectivo());
-            ps.setInt(6, ruta.getPrecio());
-            ps.setBoolean(7, ruta.isEstado());
-            ps.setInt(8, ruta.getIdRuta());
+            ps.setTimestamp(3, Timestamp.valueOf(ruta.getFechaSalida()));
+            ps.setTimestamp(4, Timestamp.valueOf(ruta.getHoraSalida()));
+            ps.setTimestamp(5, Timestamp.valueOf(ruta.getHoraLlegada()));
+            ps.setInt(6, ruta.getColectivo().getIdColectivo());
+            ps.setInt(7, ruta.getPrecio());
+            ps.setBoolean(8, ruta.isEstado());
+            ps.setInt(9, ruta.getIdRuta());
 
             if (ps.executeUpdate() > 0) {
                 JOptionPane.showMessageDialog(null, "La ruta fue actualizada con éxito.");
@@ -96,6 +98,7 @@ public class RutaData {
                     ruta.setIdRuta(rs.getInt("idRuta"));
                     ruta.setOrigen(rs.getString("origen"));
                     ruta.setDestino(rs.getString("destino"));
+                    ruta.setFechaSalida(rs.getTimestamp("fechaSalida").toLocalDateTime());
                     ruta.setHoraSalida(rs.getTimestamp("horaSalida").toLocalDateTime());
                     ruta.setHoraLlegada(rs.getTimestamp("horaLlegada").toLocalDateTime());
 
@@ -115,7 +118,7 @@ public class RutaData {
 
     public List<RutaViaje> listarRutas() {
         List<RutaViaje> rutas = new ArrayList<>();
-        String sql = "SELECT r.idRuta, r.origen, r.destino, r.horaSalida, r.horaLlegada, "
+        String sql = "SELECT r.idRuta, r.origen, r.destino, r.fechaSalida, r.horaSalida, r.horaLlegada, "
                 + "r.idColectivo, r.precio, r.estado, c.matricula "
                 + "FROM rutaviaje r JOIN colectivo c ON r.idColectivo = c.idColectivo";
         try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
@@ -125,6 +128,7 @@ public class RutaData {
                 r.setIdRuta(rs.getInt("idRuta"));
                 r.setOrigen(rs.getString("origen"));
                 r.setDestino(rs.getString("destino"));
+                r.setFechaSalida(rs.getTimestamp("fechaSalida").toLocalDateTime());
                 r.setHoraSalida(rs.getTimestamp("horaSalida").toLocalDateTime());
                 r.setHoraLlegada(rs.getTimestamp("horaLlegada").toLocalDateTime());
 
@@ -141,35 +145,37 @@ public class RutaData {
         }
         return rutas;
     }
+
     public List<RutaViaje> listarRutasActivas() {
-    List<RutaViaje> rutas = new ArrayList<>();
-    String sql = "SELECT r.idRuta, r.origen, r.destino, r.horaSalida, r.horaLlegada, "
-            + "r.idColectivo, r.precio, r.estado, c.matricula, c.capacidad "
-            + "FROM rutaviaje r JOIN colectivo c ON r.idColectivo = c.idColectivo "
-            + "WHERE r.estado = 1";
-    try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        List<RutaViaje> rutas = new ArrayList<>();
+        String sql = "SELECT r.idRuta, r.origen, r.destino, r.fechaSalida, r.horaSalida, r.horaLlegada, "
+                + "r.idColectivo, r.precio, r.estado, c.matricula, c.capacidad "
+                + "FROM rutaviaje r JOIN colectivo c ON r.idColectivo = c.idColectivo "
+                + "WHERE r.estado = 1";
+        try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
-        while (rs.next()) {
-            RutaViaje r = new RutaViaje();
-            r.setIdRuta(rs.getInt("idRuta"));
-            r.setOrigen(rs.getString("origen"));
-            r.setDestino(rs.getString("destino"));
-            r.setHoraSalida(rs.getTimestamp("horaSalida").toLocalDateTime());
-            r.setHoraLlegada(rs.getTimestamp("horaLlegada").toLocalDateTime());
+            while (rs.next()) {
+                RutaViaje r = new RutaViaje();
+                r.setIdRuta(rs.getInt("idRuta"));
+                r.setOrigen(rs.getString("origen"));
+                r.setDestino(rs.getString("destino"));
+                r.setFechaSalida(rs.getTimestamp("fechaSalida").toLocalDateTime());
+                r.setHoraSalida(rs.getTimestamp("horaSalida").toLocalDateTime());
+                r.setHoraLlegada(rs.getTimestamp("horaLlegada").toLocalDateTime());
 
-            Colectivo colectivo = new Colectivo();
-            colectivo.setIdColectivo(rs.getInt("idColectivo"));
-            colectivo.setMatricula(rs.getString("matricula"));
-            colectivo.setCapacidad(rs.getInt("capacidad"));
-            r.setColectivo(colectivo);
+                Colectivo colectivo = new Colectivo();
+                colectivo.setIdColectivo(rs.getInt("idColectivo"));
+                colectivo.setMatricula(rs.getString("matricula"));
+                colectivo.setCapacidad(rs.getInt("capacidad"));
+                r.setColectivo(colectivo);
 
-            r.setPrecio(rs.getInt("precio"));
-            r.setEstado(rs.getBoolean("estado"));
-            rutas.add(r);
+                r.setPrecio(rs.getInt("precio"));
+                r.setEstado(rs.getBoolean("estado"));
+                rutas.add(r);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al listar las rutas activas: " + ex.getMessage());
         }
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(null, "Error al listar las rutas activas: " + ex.getMessage());
+        return rutas;
     }
-    return rutas;
-}
 }

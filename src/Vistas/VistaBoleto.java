@@ -518,7 +518,7 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
                 r.getOrigen(),
                 r.getDestino(),
                 r.getColectivo().getMatricula(),
-                r.getHoraSalida().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                r.getFechaSalida().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
                 r.getHoraSalida().format(DateTimeFormatter.ofPattern("HH:mm")),
                 r.getHoraLlegada().format(DateTimeFormatter.ofPattern("HH:mm")),
                 r.getPrecio(),

@@ -167,6 +167,7 @@ public class AdministracionRutas extends javax.swing.JInternalFrame {
         c.add("id");
         c.add("Origen");
         c.add("Destino");
+        c.add("Fecha Llegada");
         c.add("Hora Salida");
         c.add("Hora Llegada");
         c.add("Colectivo");
@@ -184,7 +185,7 @@ public class AdministracionRutas extends javax.swing.JInternalFrame {
         rutaViaje = rd.listarRutas();
         for (RutaViaje r : rutaViaje) {
             modelo.addRow(new Object[]{
-                r.getIdRuta(), r.getOrigen(), r.getDestino(), r.getHoraSalida(),
+                r.getIdRuta(), r.getOrigen(), r.getDestino(), r.getFechaSalida(), r.getHoraSalida(),
                 r.getHoraLlegada(), r.getColectivo(), r.getPrecio(), r.isEstado()
             });
         }
