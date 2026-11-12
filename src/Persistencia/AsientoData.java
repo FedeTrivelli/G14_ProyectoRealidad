@@ -96,6 +96,7 @@ public class AsientoData {
 
                 Colectivo c = new Colectivo();
                 c.setIdColectivo(rs.getInt("idColectivo"));
+                c.setMatricula("");
                 r.setIdColectivo(c);
 
                 r.setNumeroAsiento(rs.getInt("numeroAsiento"));
