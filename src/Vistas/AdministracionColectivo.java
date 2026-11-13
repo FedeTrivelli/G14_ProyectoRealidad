@@ -184,7 +184,8 @@ public class AdministracionColectivo extends javax.swing.JInternalFrame {
         for (Colectivo r : colectivo) {
             modelo.addRow(new Object[]{
                 r.getIdColectivo(), r.getMatricula(), r.getModelo(),  r.getMarca(),
-                r.getCapacidad(), r.getChofer(), r.isEstado()
+                r.getCapacidad(), r.getChofer(),
+                r.isEstado() ? "Activo" : "Inactivo"
             });
         }
     }

@@ -180,7 +180,8 @@ public class AdministracionAsiento extends javax.swing.JInternalFrame {
         asiento = ad.listarAsiento();
         for (Asiento r : asiento) {
             modelo.addRow(new Object[]{
-                r.getIdLugar(), r.getIdColectivo(), r.getNumeroAsiento(), r.isEstado()
+                r.getIdLugar(), r.getIdColectivo(), r.getNumeroAsiento(),
+                r.isEstado() ? "Desocupado" : "Ocupado"
             });
         }
     }

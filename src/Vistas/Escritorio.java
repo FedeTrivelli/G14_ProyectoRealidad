@@ -73,7 +73,7 @@ public class Escritorio extends javax.swing.JFrame {
 
         mnuAdministracion.setText("Administracion");
 
-        mitPasajero.setText("Pasajeros");
+        mitPasajero.setText("Pasajero");
         mitPasajero.addActionListener(this::mitPasajeroActionPerformed);
         mnuAdministracion.add(mitPasajero);
 
@@ -89,7 +89,7 @@ public class Escritorio extends javax.swing.JFrame {
         mitPasaje.addActionListener(this::mitPasajeActionPerformed);
         mnuAdministracion.add(mitPasaje);
 
-        mitBoleto.setText("Boleto");
+        mitBoleto.setText("Pasaje");
         mitBoleto.addActionListener(this::mitBoletoActionPerformed);
         mnuAdministracion.add(mitBoleto);
 

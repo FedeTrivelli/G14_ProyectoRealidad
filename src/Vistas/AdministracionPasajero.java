@@ -184,7 +184,8 @@ public class AdministracionPasajero extends javax.swing.JInternalFrame {
         for (Pasajero r : pasajeros) {
             modelo.addRow(new Object[]{
                 r.getIdPasajero(), r.getDni(), r.getNombre(),
-                r.getApellido(), r.getCorreo(), r.getTelefono(), r.isEstado()
+                r.getApellido(), r.getCorreo(), r.getTelefono(),
+                r.isEstado() ? "Activo" : "Inactivo"
             });
         }
     }

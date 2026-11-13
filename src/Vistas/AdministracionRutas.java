@@ -186,7 +186,8 @@ public class AdministracionRutas extends javax.swing.JInternalFrame {
         for (RutaViaje r : rutaViaje) {
             modelo.addRow(new Object[]{
                 r.getIdRuta(), r.getOrigen(), r.getDestino(), r.getFechaSalida(), r.getHoraSalida(),
-                r.getHoraLlegada(), r.getColectivo(), r.getPrecio(), r.isEstado()
+                r.getHoraLlegada(), r.getColectivo(), r.getPrecio(),
+                r.isEstado() ? "Activo" : "Inactivo"
             });
         }
     }

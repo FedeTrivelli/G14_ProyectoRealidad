@@ -184,8 +184,14 @@ public class AdministracionPasajes extends javax.swing.JInternalFrame {
         pasaje = p.listarPasajes();
         for (Pasaje r : pasaje) {
             modelo.addRow(new Object[]{
-                r.getIdPasaje(), r.getPasajero(), r.getLugar(), r.getRutaViaje(),
-                r.getPasajeFecha(), r.getPasajeHora(), r.getPrecio(), r.isEstado()
+                r.getIdPasaje(),
+                r.getPasajero().getIdPasajero(),
+                r.getLugar().getIdLugar(),
+                r.getRutaViaje().getIdRuta(),
+                r.getPasajeFecha(),
+                r.getPasajeHora(),
+                r.getPrecio(),
+                r.isEstado() ? "Activo" : "Inactivo"
             });
         }
     }
