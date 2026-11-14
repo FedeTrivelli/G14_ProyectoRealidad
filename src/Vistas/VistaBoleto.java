@@ -52,6 +52,7 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         colocarIcono();
         txtNombreApellido.setEnabled(false);
         txtAsiento.setEditable(false);
+        tblDestino.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         llenarCabecera();
 
         // Si cambia el viaje elegido en la tabla, los asientos elegidos ya no corresponden
