@@ -304,7 +304,9 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
 
     private void cmbOrigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbOrigenActionPerformed
         // TODO add your handling code here:
-        filtrar();
+        if (!cargando) {
+            cargarDestinos();
+        }
     }//GEN-LAST:event_cmbOrigenActionPerformed
 
     private void cmbDestinosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbDestinosActionPerformed
@@ -441,7 +443,6 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "La ruta no tiene colectivo asignado.");
             return;
         }
-        
 
         int idColectivo = ruta.getColectivo().getIdColectivo();
         int vendidos = 0;
@@ -483,28 +484,45 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
     private void llenarCmb() {
         cargando = true;
         cmbOrigen.removeAllItems();
-        cmbDestinos.removeAllItems();
 
         Set<String> origenes = new TreeSet<String>();
-        Set<String> destinos = new TreeSet<String>();
         for (RutaViaje r : rd.listarRutasActivas()) {
             origenes.add(r.getOrigen());
-            destinos.add(r.getDestino());
         }
         for (String o : origenes) {
             cmbOrigen.addItem(o);
         }
-        for (String d : destinos) {
-            cmbDestinos.addItem(d);
-        }
+
+        cargando = false;
 
         if (cmbOrigen.getItemCount() > 0) {
             cmbOrigen.setSelectedIndex(0);
         }
+        cargarDestinos();
+    }
+
+    private void cargarDestinos() {
+        cargando = true;
+        cmbDestinos.removeAllItems();
+
+        String origen = (String) cmbOrigen.getSelectedItem();
+        if (origen != null) {
+            Set<String> destinos = new TreeSet<String>();
+            for (RutaViaje r : rd.listarRutasActivas()) {
+                if (r.getOrigen().equals(origen)) {
+                    destinos.add(r.getDestino());
+                }
+            }
+            for (String d : destinos) {
+                cmbDestinos.addItem(d);
+            }
+        }
+
+        cargando = false;
+
         if (cmbDestinos.getItemCount() > 0) {
             cmbDestinos.setSelectedIndex(0);
         }
-        cargando = false;
     }
 
     public void llenarCabecera() {
