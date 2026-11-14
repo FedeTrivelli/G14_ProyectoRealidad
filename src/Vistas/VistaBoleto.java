@@ -32,7 +32,12 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
     RutaData rd = new RutaData();
     PasajeData ps = new PasajeData();
     AsientoData ad = new AsientoData();
-    private DefaultTableModel modelo = new DefaultTableModel();
+    private DefaultTableModel modelo = new DefaultTableModel() {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
     private List<RutaViaje> rutasMostradas = new ArrayList<>();
     private boolean cargando = false;
     private List<Integer> asientosElegidos = new ArrayList<Integer>();
@@ -520,7 +525,7 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
                 r.getFechaSalida().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
                 r.getHoraSalida().format(DateTimeFormatter.ofPattern("HH:mm")),
                 r.getHoraLlegada().format(DateTimeFormatter.ofPattern("HH:mm")),
-                r.getPrecio(),
+                "$" + r.getPrecio(),
                 r.isEstado() ? "Activo" : "Inactivo"
             });
         }
