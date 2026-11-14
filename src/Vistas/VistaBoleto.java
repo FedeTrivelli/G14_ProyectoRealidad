@@ -41,6 +41,8 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
     private List<RutaViaje> rutasMostradas = new ArrayList<>();
     private boolean cargando = false;
     private List<Integer> asientosElegidos = new ArrayList<Integer>();
+    private static final DateTimeFormatter FMT_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter FMT_HORA = DateTimeFormatter.ofPattern("HH:mm");
 
     /**
      * Creates new form VistaBoleto
@@ -523,6 +525,9 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         if (cmbDestinos.getItemCount() > 0) {
             cmbDestinos.setSelectedIndex(0);
         }
+        cargando = false;
+        cmbDestinos.setSelectedIndex(-1);
+        filtrar();
     }
 
     public void llenarCabecera() {
@@ -530,23 +535,6 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
             "id", "Origen", "Destino", "Colectivo", "Fecha",
             "Hora salida", "Hora llegada", "Precio", "Estado"});
         tblDestino.setModel(modelo);
-    }
-
-    private void cargarTabla(List<RutaViaje> lista) {
-        modelo.setRowCount(0);
-        for (RutaViaje r : lista) {
-            modelo.addRow(new Object[]{
-                r.getIdRuta(),
-                r.getOrigen(),
-                r.getDestino(),
-                r.getColectivo().getMatricula(),
-                r.getFechaSalida().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
-                r.getHoraSalida().format(DateTimeFormatter.ofPattern("HH:mm")),
-                r.getHoraLlegada().format(DateTimeFormatter.ofPattern("HH:mm")),
-                "$" + r.getPrecio(),
-                r.isEstado() ? "Activo" : "Inactivo"
-            });
-        }
     }
 
     private void filtrar() {
@@ -559,9 +547,14 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         LocalDate fecha = dtcCargarPartida.getDate() == null ? null : obtenerFecha(dtcCargarPartida);
 
         rutasMostradas = new ArrayList<RutaViaje>();
+        modelo.setRowCount(0);
+
+        if (origen == null || origen.isEmpty()) {
+            return;
+        }
+
         for (RutaViaje r : rd.listarRutasActivas()) {
-            boolean coincideOrigen = origen == null || origen.isEmpty()
-                    || r.getOrigen().equalsIgnoreCase(origen);
+            boolean coincideOrigen = r.getOrigen().equalsIgnoreCase(origen);
             boolean coincideDestino = destino == null || destino.isEmpty()
                     || r.getDestino().equalsIgnoreCase(destino);
             boolean coincideFecha = fecha == null
@@ -569,9 +562,19 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
 
             if (coincideOrigen && coincideDestino && coincideFecha) {
                 rutasMostradas.add(r);
+                modelo.addRow(new Object[]{
+                    r.getIdRuta(),
+                    r.getOrigen(),
+                    r.getDestino(),
+                    r.getColectivo().getMatricula(),
+                    r.getFechaSalida().format(FMT_FECHA),
+                    r.getHoraSalida().format(FMT_HORA),
+                    r.getHoraLlegada().format(FMT_HORA),
+                    "$" + r.getPrecio(),
+                    r.isEstado() ? "Activo" : "Inactivo"
+                });
             }
         }
-        cargarTabla(rutasMostradas);
     }
 
     public void recibirAsientos(List<Integer> asientos) {
