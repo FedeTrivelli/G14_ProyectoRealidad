@@ -445,38 +445,33 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "La ruta no tiene colectivo asignado.");
             return;
         }
+        if (ps.tieneViajeSuperpuesto(p.getIdPasajero(), ruta)) {
+            JOptionPane.showMessageDialog(this,
+                    "El pasajero ya tiene otro viaje en ese horario.",
+                    "Alerta!", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
         int idColectivo = ruta.getColectivo().getIdColectivo();
-        int vendidos = 0;
-        List<Integer> noDisponibles = new ArrayList<>();
+        int numero = asientosElegidos.get(0);
 
-        for (int numero : asientosElegidos) {
-            Asiento asiento = ad.buscarAsiento(idColectivo, numero);
-            if (asiento == null || !asiento.isEstado()) {
-                noDisponibles.add(numero);
-                continue;
-            }
-            Pasaje pasaje = new Pasaje();
-            pasaje.setPasajeFecha(LocalDate.now());
-            pasaje.setPasajeHora(LocalTime.now());
-            pasaje.setPrecio(ruta.getPrecio());
-            pasaje.setEstado(true);
-
-            if (ps.generarPasaje(pasaje, p, asiento, ruta)) {
-                ad.cambiarEstado(idColectivo, numero, false);
-                vendidos++;
-            }
+        Asiento asiento = ad.buscarAsiento(idColectivo, numero);
+        if (asiento == null || ps.listarLugaresOcupados(ruta.getIdRuta()).contains(asiento.getIdLugar())) {
+            JOptionPane.showMessageDialog(this,
+                    "El asiento " + numero + " ya no está disponible para este viaje.");
+            return;
         }
+        Pasaje pasaje = new Pasaje();
+        pasaje.setPasajeFecha(LocalDate.now());
+        pasaje.setPasajeHora(LocalTime.now());
+        pasaje.setPrecio(ruta.getPrecio());
+        pasaje.setEstado(true);
 
-        String msg = "Pasajes vendidos: " + vendidos + ".";
-        if (!noDisponibles.isEmpty()) {
-            msg += "\nAsientos no disponibles: " + noDisponibles;
+        if (ps.generarPasaje(pasaje, p, asiento, ruta)) {
+            asientosElegidos.clear();
+            p = new Pasajero();
+            inicio();
         }
-        JOptionPane.showMessageDialog(this, msg);
-
-        asientosElegidos.clear();
-        p = new Pasajero();
-        inicio();
     }
 
     private LocalDate obtenerFecha(JDateChooser fecha) {
