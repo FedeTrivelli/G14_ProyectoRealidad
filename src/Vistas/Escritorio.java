@@ -36,6 +36,8 @@ public class Escritorio extends javax.swing.JFrame {
         mitRuta = new javax.swing.JMenuItem();
         mitPasaje = new javax.swing.JMenuItem();
         mitBoleto = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Flecha Flash S.R.L.");
@@ -94,6 +96,14 @@ public class Escritorio extends javax.swing.JFrame {
         mnuAdministracion.add(mitBoleto);
 
         jMenuBar1.add(mnuAdministracion);
+
+        jMenu1.setText("jMenu1");
+
+        jMenuItem1.setText("jMenuItem1");
+        jMenuItem1.addActionListener(this::jMenuItem1ActionPerformed);
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
 
@@ -156,6 +166,11 @@ public class Escritorio extends javax.swing.JFrame {
         abrirCentrado(new AdministracionAsiento());
     }//GEN-LAST:event_mitPasajeActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        abrirCentrado(new ReciboPasaje());
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -183,7 +198,9 @@ public class Escritorio extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane dptEscritorio;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem mitBoleto;
     private javax.swing.JMenuItem mitColectivo;
     private javax.swing.JMenuItem mitDestino;

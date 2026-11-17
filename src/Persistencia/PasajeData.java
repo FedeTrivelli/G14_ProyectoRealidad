@@ -1,6 +1,7 @@
 package Persistencia;
 
 import Modelo.Asiento;
+import Modelo.Colectivo;
 import Modelo.Pasaje;
 import Modelo.Pasajero;
 import Modelo.RutaViaje;
@@ -79,5 +80,59 @@ public class PasajeData {
             JOptionPane.showMessageDialog(null, "Error al listar pasajes: " + ex.getMessage());
         }
         return pasajes;
+    }
+
+    public Pasaje listarPasajeComprado(int idPasaje) {
+        Pasaje r = new Pasaje();
+        String sql = "SELECT p.idPasaje, p.fechaVenta, p.horaVenta, p.precio, "
+                + "pa.dni, pa.nombre, pa.apellido, "
+                + "l.numeroAsiento, "
+                +                 "r.origen, r.destino, r.fechaSalida, r.horaSalida, r.horaLlegada, "
+                + "c.chofer, c.matricula "
+                + "FROM pasajes p "
+                + "JOIN pasajero pa ON p.idPasajero = pa.idPasajero "
+                + "JOIN asiento l ON p.idLugar = l.idLugar "
+                + "JOIN rutaviaje r ON p.idRuta = r.idRuta "
+                + "JOIN colectivo c ON r.idColectivo = c.idColectivo "
+                + "WHERE p.idPasaje = ?";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idPasaje);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    r = new Pasaje();
+                    r.setIdPasaje(rs.getInt("idPasaje"));
+                    r.setPasajeFecha(rs.getDate("fechaVenta").toLocalDate());
+                    r.setPasajeHora(rs.getTime("horaVenta").toLocalTime());
+                    r.setPrecio(rs.getInt("precio"));
+
+                    Pasajero c = new Pasajero();
+                    c.setDni(rs.getInt("dni"));
+                    c.setNombre(rs.getString("nombre"));
+                    c.setApellido(rs.getString("apellido"));
+                    r.setPasajero(c);
+
+                    Asiento a = new Asiento();
+                    a.setNumeroAsiento(rs.getInt("numeroAsiento"));
+                    r.setLugar(a);
+
+                    RutaViaje ruta = new RutaViaje();
+                    ruta.setOrigen(rs.getString("origen"));
+                    ruta.setDestino(rs.getString("destino"));
+                    ruta.setFechaSalida(rs.getDate("fechaSalida").toLocalDate());
+                    ruta.setHoraSalida(rs.getTime("horaSalida").toLocalTime());
+                    ruta.setHoraLlegada(rs.getTime("horaLlegada").toLocalTime());
+
+                    Colectivo co = new Colectivo();
+                    co.setChofer(rs.getString("chofer"));
+                    co.setMatricula(rs.getString("matricula"));
+                    ruta.setColectivo(co);
+                    r.setRutaViaje(ruta);
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al listar el pasaje: " + ex.getMessage());
+        }
+        return r;
     }
 }

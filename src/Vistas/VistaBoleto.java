@@ -352,7 +352,13 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
 
     private void btnComprarPasajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarPasajeActionPerformed
         // TODO add your handling code here
-        guardarBoleto();
+        int idPasaje = guardarBoleto();
+        if (idPasaje != 0) {
+            ReciboPasaje rp = new ReciboPasaje(idPasaje);
+            getDesktopPane().add(rp);
+            rp.setVisible(true);
+            rp.toFront();
+        }
     }//GEN-LAST:event_btnComprarPasajeActionPerformed
 
 
@@ -429,26 +435,27 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
 
     }
 
-    private void guardarBoleto() {
+    private int guardarBoleto() {
         RutaViaje ruta = rutaSeleccionada();
         if (ruta == null) {
-            return;
+            return 0;
         }
         if (p == null || p.getIdPasajero() == 0) {
             JOptionPane.showMessageDialog(this, "Buscá un pasajero por DNI primero.");
-            return;
+            return 0;
         }
         if (asientosElegidos.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Elegí al menos un asiento.");
-            return;
+            return 0;
         }
         if (ruta.getColectivo() == null) {
             JOptionPane.showMessageDialog(this, "La ruta no tiene colectivo asignado.");
-            return;
+            return 0;
         }
 
         int idColectivo = ruta.getColectivo().getIdColectivo();
         int vendidos = 0;
+        int ultimoIdPasaje = 0;
         List<Integer> noDisponibles = new ArrayList<>();
 
         for (int numero : asientosElegidos) {
@@ -466,6 +473,7 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
             if (ps.generarPasaje(pasaje, p, asiento, ruta)) {
                 ad.cambiarEstado(idColectivo, numero, false);
                 vendidos++;
+                ultimoIdPasaje = pasaje.getIdPasaje();
             }
         }
 
@@ -478,6 +486,7 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         asientosElegidos.clear();
         p = new Pasajero();
         inicio();
+        return ultimoIdPasaje;
     }
 
     private LocalDate obtenerFecha(JDateChooser fecha) {
