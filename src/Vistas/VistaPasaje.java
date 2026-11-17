@@ -33,6 +33,7 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
     private final Set<Integer> seleccionados = new TreeSet<Integer>();
     private final Map<Integer, Boolean> estado = new HashMap<Integer, Boolean>();
     private final Map<Integer, JButton> botones = new HashMap<Integer, JButton>();
+    private Set<Integer> ocupados = new java.util.HashSet<Integer>();
 
     public VistaPasaje(VistaBoleto padre, RutaViaje ruta) {
         this.padre = padre;
@@ -160,6 +161,7 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
                 asientos = ad.listarAsientosPorColectivo(c.getIdColectivo());
             }
         }
+        ocupados = new Persistencia.PasajeData().listarLugaresOcupados(ruta.getIdRuta());
         matriz(asientos);
 
         pnlAsientos.revalidate();
@@ -202,7 +204,7 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
         letrasBoton(btn);
         btn.setText(String.valueOf(numero));
 
-        estado.put(numero, a.isEstado());
+        estado.put(numero, !ocupados.contains(a.getIdLugar()));
         botones.put(numero, btn);
         colocarIcono(btn, iconoSegunEstado(numero));
         cambioAsiento(btn, numero);
@@ -234,7 +236,6 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
         btn.setForeground(Color.BLACK);
     }
 
-    // clic en un asiento: lo marca o lo desmarca (se pueden elegir varios)
     public void cambioAsiento(final JButton btn, final int numero) {
         btn.addActionListener(new ActionListener() {
             @Override
@@ -244,13 +245,23 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
                             "El asiento " + numero + " esta ocupado.");
                     return;
                 }
+
                 if (seleccionados.contains(numero)) {
                     seleccionados.remove(numero);
                     btn.setIcon(cargarIcono("/images/asiento_vacio.png"));
-                } else {
-                    seleccionados.add(numero);
-                    btn.setIcon(cargarIcono("/images/asiento_seleccionado.png"));
+                    return;
                 }
+
+                for (Integer anterior : seleccionados) {
+                    JButton btnAnterior = botones.get(anterior);
+                    if (btnAnterior != null) {
+                        btnAnterior.setIcon(cargarIcono("/images/asiento_vacio.png"));
+                    }
+                }
+                seleccionados.clear();
+
+                seleccionados.add(numero);
+                btn.setIcon(cargarIcono("/images/asiento_seleccionado.png"));
             }
         });
     }
@@ -258,7 +269,7 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
     private ImageIcon cargarIcono(String ubiImagen) {
         URL url = getClass().getResource(ubiImagen);
         if (url == null) {
-            return new ImageIcon();   // evita NullPointerException si falta la imagen
+            return new ImageIcon();
         }
         return new ImageIcon(url);
     }

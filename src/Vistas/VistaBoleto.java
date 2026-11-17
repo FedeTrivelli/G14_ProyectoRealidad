@@ -52,7 +52,6 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         colocarIcono();
         txtNombreApellido.setEnabled(false);
         txtAsiento.setEditable(false);
-        tblDestino.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         llenarCabecera();
 
         // Si cambia el viaje elegido en la tabla, los asientos elegidos ya no corresponden
@@ -352,13 +351,8 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
 
     private void btnComprarPasajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarPasajeActionPerformed
         // TODO add your handling code here
-        int idPasaje = guardarBoleto();
-        if (idPasaje != 0) {
-            ReciboPasaje rp = new ReciboPasaje(idPasaje);
-            getDesktopPane().add(rp);
-            rp.setVisible(true);
-            rp.toFront();
-        }
+        guardarBoleto();
+
     }//GEN-LAST:event_btnComprarPasajeActionPerformed
 
 
@@ -435,58 +429,29 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
 
     }
 
-    private int guardarBoleto() {
+    private void guardarBoleto() {
         RutaViaje ruta = rutaSeleccionada();
         if (ruta == null) {
-            return 0;
+            return;
         }
         if (p == null || p.getIdPasajero() == 0) {
             JOptionPane.showMessageDialog(this, "Buscá un pasajero por DNI primero.");
-            return 0;
+            return;
         }
         if (asientosElegidos.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Elegí al menos un asiento.");
-            return 0;
+            return;
         }
         if (ruta.getColectivo() == null) {
             JOptionPane.showMessageDialog(this, "La ruta no tiene colectivo asignado.");
-            return 0;
+            return;
         }
-
-        int idColectivo = ruta.getColectivo().getIdColectivo();
-        int vendidos = 0;
-        int ultimoIdPasaje = 0;
-        List<Integer> noDisponibles = new ArrayList<>();
-
-        for (int numero : asientosElegidos) {
-            Asiento asiento = ad.buscarAsiento(idColectivo, numero);
-            if (asiento == null || !asiento.isEstado()) {
-                noDisponibles.add(numero);
-                continue;
-            }
-            Pasaje pasaje = new Pasaje();
-            pasaje.setPasajeFecha(LocalDate.now());
-            pasaje.setPasajeHora(LocalTime.now());
-            pasaje.setPrecio(ruta.getPrecio());
-            pasaje.setEstado(true);
-
-            if (ps.generarPasaje(pasaje, p, asiento, ruta)) {
-                ad.cambiarEstado(idColectivo, numero, false);
-                vendidos++;
-                ultimoIdPasaje = pasaje.getIdPasaje();
-            }
+        if (ps.tieneViajeSuperpuesto(p.getIdPasajero(), ruta)) {
+            JOptionPane.showMessageDialog(this,
+                    "El pasajero ya tiene otro viaje en ese horario.",
+                    "Alerta!", JOptionPane.WARNING_MESSAGE);
+            return;
         }
-
-        String msg = "Pasajes vendidos: " + vendidos + ".";
-        if (!noDisponibles.isEmpty()) {
-            msg += "\nAsientos no disponibles: " + noDisponibles;
-        }
-        JOptionPane.showMessageDialog(this, msg);
-
-        asientosElegidos.clear();
-        p = new Pasajero();
-        inicio();
-        return ultimoIdPasaje;
     }
 
     private LocalDate obtenerFecha(JDateChooser fecha) {
@@ -498,6 +463,7 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         cmbOrigen.removeAllItems();
 
         Set<String> origenes = new TreeSet<String>();
+
         for (RutaViaje r : rd.listarRutasActivas()) {
             origenes.add(r.getOrigen());
         }
@@ -518,6 +484,7 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         cmbDestinos.removeAllItems();
 
         String origen = (String) cmbOrigen.getSelectedItem();
+
         if (origen != null) {
             Set<String> destinos = new TreeSet<String>();
             for (RutaViaje r : rd.listarRutasActivas()) {
@@ -538,6 +505,7 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         cargando = false;
         cmbDestinos.setSelectedIndex(-1);
         filtrar();
+
     }
 
     public void llenarCabecera() {

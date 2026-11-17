@@ -10,8 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.swing.JOptionPane;
 
 public class PasajeData {
@@ -82,6 +85,49 @@ public class PasajeData {
         return pasajes;
     }
 
+    public boolean tieneViajeSuperpuesto(int idPasajero, RutaViaje nueva) {
+        String sql = "SELECT COUNT(*) FROM pasajes p "
+                + "JOIN rutaviaje r ON p.idRuta = r.idRuta "
+                + "WHERE p.idPasajero = ? AND p.estado = 1 "
+                + "AND TIMESTAMP(r.fechaSalida, r.horaSalida) < ? "
+                + "AND CASE WHEN r.horaLlegada > r.horaSalida "
+                + "         THEN TIMESTAMP(r.fechaSalida, r.horaLlegada) "
+                + "         ELSE TIMESTAMP(DATE_ADD(r.fechaSalida, INTERVAL 1 DAY), r.horaLlegada) END > ?";
+
+        LocalDateTime salidaNueva = LocalDateTime.of(nueva.getFechaSalida(), nueva.getHoraSalida());
+        LocalDateTime llegadaNueva = LocalDateTime.of(nueva.getFechaSalida(), nueva.getHoraLlegada());
+        if (!nueva.getHoraLlegada().isAfter(nueva.getHoraSalida())) {
+            llegadaNueva = llegadaNueva.plusDays(1);
+        }
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idPasajero);
+            ps.setTimestamp(2, java.sql.Timestamp.valueOf(llegadaNueva));
+            ps.setTimestamp(3, java.sql.Timestamp.valueOf(salidaNueva));
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() && rs.getInt(1) > 0;
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al verificar superposición: " + ex.getMessage());
+            return true;
+        }
+    }
+
+    public Set<Integer> listarLugaresOcupados(int idRuta) {
+        Set<Integer> ocupados = new HashSet<>();
+        String sql = "SELECT idLugar FROM pasajes WHERE idRuta = ? AND estado = 1";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idRuta);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    ocupados.add(rs.getInt("idLugar"));
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al consultar asientos: " + ex.getMessage());
+        }
+        return ocupados;
+    }
     public Pasaje listarPasajeComprado(int idPasaje) {
         Pasaje r = new Pasaje();
         String sql = "SELECT p.idPasaje, p.fechaVenta, p.horaVenta, p.precio, "
