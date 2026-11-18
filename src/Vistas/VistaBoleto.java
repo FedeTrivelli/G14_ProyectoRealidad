@@ -85,8 +85,6 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
-        jSlider1 = new javax.swing.JSlider();
         lblTitulo = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         pnlBuscar = new javax.swing.JPanel();
@@ -393,7 +391,6 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnDarDeBaja;
     private javax.swing.JButton btnElegirAsiento;
     private javax.swing.JButton btnSalir;
-    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cmbDestinos;
     private javax.swing.JComboBox<String> cmbOrigen;
     private com.toedter.calendar.JDateChooser dtcCargarPartida;
@@ -404,7 +401,6 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSlider jSlider1;
     private javax.swing.JLabel lblDni;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JPanel pnlBuscar;

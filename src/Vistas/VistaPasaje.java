@@ -12,11 +12,9 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.JOptionPane;
 import Persistencia.AsientoData;
-import Persistencia.ColectivoData;
 import Modelo.Asiento;
 import Modelo.Colectivo;
 import Modelo.RutaViaje;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +53,6 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         pnlAsientos = new javax.swing.JPanel();
-        btnDarDeBaja = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
 
         setClosable(true);
@@ -71,9 +68,7 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
             .addGap(0, 473, Short.MAX_VALUE)
         );
 
-        btnDarDeBaja.setText("Dar de baja");
-        btnDarDeBaja.addActionListener(this::btnDarDeBajaActionPerformed);
-
+        btnGuardar.setBackground(new java.awt.Color(105, 229, 89));
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(this::btnGuardarActionPerformed);
 
@@ -82,26 +77,20 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnDarDeBaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addGap(32, 32, 32)
                 .addComponent(pnlAsientos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(120, 120, 120))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(61, 61, 61)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlAsientos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(btnGuardar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnDarDeBaja)))
-                .addContainerGap(12, Short.MAX_VALUE))
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pnlAsientos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(346, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -124,11 +113,6 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnDarDeBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarDeBajaActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_btnDarDeBajaActionPerformed
-
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
         confirmarAsientos();
@@ -136,7 +120,6 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnDarDeBaja;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel pnlAsientos;
