@@ -62,7 +62,7 @@ public class PasajeroData {
             ps.setInt(1, pasajero.getDni());
             ps.setString(2, paraColocarMayusculas(pasajero.getNombre()));
             ps.setString(3, paraColocarMayusculas(pasajero.getApellido()));
-            ps.setString(4, pasajero.getCorreo());
+            ps.setString(4, pasajero.getCorreo().toLowerCase());
             ps.setString(5, pasajero.getTelefono());
             ps.setBoolean(6, pasajero.isEstado());
             ps.setInt(7, pasajero.getDni());

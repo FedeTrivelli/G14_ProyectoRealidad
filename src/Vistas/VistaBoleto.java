@@ -18,6 +18,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -53,11 +54,13 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         txtNombreApellido.setEnabled(false);
         txtAsiento.setEditable(false);
         llenarCabecera();
+        tblDestino.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         tblDestino.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 asientosElegidos.clear();
                 limpiarAsientos();
+                completarCombosDesdeFila(tblDestino.getSelectedRow());
             }
         });
 
@@ -217,7 +220,7 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(dtcCargarPartida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(dtcCargarPartida, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -319,6 +322,12 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
 
     private void cmbDestinosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbDestinosActionPerformed
         // TODO add your handling code here:
+        if (cargando) {
+            return;
+        }
+        cargando = true;
+        dtcCargarPartida.setDate(null);
+        cargando = false;
         filtrar();
     }//GEN-LAST:event_cmbDestinosActionPerformed
 
@@ -357,8 +366,16 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
 
     private void btnComprarPasajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarPasajeActionPerformed
         // TODO add your handling code here
-        guardarBoleto();
-
+        int ultimoIdPasaje = guardarBoleto();
+        if (ultimoIdPasaje != 0) {
+            Pasaje pasaje = ps.listarPasajeComprado(ultimoIdPasaje);
+            if (pasaje != null) {
+                ReciboPasaje recibo = new ReciboPasaje(ultimoIdPasaje);
+                getDesktopPane().add(recibo);
+                recibo.setVisible(true);
+                recibo.toFront();
+            }
+        }
     }//GEN-LAST:event_btnComprarPasajeActionPerformed
 
     private void btnDarDeBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarDeBajaActionPerformed
@@ -443,50 +460,66 @@ public void colocarIcono() {
 
     }
 
-    private void guardarBoleto() {
+    private int guardarBoleto() {
         RutaViaje ruta = rutaSeleccionada();
         if (ruta == null) {
-            return;
+            return 0;
         }
         if (p == null || p.getIdPasajero() == 0) {
             JOptionPane.showMessageDialog(this, "Buscá un pasajero por DNI primero.");
-            return;
+            return 0;
         }
         if (asientosElegidos.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Elegí al menos un asiento.");
-            return;
+            return 0;
         }
         if (ruta.getColectivo() == null) {
             JOptionPane.showMessageDialog(this, "La ruta no tiene colectivo asignado.");
-            return;
+            return 0;
         }
         if (ps.tieneViajeSuperpuesto(p.getIdPasajero(), ruta)) {
             JOptionPane.showMessageDialog(this,
                     "El pasajero ya tiene otro viaje en ese horario.",
                     "Alerta!", JOptionPane.WARNING_MESSAGE);
-            return;
+            return 0;
         }
-
         int idColectivo = ruta.getColectivo().getIdColectivo();
-        int numero = asientosElegidos.get(0);
+        int vendidos = 0;
+        int ultimoIdPasaje = 0;
+        List<Integer> noDisponibles = new ArrayList<>();
 
-        Asiento asiento = ad.buscarAsiento(idColectivo, numero);
-        if (asiento == null || ps.listarLugaresOcupados(ruta.getIdRuta()).contains(asiento.getIdLugar())) {
-            JOptionPane.showMessageDialog(this,
-                    "El asiento " + numero + " ya no está disponible para este viaje.");
-            return;
-        }
-        Pasaje pasaje = new Pasaje();
-        pasaje.setPasajeFecha(LocalDate.now());
-        pasaje.setPasajeHora(LocalTime.now());
-        pasaje.setPrecio(ruta.getPrecio());
-        pasaje.setEstado(true);
+        for (int numero : asientosElegidos) {
+            Asiento asiento = ad.buscarAsiento(idColectivo, numero);
+            if (asiento == null || !asiento.isEstado()) {
+                noDisponibles.add(numero);
+                continue;
+            }
+            Pasaje pasaje = new Pasaje();
+            pasaje.setPasajeFecha(LocalDate.now());
+            pasaje.setPasajeHora(LocalTime.now());
+            pasaje.setPrecio(ruta.getPrecio());
+            pasaje.setEstado(true);
 
-        if (ps.generarPasaje(pasaje, p, asiento, ruta)) {
-            asientosElegidos.clear();
-            p = new Pasajero();
-            inicio();
+            if (ps.generarPasaje(pasaje, p, asiento, ruta)) {
+                ad.cambiarEstado(idColectivo, numero, false);
+                vendidos++;
+                ultimoIdPasaje = pasaje.getIdPasaje();
+            }
         }
+
+        String msg = "Pasajes vendidos: " + vendidos + ".";
+
+        if (!noDisponibles.isEmpty()) {
+            msg += "\nAsientos no disponibles: " + noDisponibles;
+        }
+        JOptionPane.showMessageDialog(this, msg);
+
+        asientosElegidos.clear();
+        p = new Pasajero();
+
+        inicio();
+
+        return ultimoIdPasaje;
     }
 
     private LocalDate obtenerFecha(JDateChooser fecha) {
@@ -515,6 +548,7 @@ public void colocarIcono() {
 
     private void cargarDestinos() {
         cargando = true;
+        dtcCargarPartida.setDate(null);
         cmbDestinos.removeAllItems();
 
         String origen = (String) cmbOrigen.getSelectedItem();
@@ -601,4 +635,19 @@ public void colocarIcono() {
         txtAsiento.setText(sb.toString());
     }
 
+    private void completarCombosDesdeFila(int fila) {
+        if (fila < 0 || fila >= rutasMostradas.size()) {
+            return;
+        }
+        RutaViaje r = rutasMostradas.get(fila);
+        cargando = true;
+        try {
+            cmbDestinos.setSelectedItem(r.getDestino());
+            if (r.getFechaSalida() != null) {
+                dtcCargarPartida.setDate(Date.from(r.getFechaSalida().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            }
+        } finally {
+            cargando = false;
+        }
+    }
 }

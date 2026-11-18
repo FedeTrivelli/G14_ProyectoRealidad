@@ -152,13 +152,10 @@ public class VistaPasaje extends javax.swing.JInternalFrame {
         List<Asiento> asientos = ad.listarAsientosPorColectivo(c.getIdColectivo());
 
         if (asientos.isEmpty()) {
-            int r = JOptionPane.showConfirmDialog(this,
-                    "El colectivo " + c.getMatricula() + " todavia no tiene asientos generados.\n"
-                    + "Generar " + c.getCapacidad() + " asientos ahora?",
-                    "Asientos", JOptionPane.YES_NO_OPTION);
-            if (r == JOptionPane.YES_OPTION
-                    && ad.generarAsientos(c.getIdColectivo(), c.getCapacidad())) {
+            if (ad.generarAsientos(c.getIdColectivo(), c.getCapacidad())) {
                 asientos = ad.listarAsientosPorColectivo(c.getIdColectivo());
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudieron generar los asientos.");
             }
         }
         ocupados = new Persistencia.PasajeData().listarLugaresOcupados(ruta.getIdRuta());
