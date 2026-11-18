@@ -18,6 +18,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -53,11 +54,13 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         txtNombreApellido.setEnabled(false);
         txtAsiento.setEditable(false);
         llenarCabecera();
+        tblDestino.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         tblDestino.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 asientosElegidos.clear();
                 limpiarAsientos();
+                completarCombosDesdeFila(tblDestino.getSelectedRow());
             }
         });
 
@@ -216,7 +219,7 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(dtcCargarPartida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(dtcCargarPartida, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -312,6 +315,12 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
 
     private void cmbDestinosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbDestinosActionPerformed
         // TODO add your handling code here:
+        if (cargando) {
+            return;
+        }
+        cargando = true;
+        dtcCargarPartida.setDate(null);
+        cargando = false;
         filtrar();
     }//GEN-LAST:event_cmbDestinosActionPerformed
 
@@ -523,6 +532,7 @@ public void colocarIcono() {
 
     private void cargarDestinos() {
         cargando = true;
+        dtcCargarPartida.setDate(null);
         cmbDestinos.removeAllItems();
 
         String origen = (String) cmbOrigen.getSelectedItem();
@@ -609,4 +619,19 @@ public void colocarIcono() {
         txtAsiento.setText(sb.toString());
     }
 
+    private void completarCombosDesdeFila(int fila) {
+        if (fila < 0 || fila >= rutasMostradas.size()) {
+            return;
+        }
+        RutaViaje r = rutasMostradas.get(fila);
+        cargando = true;
+        try {
+            cmbDestinos.setSelectedItem(r.getDestino());
+            if (r.getFechaSalida() != null) {
+                dtcCargarPartida.setDate(Date.from(r.getFechaSalida().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            }
+        } finally {
+            cargando = false;
+        }
+    }
 }
