@@ -14,15 +14,6 @@ import java.time.format.DateTimeFormatter;
  */
 public final class ReciboPasaje extends javax.swing.JInternalFrame {
 
-
-    /**
-     * Creates new form ReciboPasaje
-     */
-    public ReciboPasaje() {
-        initComponents();
-        colocarIcono();
-    }
-
     public ReciboPasaje(int idPasaje) {
         initComponents();
         colocarIcono();

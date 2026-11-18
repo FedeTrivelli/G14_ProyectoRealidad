@@ -128,6 +128,7 @@ public class PasajeData {
         }
         return ocupados;
     }
+    
     public Pasaje listarPasajeComprado(int idPasaje) {
         Pasaje r = new Pasaje();
         String sql = "SELECT p.idPasaje, p.fechaVenta, p.horaVenta, p.precio, "
