@@ -84,4 +84,21 @@ public class Colectivo {
         return matricula;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Colectivo otro = (Colectivo) obj;
+        return this.getIdColectivo() == otro.getIdColectivo();
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(getIdColectivo());
+    }
+
 }
