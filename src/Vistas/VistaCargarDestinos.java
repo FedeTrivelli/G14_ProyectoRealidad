@@ -3,7 +3,6 @@ package Vistas;
 import Modelo.Colectivo;
 import Modelo.RutaViaje;
 import Persistencia.RutaData;
-import Persistencia.AsientoData;
 import Persistencia.ColectivoData;
 import com.toedter.calendar.JDateChooser;
 import java.net.URL;
@@ -330,7 +329,7 @@ public class VistaCargarDestinos extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables
 
-	 public void colocarIcono() {
+    public void colocarIcono() {
         URL url = getClass().getResource("/images/logo_flechaflash.png");
         if (url != null) {
             setFrameIcon(new ImageIcon(url));
@@ -351,7 +350,7 @@ public class VistaCargarDestinos extends javax.swing.JInternalFrame {
         txtPrecio.setText("");
         dtcCargarPartida.setDate(null);
         spnHoraSalida.setValue(new Date());
-        spnHoraRegreso.setValue(new Date()); 
+        spnHoraRegreso.setValue(new Date());
         cmbColectivo.setSelectedIndex(-1);
         ckbEstado.setSelected(true);
     }
@@ -484,6 +483,17 @@ public class VistaCargarDestinos extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Seleccioná las horas de salida y llegada.");
             return false;
         }
+        if (llegada.equals(salida)) {
+            JOptionPane.showMessageDialog(this, "La hora de llegada no puede ser igual a la de salida.");
+            return false;
+        }
+
+        Colectivo colectivoSel = (Colectivo) cmbColectivo.getSelectedItem();
+        if (colectivoOcupado(colectivoSel, fechaPartida, salida, llegada, ruta.getIdRuta())) {
+            JOptionPane.showMessageDialog(this,
+                    "El colectivo ya tiene un viaje asignado en ese día y horario.");
+            return false;
+        }
 
         ruta.setOrigen(origen);
         ruta.setDestino(destino);
@@ -588,5 +598,41 @@ public class VistaCargarDestinos extends javax.swing.JInternalFrame {
                 cargarRuta(listaRutas.get(fila));
             }
         });
+    }
+
+    private LocalDateTime calcularFin(LocalDate fecha, LocalTime salida, LocalTime llegada) {
+        LocalDateTime fin = fecha.atTime(llegada);
+        if (llegada.isBefore(salida)) {
+            fin = fin.plusDays(1);
+        }
+        return fin;
+    }
+
+    private boolean colectivoOcupado(Colectivo colectivo, LocalDate fecha,
+            LocalTime salida, LocalTime llegada, int idRutaExcluida) {
+        LocalDateTime inicioNuevo = fecha.atTime(salida);
+        LocalDateTime finNuevo = calcularFin(fecha, salida, llegada);
+
+        for (RutaViaje r : rd.listarRutas()) {
+            if (r.getIdRuta() == idRutaExcluida) {
+                continue;
+            }
+            if (!r.isEstado()) {
+                continue;
+            }
+            if (r.getColectivo() == null
+                    || r.getColectivo().getIdColectivo() != colectivo.getIdColectivo()) {
+                continue;
+            }
+
+            LocalDateTime inicioExistente = r.getFechaSalida().atTime(r.getHoraSalida());
+            LocalDateTime finExistente = calcularFin(r.getFechaSalida(),
+                    r.getHoraSalida(), r.getHoraLlegada());
+
+            if (inicioNuevo.isBefore(finExistente) && inicioExistente.isBefore(finNuevo)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
