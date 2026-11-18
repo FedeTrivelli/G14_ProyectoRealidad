@@ -128,12 +128,13 @@ public class PasajeData {
         }
         return ocupados;
     }
+
     public Pasaje listarPasajeComprado(int idPasaje) {
         Pasaje r = new Pasaje();
         String sql = "SELECT p.idPasaje, p.fechaVenta, p.horaVenta, p.precio, "
                 + "pa.dni, pa.nombre, pa.apellido, "
                 + "l.numeroAsiento, "
-                +                 "r.origen, r.destino, r.fechaSalida, r.horaSalida, r.horaLlegada, "
+                + "r.origen, r.destino, r.fechaSalida, r.horaSalida, r.horaLlegada, "
                 + "c.chofer, c.matricula "
                 + "FROM pasajes p "
                 + "JOIN pasajero pa ON p.idPasajero = pa.idPasajero "
@@ -180,5 +181,62 @@ public class PasajeData {
             JOptionPane.showMessageDialog(null, "Error al listar el pasaje: " + ex.getMessage());
         }
         return r;
+    }
+
+    public List<Pasaje> buscarPasajesActivos(String filtro) {
+        List<Pasaje> pasajes = new ArrayList<>();
+        String sql = "SELECT p.idPasaje, pa.nombre, pa.apellido,pa.dni, r.origen, r.destino "
+                + "FROM pasajes p "
+                + "JOIN pasajero pa ON p.idPasajero = pa.idPasajero "
+                + "JOIN rutaviaje r ON p.idRuta = r.idRuta "
+                + "WHERE p.estado = 1 "
+                + "AND (CONCAT(pa.nombre, ' ', pa.apellido) LIKE ? "
+                + "     OR CONCAT(pa.apellido, ' ', pa.nombre) LIKE ? "
+                + "     OR r.origen LIKE ? "
+                + "     OR r.destino LIKE ?"
+                + "     OR CAST(pa.dni AS CHAR) LIKE ?)";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            String like = "%" + filtro.trim() + "%";
+            ps.setString(1, like);
+            ps.setString(2, like);
+            ps.setString(3, like);
+            ps.setString(4, like);
+            ps.setString(5, like);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Pasaje p = new Pasaje();
+                    p.setIdPasaje(rs.getInt("idPasaje"));
+
+                    Pasajero pa = new Pasajero();
+                    pa.setNombre(rs.getString("nombre"));
+                    pa.setApellido(rs.getString("apellido"));
+                    pa.setDni(rs.getInt("dni"));
+                    p.setPasajero(pa);
+
+                    RutaViaje ruta = new RutaViaje();
+                    ruta.setOrigen(rs.getString("origen"));
+                    ruta.setDestino(rs.getString("destino"));
+                    p.setRutaViaje(ruta);
+
+                    pasajes.add(p);
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al buscar pasajes: " + ex.getMessage());
+        }
+        return pasajes;
+    }
+
+    public boolean darDeBaja(int idPasaje) {
+        String sql = "UPDATE pasajes SET estado = 0 WHERE idPasaje = ?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idPasaje);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al dar de baja el pasaje: " + ex.getMessage());
+            return false;
+        }
     }
 }

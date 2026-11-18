@@ -105,6 +105,7 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         btnElegirAsiento = new javax.swing.JButton();
         txtAsiento = new javax.swing.JTextField();
         btnComprarPasaje = new javax.swing.JButton();
+        btnDarDeBaja = new javax.swing.JButton();
 
         lblTitulo.setFont(new java.awt.Font("Artifakt Element Medium", 0, 24)); // NOI18N
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -244,6 +245,9 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         btnComprarPasaje.setText("Comprar Pasaje");
         btnComprarPasaje.addActionListener(this::btnComprarPasajeActionPerformed);
 
+        btnDarDeBaja.setText("Dar De Baja ");
+        btnDarDeBaja.addActionListener(this::btnDarDeBajaActionPerformed);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -258,9 +262,11 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
                         .addContainerGap()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(95, 95, 95)
+                        .addGap(27, 27, 27)
                         .addComponent(btnComprarPasaje, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(191, 191, 191)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnDarDeBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -274,7 +280,8 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnComprarPasaje, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
-                    .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnDarDeBaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(93, Short.MAX_VALUE))
         );
 
@@ -288,7 +295,7 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 14, Short.MAX_VALUE))
+                .addGap(0, 26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -354,10 +361,19 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnComprarPasajeActionPerformed
 
+    private void btnDarDeBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarDeBajaActionPerformed
+        // TODO add your handling code here:
+        VistaDarDeBajaPasaje vb = new VistaDarDeBajaPasaje();
+        getDesktopPane().add(vb);
+        vb.setVisible(true);
+        vb.toFront();
+    }//GEN-LAST:event_btnDarDeBajaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnComprarPasaje;
+    private javax.swing.JButton btnDarDeBaja;
     private javax.swing.JButton btnElegirAsiento;
     private javax.swing.JButton btnSalir;
     private javax.swing.ButtonGroup buttonGroup1;
