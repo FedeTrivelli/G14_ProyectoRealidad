@@ -54,7 +54,6 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         txtAsiento.setEditable(false);
         llenarCabecera();
 
-        // Si cambia el viaje elegido en la tabla, los asientos elegidos ya no corresponden
         tblDestino.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 asientosElegidos.clear();
@@ -389,8 +388,7 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtDni;
     private javax.swing.JTextField txtNombreApellido;
     // End of variables declaration//GEN-END:variables
-
-    public void colocarIcono() {
+public void colocarIcono() {
         URL url = getClass().getResource("/images/logo_flechaflash.png");
         if (url != null) {
             setFrameIcon(new ImageIcon(url));
@@ -508,7 +506,6 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         cmbOrigen.removeAllItems();
 
         Set<String> origenes = new TreeSet<String>();
-
         for (RutaViaje r : rd.listarRutasActivas()) {
             origenes.add(r.getOrigen());
         }
@@ -529,7 +526,6 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         cmbDestinos.removeAllItems();
 
         String origen = (String) cmbOrigen.getSelectedItem();
-
         if (origen != null) {
             Set<String> destinos = new TreeSet<String>();
             for (RutaViaje r : rd.listarRutasActivas()) {
@@ -550,7 +546,6 @@ public class VistaBoleto extends javax.swing.JInternalFrame {
         cargando = false;
         cmbDestinos.setSelectedIndex(-1);
         filtrar();
-
     }
 
     public void llenarCabecera() {

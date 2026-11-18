@@ -31,6 +31,7 @@ public class VistaCargarDestinos extends javax.swing.JInternalFrame {
     ColectivoData cd = new ColectivoData();
     private List<RutaViaje> listaRutas = new ArrayList<>();
     private DefaultTableModel modelo = new DefaultTableModel();
+    
 
     /**
      * Creates new form VistaCargarDestino
@@ -41,6 +42,7 @@ public class VistaCargarDestinos extends javax.swing.JInternalFrame {
         colocarIcono();
         llenarCmb();
         llenarCabecera();
+        desactivarRutasVencidas();
         cargarTabla();
         SeleccionTabla();
         inicio();
@@ -635,4 +637,22 @@ public class VistaCargarDestinos extends javax.swing.JInternalFrame {
         }
         return false;
     }
+    public void desactivarRutasVencidas() {
+    LocalDateTime ahora = LocalDateTime.now();
+
+    for (RutaViaje r : rd.listarRutas()) {
+        if (!r.isEstado()) continue;
+
+        LocalDateTime fin = r.getFechaSalida().atTime(r.getHoraLlegada());
+        if (r.getHoraLlegada().isBefore(r.getHoraSalida())) {
+            fin = fin.plusDays(1);
+        }
+
+        if (fin.isBefore(ahora)) {
+            r.setEstado(false);
+            rd.actualizarRuta(r);
+        }
+    }
+}
+    
 }
