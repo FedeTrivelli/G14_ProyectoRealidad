@@ -281,7 +281,16 @@ public class VistaDatoPasajero extends javax.swing.JInternalFrame {
         }
         if (modoEdicion && pasajero != null) {
             actualizarPasajero();
+            inicio();
         } else {
+            if (pd.dniExiste(txtDni.getText().trim())) {
+                JOptionPane.showMessageDialog(this, "Ese DNI ya está registrado");
+                return;
+            }
+            if (pd.correoExiste(txtCorreo.getText().trim())) {
+                JOptionPane.showMessageDialog(this, "Ese correo ya está registrado");
+                return;
+            }
             guardarPasajero();
             inicio();
         }
@@ -324,6 +333,7 @@ public class VistaDatoPasajero extends javax.swing.JInternalFrame {
         modoEdicion = true;
         btnGuardar.setVisible(true);
         activarCampos();
+        btnActualizar.setEnabled(false);
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -388,6 +398,7 @@ public class VistaDatoPasajero extends javax.swing.JInternalFrame {
         txtNombre.setEnabled(false);
         txtCorreo.setEnabled(false);
         txtTelefono.setEnabled(false);
+        chkEstado.setEnabled(false);
     }
 
     public void activarCampos() {
@@ -395,6 +406,7 @@ public class VistaDatoPasajero extends javax.swing.JInternalFrame {
         txtNombre.setEnabled(true);
         txtCorreo.setEnabled(true);
         txtTelefono.setEnabled(true);
+        chkEstado.setEnabled(true);
     }
 
     public void desactivarBotones() {
@@ -444,9 +456,10 @@ public class VistaDatoPasajero extends javax.swing.JInternalFrame {
         if (respuesta == JOptionPane.YES_OPTION) {
             if (pd.buscarPasajero(dni) != null) {
                 pd.BorrarPasajero(dni);
+                limpiarCampos();
             }
         } else {
-            JOptionPane.showMessageDialog(null, "No se pudo borrar el pasajero.\nRazon:\nEl DNI del pasajero ingresado no existe.");
+            JOptionPane.showMessageDialog(null, "No se pudo borrar el pasajero.");
         }
     }
 
@@ -468,10 +481,6 @@ public class VistaDatoPasajero extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Debe ingresar un correo valido");
             return false;
         }
-        if (pd.correoExiste(correo)) {
-            JOptionPane.showMessageDialog(this, "Ese correo ya está registrado");
-            return false;
-        }
         return true;
 
     }
@@ -487,10 +496,6 @@ public class VistaDatoPasajero extends javax.swing.JInternalFrame {
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "El DNI ingresado es demasiado largo");
             return false;
-        }
-        if (pd.dniExiste(dni)) {
-        JOptionPane.showMessageDialog(this, "Ese DNI ya está registrado");
-        return false;
         }
         return true;
     }

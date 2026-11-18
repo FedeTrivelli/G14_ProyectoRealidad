@@ -315,6 +315,9 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         modoEdicion = true;
         btnGuardar.setVisible(true);
+        btnMas.setEnabled(true);
+        btnMenos.setEnabled(true);
+        btnActualizar.setEnabled(false);
         activarCampos();
     }//GEN-LAST:event_btnActualizarActionPerformed
 
@@ -329,6 +332,7 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
         }
         if (modoEdicion && colectivo != null) {
             actualizarColectivo();
+            inicio();
         } else {
             guardarColectivo();
             inicio();
@@ -493,10 +497,10 @@ public class VistaHabilitarColectivo extends javax.swing.JInternalFrame {
 
         if (cantidad > max) {
             cantidad = max;
-            JOptionPane.showMessageDialog(null, "No se pueden colocar mas de 50 asientos");
+            JOptionPane.showMessageDialog(null, "No se pueden colocar mas de 48 asientos");
         } else if (cantidad < min) {
             cantidad = min;
-            JOptionPane.showMessageDialog(null, "No se pueden colocar asientos negativos");
+            JOptionPane.showMessageDialog(null, "No se pueden colocar menos de 12 asientos");
         }
         txtCantidad.setText(String.valueOf(cantidad));
     }
